@@ -30,11 +30,48 @@ Decisões do Pedro: ADR 001 (stack) e ADR 002 (modelo do changelog) em `docs/adr
 |---|---|---|---|---|
 | S01 | Scaffold | git próprio, `.gitignore`, README, `CLAUDE.md`, `.env.example`, Astro estático + Biome + Vitest + `astro check`, `verify`, CI (verify + gitleaks), PR template, ADR 001/002 | `npm run verify` verde local; `rev-parse` = pasta do app | conteúdo do feed, UI, remoto, commit sem ok |
 | S02 | Modelo do changelog (TDD) | schema da collection `prs`, catálogos `ferramentas`/`soft-skills`, ordem número×data, diff derivado `+ferramenta`, filtro `confirmado`, linter de conteúdo (lista de bloqueio) | testes vermelhos→verdes; 1 canário por gate reprova; fixture `pendente` fora do `dist/` | páginas visuais, conteúdo real |
+| S02b | Governança do repositório (subagente) | `seguranca-sast` (Semgrep igual ao Cloud), Dependabot, threat model, inventários de auditoria, harness-adoption, CONTRIBUTORS, SECURITY, `docs/ia.md`, CHANGELOG | `verify` + gitleaks verdes; PR aberto pelo orquestrador | `src/`, `test/`, deps, licença (decisão do Pedro) |
+| S03b 🚦 | Discovery do A1 + ADR 003 (subagente) | ver "Aprimoramento A1": verificar viabilidade técnica nas docs oficiais, escrever `docs/execucao/brief-app.md` e o ADR 003 **proposto** com alternativas, propor nova tabela S04+ | brief + ADR 003 proposto + tabela proposta; cada hipótese marcada verificada/não verificada com link oficial | código, dependência nova, decidir pelo Pedro |
 | S03 🚦 | Curadoria com o Pedro | gerar `docs/curadoria.md` com as sementes; o Pedro marca `confirmado`/`fora`, escreve cargo e #001, escolhe fluxos n8n, passa LinkedIn; conferir handles vivos da company page | lista aprovada pelo Pedro (portão humano) | publicar algo não marcado |
 | S04 | `/pedro` (Pulso) | bloco "antes do primeiro commit", feed de PRs, `/pedro/label/<id>`, painel de ferramentas derivado, fontes auto-hospedadas (OFL conferida) | E2E: sem scroll horizontal 360/1280 nos 2 temas; axe sem serious/critical; zero requisição externa | home/produtos |
 | S05 🚦 | Home, `/pulse`, `/cloud` (Ailow) | copy só da tese de mar/2026 e fatos confirmados; logo com hash do oficial (L-0028); link para `cloud.ailow.com.br` | E2E verde + texto aprovado pelo Pedro | tagline inventada |
 | S06 | Endurecimento | imagem nginx não-root com log JSON, orçamento de JS (≤10 KB gz/página) e peso, E2E no ambiente do CI (L-0025) | `verify` + E2E verdes no CI | deploy |
 | S07 🚦 | Deploy (só com pedido) | rota Traefik, DNS pelo Pedro, workflow de deploy parado no approval (L-0027), inventários de auditoria com evidência | site no ar + smoke test | aprovar o deploy pelo Pedro |
+
+> **S04–S07 estão suspensas** até o Pedro decidir o ADR 003 (A1 muda a navegação, o orçamento de JS e o tema).
+> A curadoria (S03) segue em paralelo: o modelo do changelog (ADR 002) vale em qualquer alternativa.
+
+## Aprimoramento A1 — "a Ailow como app" (brainstorm do Pedro, 2026-11-18)
+
+Marca: a fala usa "ILO/Ailo"; vale **Ailow / ailow.com.br** (ADR 001, travado por teste).
+
+**Requisitos (R) — o que o Pedro pediu:**
+- **R1 Home como app:** `ailow.com.br` abre como a tela inicial de um celular novo e estilizado. Cada ícone é um "app" (Pulse, Cloud, portfólio/changelog, institucional, entrevistas/procedência, contatos). Navegar é descobrir: o que é a Ailow, quem é o fundador, o que ele faz. O institucional padrão (rotas já planejadas) vira um dos ícones.
+- **R2 Experiência por plataforma:** primeiro um Android impecável (Material). Depois uma variante iOS (estilo Apple), com seletor de estilo e de tema claro/escuro no topo.
+- **R3 Página de apresentação** (destino do QR): mobile first, também responsiva no desktop, animada, com rolagem. Abre com um vídeo de pitch (elevator pitch, ~1 min, produzido à parte). O avatar continua em segundo plano ou num pop-up que pode ser expandido. Ícones de contato: Instagram, telefone, sites.
+- **R4 Cartão de visita (página só do Pedro):** QR Code estilizado com o logo. A página é instalável como PWA no Android e fica escondida: sem link, `noindex`. Não é protegida por login, porque não há segredo nela. Ela traz:
+  - (a) botão de NFC, a estudar;
+  - (b) botão de WhatsApp: digita o número, abre a conversa com a saudação pronta;
+  - (c) envio de PDF, imagem ou vídeo de apresentação, se for possível.
+- **R5 Entrevistas/procedência:** uma seção com as entrevistas gravadas, como prova do trabalho. Só peças com "pode mostrar".
+
+**Hipóteses técnicas (NÃO verificadas; a S03b confirma em doc oficial):**
+- **NFC (H1):** o Web NFC (Chrome no Android) grava e lê etiquetas NFC. Não existe envio celular→celular, porque o Android Beam saiu do Android 10. Alternativa: gravar a URL num cartão ou etiqueta NFC física.
+- **WhatsApp (H2):** `wa.me/<número>?text=<texto>` abre a conversa com o texto, mas não anexa arquivo.
+- **Arquivos (H3):** o Web Share com arquivos (`navigator.share({ files })`) manda imagem/PDF/vídeo para o WhatsApp, mas a pessoa escolhe o contato dentro do WhatsApp. Saída provável: o texto do `wa.me` leva o link da página de apresentação.
+- **Vídeo (H4):** auto-hospedado (peso e banda na VPS) ou embed (requisição a terceiro, o que conflita com o critério de zero terceiros). Exige decisão.
+- **PWA (H5):** precisa de manifest e service worker; a instalação pede HTTPS (S07).
+
+**Conflitos com o plano atual (o ADR 003 resolve):**
+- **Orçamento de JS:** ≤ 10 KB gzip por página não cabe numa navegação de app animada. É preciso um orçamento novo, medido, por rota.
+- **UXM-\*:** passam a valer, porque agora é PWA.
+  - A UXM-01 libera o scroll da apresentação (pedido explícito).
+  - A UXM-03 (voltar do Android) e a UXM-10 (grade de ícones) se aplicam.
+  - A **UXM-08** (paleta única) conflita com o Pulso no `/pedro`.
+- **Requisições a terceiros:** o embed de vídeo e os ícones de rede social conflitam com o critério de zero terceiros.
+- **Tier:** continua **A** enquanto nada gravar dado de terceiro. O número digitado no R4 vai direto para o `wa.me` e não é guardado. Guardar histórico sobe o tier.
+
+**Decisões do Pedro (vêm no ADR 003):** alternativa de navegação (app-shell em tudo × app-shell só na home × site com página-app), estratégia de vídeo, Android primeiro e quando entra o iOS, tema do `/pedro` (Pulso × Ailow), rota do cartão, ordem das novas sessões.
 
 ## Modelo do prompt de handoff
 
@@ -52,8 +89,13 @@ Ao terminar: diário curto + poda + Estado de retomada; entregue o prompt da SNN
 
 ### Estado de retomada
 
-- **Data:** 2026-11-18 · **Última sessão:** S03 parte 1 (lista em `D:/apps/_scratch/ailow-index-curadoria.md`), aguardando as marcações do Pedro. Execução: um subagente Sonnet por sessão, orquestrado pelo Opus (pedido do Pedro em 2026-11-18).
-- **Git:** `.git` próprio em `D:/apps/ailow-index`, branch `main`, **sem commit** (aguarda ok do Pedro). Sem remoto.
-- **Ambiente:** Node local 22.14.0 → Astro provisório 7.3.8 (advisory XSS; `npm audit` 12 high). Atualizar o Node para ≥ 22.23.4 (winget `OpenJS.NodeJS.22` → 22.23.5) **com as outras sessões fechadas** (o instalador derruba Vite/Postgres/MCP em uso) e subir o astro para 7.4.12 (L-0030). TypeScript 6.0.3; `@types/node` 22.20.5.
-- **Portão pendente:** S03 é curadoria com o Pedro. Antes: 1º commit autorizado e `conteudo-bloqueado.local.txt` criado por ele.
+- **Data:** 2026-11-18 · **Última sessão:** S02b (governança, subagente em worktree, em andamento). S03 parte 1 entregue (lista privada fora do git), aguardando as marcações do Pedro. **Aprimoramento A1** registrado; a próxima sessão é a **S03b**. Execução: um subagente Sonnet por sessão, uma por vez, orquestrado pelo Opus (pedido do Pedro em 2026-11-18).
+- **GitHub:** `ailowio/ailow-index` público; ruleset `proteger-main` (PR + checks `verify`/`seguranca-sca`/`seguranca-segredos`); secret scanning, push protection e Dependabot ligados. PR #1 (`fix(ci)`, `.gitkeep`) verde, aguardando o merge do Pedro.
+- **Git:** `main` com o bootstrap (`d018c9d`); mudança só por PR.
+- **Ambiente:** Node 22.23.5 · Astro 7.4.12 · TypeScript 6.0.3 · `@types/node` 22.20.5 · gitleaks 8.30.1 local (winget). Exceção EX-02 (picomatch sem correção) em `docs/excecoes.md`.
+- **Portões pendentes:**
+  - (1) o Pedro faz o merge do PR #1 e depois do PR #2 (governança);
+  - (2) o Pedro marca a curadoria e cria o `conteudo-bloqueado.local.txt`;
+  - (3) depois da S03b, o Pedro decide o ADR 003.
+  - Após o merge do PR #2, incluir `seguranca-sast` nos checks obrigatórios do ruleset.
 - **Pendências abertas:** `CHANGELOG.md` do sgi-copel com ano errado em v1.0.0/v1.1.0 (fora de escopo; PR próprio no SGI).

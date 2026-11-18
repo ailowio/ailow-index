@@ -24,6 +24,9 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Worktrees e estado local de agentes de IA (nunca versionar)
+.claude/
+
 # Editor
 .vscode/*
 !.vscode/extensions.json

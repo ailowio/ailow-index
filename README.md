@@ -40,6 +40,10 @@ Nenhuma em produção. Os testes de build usam `AILOW_PRS_DIR`, `AILOW_OUT_DIR` 
 
 ## Harness: o que foi adotado e o que foi pulado
 
+Checks obrigatórios do CI: `verify`, `seguranca-sca`, `seguranca-sast`, `seguranca-segredos`. Mapa completo em
+[`docs/harness-adoption.md`](docs/harness-adoption.md); também [threat model](docs/seguranca/threat-model.md),
+[auditoria](docs/auditoria/), [uso de IA](docs/ia.md), [`SECURITY.md`](SECURITY.md), [`CHANGELOG.md`](CHANGELOG.md).
+
 | Prática | Situação |
 |---|---|
 | `verify` único, CI com permissões mínimas, actions por SHA, lockfile | adotado |

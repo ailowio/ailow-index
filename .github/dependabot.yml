@@ -1,0 +1,28 @@
+# Atualizações automáticas de dependência (SEC-10). Formato: version 2 (docs.github.com, Dependabot options reference).
+# PRs semanais; minor e patch agrupados num PR só; major vem em PR separado para revisão humana.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencias"
+    groups:
+      npm-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencias"
+      - "ci"
+    groups:
+      actions-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
