@@ -1,0 +1,10 @@
+# Allowlist: o contexto de build leva só o que o Dockerfile usa (sem .env, .git, docs, testes).
+*
+!package.json
+!package-lock.json
+!astro.config.mjs
+!tsconfig.json
+!src
+!public
+!scripts/csp.mjs
+!ops/web

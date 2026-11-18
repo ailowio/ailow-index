@@ -54,7 +54,7 @@ Checks obrigatórios do CI: `verify`, `seguranca-sca`, `seguranca-sast`, `segura
 | ADR para decisões estruturais | adotado (001, 002) |
 | Testes unitários nas regras do changelog, canário por gate | adotado (S02: unitários + build real com feeds de exemplo em `test/fixtures/feeds/`) |
 | E2E (Playwright) + axe, sem scroll horizontal em 360/1280 nos 2 temas | S04 |
-| Logs JSON (nginx), imagem não-root | S06 |
+| Logs JSON (nginx), imagem não-root | S11 (`Dockerfile`, `ops/web/`) |
 | UXM-* (UX mobile de app/PWA) | **não se aplica**: é site de conteúdo, não app |
 | OpenAPI, banco, RLS, k6 | **não se aplica**: sem API nem banco |
 | Formulário de contato | **fora de propósito**: subiria o tier para B (dado de terceiro); contato por link |

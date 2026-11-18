@@ -38,7 +38,7 @@ flowchart LR
 | 4 | `npm audit` bloqueante em produção; Semgrep (ERROR) no código próprio; Dependabot semanal; lockfile com `npm ci`; actions fixadas por SHA; permissões `contents: read` | SEC-10, CI-05/07 | jobs `seguranca-sca`, `seguranca-sast`; `.github/dependabot.yml`; exceção EX-02 em `docs/excecoes.md` |
 | 5 | Ruleset `proteger-main` (id 27518794): PR obrigatório, checks `verify`/`seguranca-*` obrigatórios, sem force-push nem exclusão, sem bypass. Aprovação humana = 0 (EX-01) | CI-08, AUD-22 | configuração da plataforma (conferida em 2026-11-18); `docs/excecoes.md` EX-01 |
 | 6 | MFA na conta `ailowio` e no registrador do domínio: **não verificado**. Registro e DNS: a registrar quando o deploy existir | AUD-01/03 | `docs/auditoria/matriz-acessos.md` |
-| 7 | Cabeçalhos de segurança e CSP no nginx; imagem não-root; orçamento de JS | SEC-*, OPS-* | **planejado, S06** (hoje o site não tem servidor) |
+| 7 | nginx com `server_tokens off`, `nosniff`, `X-Frame-Options DENY`, `Referrer-Policy`, `Permissions-Policy` e CSP estrita (`default-src 'self'`, scripts só por hash sha256 gerado do `dist/` no build, sem `unsafe-inline` em script; `style-src` mantém `unsafe-inline` porque o Astro inlina CSS e há `style=` em atributos: estilo não executa script, risco aceito); imagem `nginx-unprivileged` uid 101 na 8080; HSTS fica no Traefik; scan Trivy CRITICAL/HIGH no CI; orçamento de JS no `verify` | SEC-*, OPS-* | `ops/web/`, `Dockerfile`, `scripts/csp.mjs`, `test/imagem-nginx.test.ts`, `e2e/csp.e2e.ts`, job `imagem` do `ci.yml`. Servido em produção: **só após a S12** |
 | 8 | Deploy só por workflow parado no approval do Environment; rollback por tag anterior | OPS-*, AUD-24 | **planejado, S07** |
 
 ## 4. Como saberemos que fizemos um bom trabalho?

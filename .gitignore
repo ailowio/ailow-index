@@ -13,6 +13,7 @@ dist/
 
 # Testes e relatórios
 test/.tmp-build/
+test/.tmp-build-csp-*/
 coverage/
 test-results/
 playwright-report/

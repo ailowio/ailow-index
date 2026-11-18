@@ -110,3 +110,49 @@ jobs:
             --config p/default --config p/typescript \
             --severity ERROR --error --metrics=off \
             src scripts
+
+  # S11: imagem de produção (nginx não-root). Constrói, sobe de verdade, roda o smoke e o scan.
+  # Orçamentos de JS e de peso por rota já rodam no `verify` (scripts/peso.mjs); não duplicar aqui.
+  imagem:
+    name: imagem
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - name: build da imagem
+        run: docker build -t ailow-index:ci .
+      - name: sobe o container
+        run: |
+          docker run -d --name site -p 8080:8080 ailow-index:ci
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:8080/health && break
+            sleep 1
+          done
+      # Não-root de verdade: o processo roda com uid diferente de 0.
+      - name: container sem root
+        run: |
+          uid="$(docker exec site id -u)"
+          echo "uid=$uid"
+          test "$uid" != "0"
+      # Rotas, cabeçalhos, CSP por hash, manifest, sw.js, 404 e 405 (scripts/smoke-imagem.mjs).
+      - name: smoke
+        run: node scripts/smoke-imagem.mjs http://127.0.0.1:8080
+      # O log de acesso sai em JSON no stdout, com request_id.
+      - name: log de acesso em JSON
+        run: |
+          docker logs site 2>&1 | grep -E '^\{"time":"[^"]+","request_id":"[0-9a-f]{32}","method":"GET"' | tail -1
+      - name: logs do container (diagnóstico)
+        if: failure()
+        run: docker logs site
+      # SEC-12: bloqueia CRITICAL/HIGH com correção disponível (mesma action e versão do ailow-cloud).
+      - uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: ailow-index:ci
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
