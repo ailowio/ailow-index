@@ -89,13 +89,13 @@ Ao terminar: diário curto + poda + Estado de retomada; entregue o prompt da SNN
 
 ### Estado de retomada
 
-- **Data:** 2026-11-18 · **Última sessão:** S02b (governança, subagente em worktree, em andamento). S03 parte 1 entregue (lista privada fora do git), aguardando as marcações do Pedro. **Aprimoramento A1** registrado; a próxima sessão é a **S03b**. Execução: um subagente Sonnet por sessão, uma por vez, orquestrado pelo Opus (pedido do Pedro em 2026-11-18).
-- **GitHub:** `ailowio/ailow-index` público; ruleset `proteger-main` (PR + checks `verify`/`seguranca-sca`/`seguranca-segredos`); secret scanning, push protection e Dependabot ligados. PR #1 (`fix(ci)`, `.gitkeep`) verde, aguardando o merge do Pedro.
-- **Git:** `main` com o bootstrap (`d018c9d`); mudança só por PR.
+- **Data:** 2026-11-18 · **Última sessão:** S03b (discovery do A1; subagente Sonnet 5.5). Entregues: `docs/execucao/brief-app.md`, `docs/adr/003-navegacao-app-pwa-e-tema-pulso.md` (**Proposto, aguardando decisão do Pedro**) e `docs/execucao/roteiro-pitch.md` (rascunho). **S03 parte 2 pendente** (grava só o que o Pedro marcou `confirmado`). S04–S07 seguem suspensas; a tabela S04+ proposta está no ADR 003. Execução: um subagente Sonnet por sessão, uma por vez, orquestrado pelo Opus.
+- **GitHub:** remoto `ailowio/ailow-index` (público); `main` protegida por ruleset com 4 checks (`verify`, `seguranca-sca`, `seguranca-sast`, `seguranca-segredos`); secret scanning, push protection, Dependabot e private vulnerability reporting ligados. Mudança só por PR.
 - **Ambiente:** Node 22.23.5 · Astro 7.4.12 · TypeScript 6.0.3 · `@types/node` 22.20.5 · gitleaks 8.30.1 local (winget). Exceção EX-02 (picomatch sem correção) em `docs/excecoes.md`.
-- **Portões pendentes:**
-  - (1) o Pedro faz o merge do PR #1 e depois do PR #2 (governança);
-  - (2) o Pedro marca a curadoria e cria o `conteudo-bloqueado.local.txt`;
-  - (3) depois da S03b, o Pedro decide o ADR 003.
-  - Após o merge do PR #2, incluir `seguranca-sast` nos checks obrigatórios do ruleset.
-- **Pendências abertas:** `CHANGELOG.md` do sgi-copel com ano errado em v1.0.0/v1.1.0 (fora de escopo; PR próprio no SGI).
+- **Pendências do Pedro:**
+  - decidir o ADR 003 (10 perguntas no fim dele);
+  - ligar MFA no GitHub e no Registro.br;
+  - passar o LinkedIn e a lista de fluxos n8n;
+  - criar o `conteudo-bloqueado.local.txt` (lista bloqueada local); a curadoria foi respondida em áudio em 2026-11-18 ("nada sai"), com o resumo em `D:/apps/_scratch/ailow-index-respostas-extraidas-2026-11-18.md`, fora do git;
+  - gravar o vídeo de pitch (roteiro em rascunho).
+- **Pendências abertas:** `CHANGELOG.md` do sgi-copel com ano errado em v1.0.0/v1.1.0 (decisão do Pedro: não corrigir; no SGI só leitura).
