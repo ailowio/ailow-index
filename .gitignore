@@ -1,0 +1,30 @@
+# Dependências e build
+node_modules/
+dist/
+.astro/
+
+# Ambiente: nunca versionar arquivo de ambiente real (SEC-01, ENV-04)
+.env
+.env.*
+!.env.example
+
+# Lista local de termos bloqueados (nomes que não podem ir para o repositório público)
+*.local.txt
+
+# Testes e relatórios
+test/.tmp-build/
+coverage/
+test-results/
+playwright-report/
+blob-report/
+
+# Logs e sistema
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/

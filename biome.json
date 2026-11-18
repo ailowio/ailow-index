@@ -1,0 +1,20 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.6.8/schema.json",
+	"vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+	"files": {
+		"includes": ["src/**", "test/**", "scripts/**", "*.ts", "*.mjs", "*.json", "!test/.tmp-build"]
+	},
+	"formatter": { "enabled": false },
+	"assist": { "enabled": false },
+	"linter": { "enabled": true, "rules": { "preset": "recommended" } },
+	"overrides": [
+		{
+			"includes": ["**/*.astro"],
+			"linter": {
+				"rules": {
+					"correctness": { "noUnusedImports": "off", "noUnusedVariables": "off" }
+				}
+			}
+		}
+	]
+}

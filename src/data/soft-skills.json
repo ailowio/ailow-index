@@ -1,0 +1,12 @@
+[
+  { "id": "discovery", "nome": "Discovery com usuário leigo", "descricao": "Entender a operação de quem não fala a língua do sistema antes de escrever código." },
+  { "id": "traducao-entre-areas", "nome": "Tradução entre áreas", "descricao": "Conversar com sócio, operador, vendas, produção e fornecedor técnico." },
+  { "id": "comunicacao-executiva", "nome": "Comunicação executiva", "descricao": "Explicar tecnologia para donos de empresa, sem jargão e sem promessa vazia." },
+  { "id": "diagnostico-campo", "nome": "Diagnóstico no chão de fábrica", "descricao": "Achar a causa no equipamento e no processo, não só no código." },
+  { "id": "priorizacao", "nome": "Priorização com portões", "descricao": "Fatiar em entregas pequenas e parar onde a decisão é do negócio." },
+  { "id": "decisao-documentada", "nome": "Decisão documentada", "descricao": "Registrar alternativas e consequências antes de escolher." },
+  { "id": "honestidade-de-resultado", "nome": "Honestidade de resultado", "descricao": "Só afirmar o que tem prova; reportar o que falhou." },
+  { "id": "gestao-de-mudanca", "nome": "Gestão de mudança", "descricao": "Levar uma equipe da planilha para o sistema." },
+  { "id": "julgamento-de-negocio", "nome": "Julgamento de negócio", "descricao": "Viabilidade, payback, capacidade e risco antes de investir." },
+  { "id": "aprendizado-continuo", "nome": "Aprendizado contínuo", "descricao": "Transformar falha em lição registrada e em mecanismo." }
+]
