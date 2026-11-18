@@ -1,0 +1,49 @@
+---
+import type { GetStaticPaths } from "astro";
+import CartaoPR from "../../../components/CartaoPR.astro";
+import { carregarFeed } from "../../../changelog/carregar";
+import { rotuloNumero } from "../../../changelog/labels";
+import App from "../../../layouts/App.astro";
+import "../../../styles/feed.css";
+
+export const getStaticPaths = (async () => {
+  const { labels } = await carregarFeed();
+  return labels.map((label) => ({ params: { id: label.slug }, props: { label } }));
+}) satisfies GetStaticPaths;
+
+const { label } = Astro.props;
+const { conteudos, catalogos } = await carregarFeed();
+const nomesFerramentas = Object.fromEntries(catalogos.ferramentas.map((f) => [f.id, f.nome]));
+const nomesSkills = Object.fromEntries(catalogos.softSkills.map((s) => [s.id, s.nome]));
+const tipoRotulo = label.tipo === "ferramenta" ? "Ferramenta" : "Frente";
+---
+
+<App
+  id="pedro"
+  pai="/pedro"
+  paiNome="o portfólio"
+  descricao={`${tipoRotulo} ${label.nome} no changelog de Pedro Fernandes.`}
+>
+  <div class="pagina">
+    <section class="perfil" aria-labelledby="label-titulo">
+      <p class="rotulo-tipo">{tipoRotulo}</p>
+      <h2 id="label-titulo">{label.nome}</h2>
+      <p class="resumo">
+        <span data-total-label>{label.total}</span>
+        {label.total === 1 ? " PR" : " PRs"} · desde {rotuloNumero(label.desde)}
+      </p>
+      <ul class="links">
+        <li><a href="/pedro">Todo o feed</a></li>
+      </ul>
+    </section>
+    <section class="feed" aria-label={`PRs de ${label.nome}`}>
+      <div class="cartoes">
+        {
+          label.prs.map((pr) => (
+            <CartaoPR pr={pr} Conteudo={conteudos.get(pr.id)} nomesFerramentas={nomesFerramentas} nomesSkills={nomesSkills} />
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</App>

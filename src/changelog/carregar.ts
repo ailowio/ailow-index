@@ -1,15 +1,17 @@
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import ferramentas from "../data/ferramentas.json";
 import softSkills from "../data/soft-skills.json";
 import { lintConteudo } from "./bloqueio";
 import { carregarTermosLocais } from "./carregar-termos";
 import { esquemaCatalogos } from "./esquemas";
+import { agruparPainel, labelsDoFeed } from "./labels";
 import { comNovidades, painelFerramentas, publicaveis, validarFeed } from "./regras";
 import type { Catalogos, EntradaPR } from "./tipos";
 
 async function montar() {
   const catalogos: Catalogos = esquemaCatalogos.parse({ ferramentas, softSkills });
-  const entradas: EntradaPR[] = (await getCollection("prs")).map((e) => ({
+  const colecao = await getCollection("prs");
+  const entradas: EntradaPR[] = colecao.map((e) => ({
     id: e.id,
     ...e.data,
     corpo: e.body ?? "",
@@ -30,9 +32,20 @@ async function montar() {
 
   const publicadas = publicaveis(entradas);
   console.log(`[ailow-index] feed: ${entradas.length} entradas, ${publicadas.length} publicadas`);
+  // Corpo em Markdown renderizado só das publicadas (o Astro cuida do HTML).
+  const ids = new Set(publicadas.map((e) => e.id));
+  const conteudos = new Map<string, Awaited<ReturnType<typeof render>>["Content"]>();
+  for (const e of colecao) {
+    if (ids.has(e.id)) conteudos.set(e.id, (await render(e)).Content);
+  }
+  const prs = comNovidades(publicadas);
+  const painel = painelFerramentas(publicadas, catalogos);
   return {
-    prs: comNovidades(publicadas),
-    painel: painelFerramentas(publicadas, catalogos),
+    prs,
+    painel,
+    grupos: agruparPainel(painel),
+    labels: labelsDoFeed(prs, catalogos),
+    conteudos,
     catalogos,
   };
 }

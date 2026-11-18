@@ -1,0 +1,83 @@
+---
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import type { EntradaComNovidades } from "../changelog/regras";
+import { lerTitulo } from "../changelog/regras";
+import { rotuloNumero } from "../changelog/labels";
+
+interface Props {
+  pr: EntradaComNovidades;
+  Conteudo?: AstroComponentFactory;
+  /** id -> nome da ferramenta e da soft skill (catálogos). */
+  nomesFerramentas: Record<string, string>;
+  nomesSkills: Record<string, string>;
+}
+
+const { pr, Conteudo, nomesFerramentas, nomesSkills } = Astro.props;
+const titulo = lerTitulo(pr.titulo);
+const rotulo = rotuloNumero(pr.numero);
+const novas = new Set(pr.novas);
+const publica = "publica" in pr.prova ? pr.prova.publica : null;
+const privada = "privada" in pr.prova ? pr.prova.privada : null;
+const host = publica?.startsWith("https://") ? new URL(publica).hostname.replace(/^www\./, "") : null;
+---
+
+<article class="pr" id={`pr-${String(pr.numero).padStart(3, "0")}`} data-pr={pr.numero}>
+  <header class="pr-topo">
+    <span class="pr-numero">{rotulo}</span>
+    <span class={`selo selo-${pr.estado}`}>{pr.estado}</span>
+    <time class="pr-data" datetime={pr.data}>{pr.data}</time>
+  </header>
+  <h3 class="pr-titulo">
+    {
+      titulo ? (
+        <>
+          <span class="pr-tipo">
+            {titulo.tipo}(<a href={`/pedro/label/escopo-${titulo.escopo}`}>{titulo.escopo}</a>)
+            {titulo.quebra ? "!" : ""}
+          </span>
+          : {titulo.descricao}
+        </>
+      ) : (
+        pr.titulo
+      )
+    }
+  </h3>
+  <div class="pr-corpo">{Conteudo ? <Conteudo /> : null}</div>
+  {
+    pr.ferramentas.length > 0 && (
+      <ul class="chips" aria-label="Ferramentas">
+        {pr.ferramentas.map((f) => (
+          <li>
+            <a class={novas.has(f) ? "chip chip-nova" : "chip"} href={`/pedro/label/${f}`}>
+              {novas.has(f) ? <span class="mais" data-nova={f}>+</span> : null}
+              {nomesFerramentas[f] ?? f}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  {
+    pr.soft_skills.length > 0 && (
+      <ul class="skills" aria-label="Soft skills">
+        {pr.soft_skills.map((s) => (
+          <li>{nomesSkills[s] ?? s}</li>
+        ))}
+      </ul>
+    )
+  }
+  <p class="pr-prova">
+    {
+      publica ? (
+        <>
+          Prova pública:{" "}
+          <a href={publica} rel="noopener noreferrer">
+            {host ?? publica}
+          </a>
+        </>
+      ) : (
+        <>Prova privada: {privada}</>
+      )
+    }
+  </p>
+</article>

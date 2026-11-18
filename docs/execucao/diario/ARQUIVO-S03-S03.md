@@ -31,3 +31,9 @@ Decisões: nenhuma nova do agente. Interpretações: "Material" lido como "mesma
 Pendências para a próxima: S03d (feed parte 3, sem UI). LinkedIn, os 75 fluxos n8n e o Instagram já foram lidos pelo orquestrador (insumos no Estado de retomada).
 Verificação: `npm run verify` verde pelo orquestrador (ver PR).
 
+
+### S03d — Feed parte 3 — 2026-11-18 — Claude Sonnet 5.5 (subagente), orquestrado por Claude Opus 5.5
+Feito: respostas do Pedro aplicadas. Feed 67 → 82 entradas (81 publicadas, 1 `fora`): 19 pendentes resolvidas, #027 virou `fora`, 15 novas (9 fluxos n8n, 4 certificações do LinkedIn, quadro NR-10/12, Conta Azul desfeita, nº 72, release 2.425.2 do SGI de 20/10/2026). Vercel anexada ao nº 27 (Netlify ~10 dias em jan/2026, depois Vercel). Catálogo 78 → 88 ferramentas (nenhuma `principal`).
+Renumeração: permitida só porque nada foi publicado (ordem número × data). **A partir do deploy (S12), o feed vira append-only.**
+Decisões e interpretações (números novos): #062 (MVP desligado) = 28/08/2026 pelo acervo de vídeo (o Pedro disse "por volta de setembro"); #063 (firmware v1.8) datado de 31/08 (cabeçalho) com binário de 21/10; #032 (webhook do gateway): o sketch v1.0 usa cliente HTTP (endereço HTTPS). Sem evidência verificável: Cloudflare (só no catálogo), hospedagem do Outline e do Jessica.
+Verificação: `npm run verify` verde (148 testes; `feed: 82 entradas, 81 publicadas`). Canário: entrada #083 com data de 2025-01 reprovou o build ("#083 (2025-01) é anterior a #082"); removida, build verde. Grep em `src/content/prs/` e `src/data/` sem IP, R$, @, `ilo.`, INPI, credencial, telefone nem nomes de terceiros.
