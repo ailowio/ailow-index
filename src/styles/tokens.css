@@ -77,6 +77,9 @@
   --borda-ui: var(--aco);
   --foco: var(--amarelo);
   --logo: #07bdd5;
+  --moldura: var(--linha);
+  --icone-fundo: var(--grafite-800);
+  --icone-traco: var(--amarelo);
 }
 
 /* Tema claro derivado: papel `estudio`, texto `tinta`. O amarelo nunca vira texto aqui. */
@@ -93,4 +96,7 @@
   --borda-ui: var(--tinta-2);
   --foco: var(--tinta);
   --logo: #067284;
+  --moldura: var(--tinta);
+  --icone-fundo: var(--grafite-800);
+  --icone-traco: var(--amarelo);
 }

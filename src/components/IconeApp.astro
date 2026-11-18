@@ -1,0 +1,27 @@
+---
+import { appPorId } from "../config/apps";
+
+interface Props {
+  id: string;
+}
+const { glifo } = appPorId(Astro.props.id);
+---
+
+{
+  glifo === null ? (
+    <span class="glifo-logo" aria-hidden="true" />
+  ) : (
+    <svg
+      class="glifo"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="square"
+      stroke-linejoin="miter"
+      set:html={glifo}
+    />
+  )
+}
