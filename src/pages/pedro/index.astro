@@ -1,5 +1,93 @@
 ---
+import CartaoPR from "../../components/CartaoPR.astro";
+import { carregarFeed } from "../../changelog/carregar";
 import App from "../../layouts/App.astro";
+import "../../styles/feed.css";
+
+const { prs, grupos, labels, conteudos, catalogos } = await carregarFeed();
+const nomesFerramentas = Object.fromEntries(catalogos.ferramentas.map((f) => [f.id, f.nome]));
+const nomesSkills = Object.fromEntries(catalogos.softSkills.map((s) => [s.id, s.nome]));
+// Mais recente no topo.
+const feed = [...prs].sort((a, b) => b.numero - a.numero);
+const frentes = labels.filter((l) => l.tipo === "escopo").sort((a, b) => b.total - a.total);
 ---
 
-<App id="pedro" />
+<App id="pedro" descricao="Pedro Fernandes, Produtos Digitais e Operações: portfólio em formato de changelog.">
+  <div class="pagina">
+    <section class="perfil" aria-labelledby="perfil-nome">
+      <h2 id="perfil-nome">Pedro Fernandes</h2>
+      <p class="cargo">Produtos Digitais e Operações</p>
+      <p>
+        Founder da Ailow desde out/2025 e sócio da Copel desde 2015. Trabalha com IoT, dados e automação no chão de
+        fábrica.
+      </p>
+      <ul class="links">
+        <li><a href="https://www.linkedin.com/in/pedro-fernand/" rel="me noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://www.instagram.com/pedro_fernand/" rel="me noopener noreferrer">Instagram</a></li>
+        <li><a href="/pedro/entrevistas">Entrevistas</a></li>
+      </ul>
+    </section>
+
+    <section class="antes" aria-labelledby="antes-titulo">
+      <h2 id="antes-titulo">Antes do primeiro commit</h2>
+      <ul>
+        <li>Administração na UFC, de jul/2014 a nov/2021.</li>
+        <li>Estágio no Sebrae por dois anos.</li>
+        <li>
+          Sócio da Copel desde jan/2015 (embalagens e cordões): gestão financeira e estratégica, expansão da operação
+          têxtil e reorganização do layout fabril.
+        </li>
+        <li>Em 2024 e 2025, estudo de viabilidade e aquisição de uma unidade fabril.</li>
+      </ul>
+    </section>
+
+    <nav class="filtros" aria-labelledby="frentes-titulo">
+      <h2 id="frentes-titulo">Frentes</h2>
+      <ul class="chips">
+        {
+          frentes.map((l) => (
+            <li>
+              <a class="chip" href={`/pedro/label/${l.slug}`}>
+                {l.nome} <span class="conta">{l.total}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <section class="painel" aria-labelledby="painel-titulo">
+      <details>
+        <summary><h2 id="painel-titulo">Ferramentas</h2></summary>
+        {
+          grupos.map((g) => (
+            <div class="grupo">
+              <h3>{g.nome}</h3>
+              <ul>
+                {g.linhas.map((l) => (
+                  <li>
+                    <a href={`/pedro/label/${l.id}`}>{l.nome}</a>
+                    <span class="meta">
+                      {l.prs} {l.prs === 1 ? "PR" : "PRs"} · desde #{String(l.desde).padStart(3, "0")}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </details>
+    </section>
+
+    <section class="feed" aria-labelledby="feed-titulo">
+      <h2 id="feed-titulo">Feed <span class="conta" data-total-feed>{feed.length}</span></h2>
+      <div class="cartoes">
+        {
+          feed.map((pr) => (
+            <CartaoPR pr={pr} Conteudo={conteudos.get(pr.id)} nomesFerramentas={nomesFerramentas} nomesSkills={nomesSkills} />
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</App>
