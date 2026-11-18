@@ -11,6 +11,7 @@
 | I-05 | Dependabot e alertas | GitHub → repositório (PRs e alertas) | manifestos e lockfile (públicos) | plataforma GitHub | semanal (`.github/dependabot.yml`) | gerida pelo GitHub | `.github/dependabot.yml` | Pedro | Baixa |
 | I-06 | Publicação do site (**planejada, S07**) | CI/Pedro → imagem nginx → VPS com Traefik | HTML estático público | a definir na S07 | por release | a definir (Environment com aprovação) | a criar | Pedro | Alta |
 | I-07 | DNS de `ailow.com.br` (**planejada, S07**) | registrador → Traefik | registros DNS | DNS | na criação | conta do registrador, MFA **não verificado** | a criar | Pedro | Alta |
+| I-08 | `wa.me` (cartão `/cartao/`, em produção quando houver deploy) | navegador do visitante → `https://wa.me/<número>?text=<saudação>` | número digitado pelo próprio visitante (dado pessoal): vai só na URL do clique, nunca é gravado (storage, cookie, IndexedDB, cache) nem enviado ao site | navegação do navegador | por clique em Enviar | n/a | `src/data/cartao.ts`; testes `test/cartao.test.ts` e `e2e/cartao.e2e.ts` | Pedro | Baixa |
 
 ## Controles de integridade por interface (AUD-62/63/65/66/67)
 | ID | Completude/exatidão | Idempotência | Validação na entrada | Tratamento de erro | Conciliação | Log de execução |

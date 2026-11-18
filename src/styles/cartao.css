@@ -1,0 +1,133 @@
+/*
+ * /cartao (S10, R4): identidade, QR, WhatsApp e compartilhar. Só papéis de tokens.css.
+ */
+
+.cartao {
+  display: grid;
+  gap: var(--espaco-3);
+  padding: var(--espaco-3) var(--espaco-2) var(--espaco-6);
+  inline-size: 100%;
+  max-inline-size: 26rem;
+  margin-inline: auto;
+  min-inline-size: 0;
+}
+
+.identidade h1 {
+  font-size: var(--texto-titulo);
+  padding-block-end: var(--espaco-1);
+  border-block-end: 0.375rem solid var(--acento);
+  overflow-wrap: anywhere;
+}
+
+.identidade p {
+  margin-block-start: var(--espaco-1);
+  color: var(--texto-2);
+}
+
+.qr {
+  display: grid;
+  gap: var(--espaco-1);
+  justify-items: center;
+  margin: 0;
+}
+
+.qr-ladrilho {
+  inline-size: min(100%, 12.5rem);
+  line-height: 0;
+  border: var(--traco-borda) solid var(--acento);
+}
+
+.qr-ladrilho svg {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.qr figcaption {
+  color: var(--texto-2);
+  font-size: var(--texto-pequeno);
+  text-align: center;
+}
+
+.whatsapp {
+  display: grid;
+  gap: var(--espaco-1);
+}
+
+.whatsapp label {
+  font-weight: 600;
+}
+
+.whatsapp .linha {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--espaco-1);
+}
+
+.whatsapp input {
+  min-block-size: var(--alvo);
+  min-inline-size: 0;
+  padding: 0 var(--espaco-2);
+  font: inherit;
+  color: var(--texto);
+  background: var(--superficie);
+  border: var(--traco-fino) solid var(--borda-ui);
+  border-radius: var(--raio-0);
+}
+
+.whatsapp input[aria-invalid="true"] {
+  border-color: var(--acento);
+  border-width: var(--traco-borda);
+}
+
+.enviar,
+.compartilhar {
+  min-block-size: var(--alvo);
+  padding: 0 var(--espaco-3);
+  font: inherit;
+  font-weight: 600;
+  color: var(--sobre-acento);
+  background: var(--acento);
+  border: 0;
+  border-radius: var(--raio-0);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.compartilhar {
+  color: var(--texto);
+  background: var(--superficie);
+  border: var(--traco-fino) solid var(--borda-ui);
+}
+
+.compartilhar[hidden] {
+  display: none;
+}
+
+.aviso {
+  min-block-size: 1.25rem;
+  font-size: var(--texto-pequeno);
+  color: var(--texto);
+}
+
+.aviso:not(:empty) {
+  padding-inline-start: var(--espaco-1);
+  border-inline-start: var(--traco-borda) solid var(--acento);
+}
+
+.material {
+  display: grid;
+  gap: var(--espaco-2);
+  justify-items: stretch;
+}
+
+.link-apresentacao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--alvo);
+  color: var(--texto);
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  overflow-wrap: anywhere;
+}
