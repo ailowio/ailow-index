@@ -7,14 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### S05 — Home como app + Voltar — 2026-11-18 — Claude Sonnet 5.5 (subagente)
-Feito: `/` é a tela inicial (widget Ailow, grade 3x2 de 6 ícones SVG, halo amarelo e pulso de fundo, barra de gesto); `App.astro` + 6 rotas "em construção" `noindex`; transição `@view-transition` com `view-transition-name: app-<id>` (ícone↔selo do cabeçalho), "abrir" 0,94→1 e "fechar" 1,05→1 (`:root:has(.tela-home)`), desligada em movimento reduzido; trava do Voltar inline (script < 1 KB gz).
-Números: testes 165→171; E2E 28→138. Home: JS 0,67 KiB gz, total 5,89 KiB (orç. 10 e 60).
-Decisões: desktop = moldura de aparelho (24 rem) centralizada, não grade ampla (uma só experiência, sem scroll); tokens novos `--moldura`, `--icone-fundo`, `--icone-traco` (par no teste de contraste); hora omitida (exigiria JS); "Contato" = rótulo da rota `/apresentacao`; seta das internas: `history.back()` se o referrer é do site, senão link ao pai. Voltar: pushState de reserva no 1º gesto; `popstate` sem a marca → `forward()`. Limitação: sem gesto o navegador pode sair (igual ao Cloud).
-Canário (L-0006): sem o pushState de reserva, E2E (a), (b) e (b2) reprovaram; restaurado, verdes. A transição só foi vista por regras CSS, screenshot e vídeo (webm no `_scratch`); Firefox não testado.
-Pendências para a próxima: S06. Revisão visual do Pedro em lote (tema claro, transição).
-Verificação: `npm run verify` e `npm run e2e` verdes; screenshots/vídeo em `D:/apps/_scratch/ailow-index-s05/`.
-
 ### S06 — `/pedro` (feed) no Pulso — 2026-11-18 — Claude Sonnet 5.5 (subagente)
 Feito: `/pedro` com nome, cargo "Produtos Digitais e Operações", apresentação só com fatos, links (LinkedIn, Instagram, Entrevistas), bloco "Antes do primeiro commit", filtro por frente, painel "Ferramentas" derivado (por categoria, nº de PRs e "desde #NNN"; `<details>` fechado) e feed de 81 cartões de PR (#082 no topo; selo merged/open/closed, data AAAA-MM, `+ferramenta` na 1ª aparição, soft skills, prova pública como link e privada como texto). 87 páginas `/pedro/label/<slug>` (ferramenta = id; frente = `escopo-<id>`, porque `n8n` é ferramenta e escopo). Corpo renderizado com `render()` do Astro. Código: `src/changelog/labels.ts`, `CartaoPR.astro`, `feed.css`.
 Números: testes 171 -> 179; E2E 138 -> 184 (`e2e/pedro-feed.e2e.ts`: 3 rotas x 2 temas x 2 viewports). `/pedro` 20,4 KiB gz (JS 0,62); labels 7-9 KiB; orçamento padrão 150 (labels usam o `padrao`; o script não tem curinga).
@@ -30,3 +22,12 @@ Decisões: sem tagline (frase-mãe como texto); sem número de versão do Cloud;
 Canário (L-0006): `<p>venda por voz</p>` injetado em `pulse.astro` reprovou o teste (`expected ['venda por voz'] to deeply equal []`); revertido, verde. O E2E novo também reprovou de início (strict mode do seletor `main, body`), corrigido no próprio teste novo.
 Pendências para a próxima: S08 (`/pedro/entrevistas`). Revisão visual do Pedro em lote; a tagline fina segue pendente com ele.
 Verificação: `npm run verify` e `npm run e2e` verdes no Windows; screenshots em `D:/apps/_scratch/ailow-index-s07/`.
+
+### S08 — `/pedro/entrevistas` — 2026-11-18 — Claude Sonnet 5.5 (subagente), orquestrado por Claude Opus 5.5
+Feito: página com 3 cartões (TV Verdes Mares #037, TV Record #014, Programa Experiências Inspiradoras da UFC #012; mais recente primeiro), cada um com imagem WebP 640 px, veículo, data, 1 frase só com fatos do BRIEF/feed e link de prova `/pedro#pr-NNN`. Fonte única `src/data/entrevistas.ts`; `src/styles/entrevistas.css`; `public/entrevistas/*.webp`; `test/entrevistas.test.ts`; `e2e/entrevistas.e2e.ts`. Seta Voltar segue para `/pedro`; o link "Entrevistas" de `/pedro` já apontava para a rota. Sem link externo e sem nome de entrevistador (lista de bloqueio no teste e no E2E: Cláudia, Buhamra, Viviane, Bastos).
+Quadros (ffmpeg; D:/videos só leitura): UFC t=400 s (22 KB), Record t=60 s com `yadif` (30 KB), Verdes Mares t=80 s com `yadif` e corte de 24 px da faixa de URL no rodapé (17 KB). As tarjas têm só título genérico.
+Números: Vitest 184 -> 191; E2E 234 -> 258 (5 testes x 2 temas x 2 projetos + 2 testes x 2 projetos). Peso `/pedro/entrevistas`: 74,86 KiB gz de 400 (o `peso.mjs` conta as imagens), JS 0,62 KiB. A chave da rota no orçamento já existia (400).
+Canários (L-0006): nome injetado num cartão e limite de imagem baixado a 1 KB reprovaram os dois testes correspondentes; revertidos, 7/7 verdes.
+Decisões: âncora `#pr-NNN` como prova; primeira imagem `eager`, demais `lazy`.
+Pendências para a próxima: S09. Revisão visual do Pedro em lote (conferir os quadros escolhidos).
+Verificação: `npm run verify` e `npm run e2e` (258 passed) verdes; screenshots em `D:/apps/_scratch/ailow-index-s08/`.

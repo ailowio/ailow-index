@@ -1,5 +1,41 @@
 ---
+import { entrevistas } from "../../data/entrevistas";
 import App from "../../layouts/App.astro";
+import "../../styles/entrevistas.css";
+
+const numero = (n: number) => String(n).padStart(3, "0");
 ---
 
-<App id="entrevistas" pai="/pedro" paiNome="o portfólio" />
+<App id="entrevistas" pai="/pedro" paiNome="o portfólio" descricao="Entrevistas e reportagens com Pedro Fernandes.">
+  <div class="entrevistas">
+    <h2 class="titulo">Entrevistas e reportagens</h2>
+    <ul class="lista">
+      {
+        entrevistas.map((e, i) => (
+          <li>
+            <article class="entrevista" data-feed={e.feed}>
+              <img
+                src={e.imagem}
+                width={e.largura}
+                height={e.altura}
+                alt={e.alt}
+                loading={i === 0 ? "eager" : "lazy"}
+                decoding="async"
+              />
+              <div class="corpo">
+                <h3>{e.veiculo}</h3>
+                <p class="data">
+                  <time datetime={e.data}>{e.dataTexto}</time>
+                </p>
+                <p>{e.texto}</p>
+                <a class="prova" href={`/pedro#pr-${numero(e.feed)}`}>
+                  Prova no feed: #{numero(e.feed)}
+                </a>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</App>
