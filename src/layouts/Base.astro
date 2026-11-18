@@ -1,0 +1,65 @@
+---
+import "@fontsource/barlow/latin-400.css";
+import "@fontsource/barlow/latin-600.css";
+import "@fontsource/barlow-condensed/latin-700.css";
+import "@fontsource/jetbrains-mono/latin-500.css";
+import "../styles/tokens.css";
+import "../styles/global.css";
+import { SITE } from "../config/site";
+
+interface Props {
+  titulo?: string;
+  descricao?: string;
+  /** Placeholder da S01 até a S05 publicar a home de verdade. */
+  indexar?: boolean;
+}
+
+const { titulo, descricao, indexar = false } = Astro.props;
+const tituloPagina = titulo ? `${titulo} | ${SITE.nome}` : SITE.nome;
+
+// Tema sem flash (ADR 003, D6): roda antes da pintura. Padrão do sistema; a escolha do usuário vence.
+// localStorage pode lançar (janela privada, dados bloqueados): sempre em try/catch.
+const scriptTema = `(function(){var d=document.documentElement,t;try{t=localStorage.getItem("ailow-tema")}catch(e){}if(t!=="claro"&&t!=="escuro"){t=matchMedia("(prefers-color-scheme: light)").matches?"claro":"escuro"}d.setAttribute("data-tema",t)})()`;
+
+// Botão de tema: 1 toque troca e grava. aria-pressed = "tema claro ligado".
+const scriptBotao = `(function(){var b=document.getElementById("botao-tema");if(!b)return;var d=document.documentElement;function s(){b.setAttribute("aria-pressed",d.getAttribute("data-tema")==="claro"?"true":"false")}s();b.addEventListener("click",function(){var t=d.getAttribute("data-tema")==="claro"?"escuro":"claro";d.setAttribute("data-tema",t);try{localStorage.setItem("ailow-tema",t)}catch(e){}s()})})()`;
+---
+
+<!doctype html>
+<html lang={SITE.idioma} data-tema="escuro">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {!indexar && <meta name="robots" content="noindex" />}
+    {descricao && <meta name="description" content={descricao} />}
+    <title>{tituloPagina}</title>
+    <script is:inline set:html={scriptTema} />
+  </head>
+  <body>
+    <header class="cabecalho">
+      <a class="marca" href="/" aria-label={`${SITE.nome}, página inicial`}>
+        <span class="logo" aria-hidden="true"></span>
+        <span>{SITE.nome}</span>
+      </a>
+      <button
+        id="botao-tema"
+        class="botao-tema"
+        type="button"
+        aria-pressed="false"
+        aria-label="Tema claro"
+      >
+        <svg class="icone-sol" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="4.5"></circle>
+          <path d="M11 1h2v4h-2zM11 19h2v4h-2zM1 11h4v2H1zM19 11h4v2h-4zM4.2 2.8l2.8 2.8-1.4 1.4-2.8-2.8zM17 16.6l2.8 2.8-1.4 1.4-2.8-2.8zM2.8 19.8l2.8-2.8 1.4 1.4-2.8 2.8zM16.6 7l2.8-2.8 1.4 1.4L18 8.4z"></path>
+        </svg>
+        <svg class="icone-lua" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path>
+        </svg>
+      </button>
+    </header>
+    <main class="conteudo" id="conteudo">
+      <slot />
+    </main>
+    <script is:inline set:html={scriptBotao} />
+  </body>
+</html>

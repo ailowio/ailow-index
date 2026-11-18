@@ -35,8 +35,28 @@ jobs:
           cache: npm
       # CI-05: npm ci falha se o lockfile estiver fora de sincronia.
       - run: npm ci
-      # lint + astro check (tipos) + testes + build.
+      # lint + astro check (tipos) + testes + build + orçamento de peso por rota (scripts/peso.mjs).
       - run: npm run verify
+
+  # S04: E2E (Playwright + axe) sobre o build de produção, igual ao que roda local (`npm run e2e`).
+  # Job novo e separado: os 4 checks obrigatórios continuam os mesmos até o Pedro decidir torná-lo obrigatório.
+  e2e:
+    name: e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # Só o chromium, com as bibliotecas do sistema. A versão do navegador segue o @playwright/test fixado.
+      - run: npx playwright install --with-deps chromium
+      # playwright.config.ts faz `astro build` + `astro preview` (porta 4329).
+      - run: npm run e2e
 
   seguranca-sca:
     name: seguranca-sca

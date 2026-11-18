@@ -1,0 +1,186 @@
+/* Base do Pulso de produto. Só usa papéis de tokens.css (nada de cor solta). */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: var(--fonte-corpo);
+  font-size: var(--texto-base);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+p {
+  margin: 0;
+  max-width: 60ch;
+}
+
+a {
+  color: var(--texto);
+  text-decoration-color: var(--acento);
+  text-decoration-thickness: var(--traco-fino);
+  text-underline-offset: 0.2em;
+}
+
+/* Foco visível em tudo que recebe teclado (UXM / WCAG 2.4.7). */
+:focus-visible {
+  outline: var(--foco-largura) solid var(--foco);
+  outline-offset: var(--foco-afastamento);
+}
+
+/* Cabeçalho persistente: fica parado durante a transição entre páginas. */
+.cabecalho {
+  view-transition-name: cabecalho;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-2);
+  padding: var(--espaco-2);
+  border-bottom: var(--traco-fino) solid var(--borda);
+}
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-1);
+  min-height: var(--alvo);
+  color: var(--texto);
+  text-decoration: none;
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: var(--texto-subtitulo);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* A logo oficial (public/logo.svg, intocada) vira máscara; a cor vem do tema (--logo). */
+.logo {
+  display: block;
+  inline-size: 2rem;
+  block-size: 2rem;
+  background-color: var(--logo);
+  -webkit-mask: url("/logo.svg") center / contain no-repeat;
+  mask: url("/logo.svg") center / contain no-repeat;
+}
+
+.botao-tema {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--alvo);
+  block-size: var(--alvo);
+  padding: 0;
+  background: var(--superficie);
+  color: var(--texto);
+  border: var(--traco-fino) solid var(--borda-ui);
+  border-radius: var(--raio-0);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.botao-tema:active {
+  background: var(--acento);
+  color: var(--sobre-acento);
+}
+
+.botao-tema svg {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  fill: currentColor;
+}
+
+/* Lua no tema escuro; sol no claro: o ícone mostra o tema para onde o toque leva. */
+.botao-tema .icone-sol {
+  display: none;
+}
+
+:root[data-tema="escuro"] .botao-tema .icone-sol,
+:root:not([data-tema]) .botao-tema .icone-sol {
+  display: block;
+}
+
+:root[data-tema="escuro"] .botao-tema .icone-lua,
+:root:not([data-tema]) .botao-tema .icone-lua {
+  display: none;
+}
+
+:root[data-tema="claro"] .botao-tema .icone-lua {
+  display: block;
+}
+
+.conteudo {
+  flex: 1;
+  padding: var(--espaco-4) var(--espaco-2);
+}
+
+/* Placeholder da home até a S05 (ADR 003): título de placa com sublinhado do Pulso. */
+.placa {
+  display: grid;
+  gap: var(--espaco-3);
+  justify-items: start;
+}
+
+.placa h1 {
+  font-size: var(--texto-titulo);
+  padding-block-end: var(--espaco-1);
+  border-block-end: 0.375rem solid var(--acento);
+}
+
+.placa p {
+  color: var(--texto-2);
+}
+
+/* Transição nativa entre páginas (ADR 003, D1 = B): curta, só opacidade; sem animação se o usuário pede menos movimento. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--dur-curta);
+  animation-timing-function: var(--ease-move);
+}
+
+::view-transition-group(cabecalho) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "descricao": "Pares texto/fundo declarados. min = razao minima WCAG 2.x (4,5 texto normal; 3 texto grande, UI e graficos). Valem nos dois temas.",
+  "pares": [
+    { "texto": "--texto", "fundo": "--fundo", "min": 4.5 },
+    { "texto": "--texto", "fundo": "--superficie", "min": 4.5 },
+    { "texto": "--texto-2", "fundo": "--fundo", "min": 4.5 },
+    { "texto": "--texto-2", "fundo": "--superficie", "min": 4.5 },
+    { "texto": "--sobre-acento", "fundo": "--acento", "min": 4.5 },
+    { "texto": "--dado", "fundo": "--fundo", "min": 4.5 },
+    { "texto": "--dado", "fundo": "--superficie", "min": 4.5 },
+    { "texto": "--borda-ui", "fundo": "--fundo", "min": 3 },
+    { "texto": "--borda-ui", "fundo": "--superficie", "min": 3 },
+    { "texto": "--foco", "fundo": "--fundo", "min": 3 },
+    { "texto": "--foco", "fundo": "--superficie", "min": 3 },
+    { "texto": "--logo", "fundo": "--fundo", "min": 3 }
+  ]
+}
