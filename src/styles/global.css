@@ -7,6 +7,8 @@
 }
 
 html {
+  /* UXM-02: sem pull-to-refresh nem encadeamento de overscroll. */
+  overscroll-behavior: none;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -160,11 +162,7 @@ a {
   navigation: auto;
 }
 
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: var(--dur-curta);
-  animation-timing-function: var(--ease-move);
-}
+/* As animações "abrir app" e "fechar app" ficam em telas.css (S05). */
 
 ::view-transition-group(cabecalho) {
   animation: none;

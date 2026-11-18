@@ -1,10 +1,46 @@
 ---
 import Base from "../layouts/Base.astro";
+import IconeApp from "../components/IconeApp.astro";
+import { APPS } from "../config/apps";
 import { SITE } from "../config/site";
+
+// Voltar que nunca fecha o app (ADR 003, item 4; UXM-03). O navegador ignora pushState sem gesto do usuário,
+// então a entrada de reserva nasce no 1º toque/tecla. Se o Voltar pousar na entrada anterior (sem a marca `t`),
+// avança de novo. Limitação conhecida (igual ao Ailow Cloud): sem nenhum gesto, o navegador pode sair do site.
+// Também trata a volta por back_forward que recarrega a entrada 0.
+const scriptVoltar = `(function(){var h=history,a=0;function t(){return h.state&&h.state.t}function f(){if(!t())h.forward()}function k(){if(a)return;a=1;if(!t())h.pushState({t:1},"")}addEventListener("pointerdown",k,{capture:true,once:true});addEventListener("keydown",k,{capture:true,once:true});addEventListener("popstate",f);try{var n=performance.getEntriesByType("navigation")[0];if(n&&n.type==="back_forward")f()}catch(e){}})()`;
 ---
 
-<Base>
-  <section class="placa">
-    <h1>{SITE.nome}</h1>
-    <p>Estamos montando o site. Volte em breve.</p>  </section>
+<Base
+  titulo="Início"
+  descricao="Ailow: portfólio, produtos e contato."
+  classeCorpo="tela-home"
+  moldura
+>
+  <svg slot="fundo" class="fundo-pulso" viewBox="0 0 360 96" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path d="M0 48h120l16-32 24 64 20-48 12 16h168" vector-effect="non-scaling-stroke"></path>
+    <path class="destaque" d="M0 48h120l16-32 24 64 20-48 12 16h168" vector-effect="non-scaling-stroke"></path>
+  </svg>
+  <div class="home">
+    <section class="widget">
+      <h1>{SITE.nome}</h1>
+      <p class="dominio">ailow.com.br</p>
+    </section>
+    <ul class="grade-apps">
+      {
+        APPS.map((app, i) => (
+          <li>
+            <a class="app" href={app.rota} style={`--i:${i}`}>
+              <span class="app-tile" style={`view-transition-name: app-${app.id}`}>
+                <IconeApp id={app.id} />
+              </span>
+              <span class="app-rotulo">{app.rotulo}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <span class="gesto" aria-hidden="true"></span>
+  <script is:inline set:html={scriptVoltar} />
 </Base>

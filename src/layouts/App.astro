@@ -1,0 +1,45 @@
+---
+import Base from "./Base.astro";
+import BotaoTema from "../components/BotaoTema.astro";
+import IconeApp from "../components/IconeApp.astro";
+import { appPorId } from "../config/apps";
+
+interface Props {
+  /** Id do app em src/config/apps.ts: liga o selo ao ícone da home (view-transition-name). */
+  id: string;
+  /** Rota pai da seta quando a página foi aberta direto (sem histórico no site). */
+  pai?: string;
+  paiNome?: string;
+  descricao?: string;
+}
+
+const { id, pai = "/", paiNome = "o início", descricao } = Astro.props;
+const app = appPorId(id);
+
+// A seta anda um passo para trás no histórico quando a página anterior é do próprio site
+// ("home -> ícone -> página -> Voltar" volta à home); aberta direto, segue o link para o pai.
+const scriptSeta = `(function(){var a=document.querySelector("[data-voltar]");if(!a)return;a.addEventListener("click",function(e){try{if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back()}}catch(x){}})})()`;
+---
+
+<Base titulo={app.titulo} descricao={descricao} classeCorpo="tela-app">
+  <header class="cabecalho" slot="cabecalho">
+    <a class="voltar" href={pai} data-voltar aria-label={`Voltar para ${paiNome}`}>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M20 12H5M11 5l-7 7 7 7"></path>
+      </svg>
+    </a>
+    <span class="app-badge" style={`view-transition-name: app-${id}`}>
+      <IconeApp id={id} />
+    </span>
+    <h1 class="app-titulo">{app.titulo}</h1>
+    <BotaoTema />
+  </header>
+  <slot>
+    <section class="construcao">
+      <div class="faixa" aria-hidden="true"></div>
+      <h2>Em construção</h2>
+      <p>Esta parte do site está sendo montada.</p>
+    </section>
+  </slot>
+  <script is:inline set:html={scriptSeta} />
+</Base>

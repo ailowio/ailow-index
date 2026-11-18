@@ -3,6 +3,10 @@
   "padrao": { "jsGzKB": 10, "pesoGzKB": 150 },
   "rotas": {
     "/": { "jsGzKB": 10, "pesoGzKB": 60 },
+    "/pedro": { "jsGzKB": 10, "pesoGzKB": 150 },
+    "/pulse": { "jsGzKB": 10, "pesoGzKB": 150 },
+    "/cloud": { "jsGzKB": 10, "pesoGzKB": 150 },
+    "/sobre": { "jsGzKB": 10, "pesoGzKB": 150 },
     "/apresentacao": { "jsGzKB": 10, "pesoGzKB": 150 },
     "/cartao": { "jsGzKB": 20, "pesoGzKB": 100 },
     "/pedro/entrevistas": { "jsGzKB": 10, "pesoGzKB": 400 }

@@ -5,16 +5,22 @@ import "@fontsource/barlow-condensed/latin-700.css";
 import "@fontsource/jetbrains-mono/latin-500.css";
 import "../styles/tokens.css";
 import "../styles/global.css";
+import "../styles/telas.css";
+import BotaoTema from "../components/BotaoTema.astro";
 import { SITE } from "../config/site";
 
 interface Props {
   titulo?: string;
   descricao?: string;
-  /** Placeholder da S01 até a S05 publicar a home de verdade. */
+  /** Todas as rotas são noindex até o deploy decidir (S12). */
   indexar?: boolean;
+  /** Classe do <body>: `tela-home` ou `tela-app` (altura fixa, sem scroll de página). */
+  classeCorpo?: string;
+  /** Home: no desktop, a tela vira a moldura de um aparelho centralizada. */
+  moldura?: boolean;
 }
 
-const { titulo, descricao, indexar = false } = Astro.props;
+const { titulo, descricao, indexar = false, classeCorpo, moldura = false } = Astro.props;
 const tituloPagina = titulo ? `${titulo} | ${SITE.nome}` : SITE.nome;
 
 // Tema sem flash (ADR 003, D6): roda antes da pintura. Padrão do sistema; a escolha do usuário vence.
@@ -35,31 +41,22 @@ const scriptBotao = `(function(){var b=document.getElementById("botao-tema");if(
     <title>{tituloPagina}</title>
     <script is:inline set:html={scriptTema} />
   </head>
-  <body>
-    <header class="cabecalho">
-      <a class="marca" href="/" aria-label={`${SITE.nome}, página inicial`}>
-        <span class="logo" aria-hidden="true"></span>
-        <span>{SITE.nome}</span>
-      </a>
-      <button
-        id="botao-tema"
-        class="botao-tema"
-        type="button"
-        aria-pressed="false"
-        aria-label="Tema claro"
-      >
-        <svg class="icone-sol" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="12" r="4.5"></circle>
-          <path d="M11 1h2v4h-2zM11 19h2v4h-2zM1 11h4v2H1zM19 11h4v2h-4zM4.2 2.8l2.8 2.8-1.4 1.4-2.8-2.8zM17 16.6l2.8 2.8-1.4 1.4-2.8-2.8zM2.8 19.8l2.8-2.8 1.4 1.4-2.8 2.8zM16.6 7l2.8-2.8 1.4 1.4L18 8.4z"></path>
-        </svg>
-        <svg class="icone-lua" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path>
-        </svg>
-      </button>
-    </header>
-    <main class="conteudo" id="conteudo">
-      <slot />
-    </main>
+  <body class={classeCorpo}>
+    <div class:list={["tela", { aparelho: moldura }]}>
+      <slot name="cabecalho">
+        <header class="cabecalho">
+          <a class="marca" href="/" aria-label={`${SITE.nome}, página inicial`}>
+            <span class="logo" aria-hidden="true"></span>
+            <span>{SITE.nome}</span>
+          </a>
+          <BotaoTema />
+        </header>
+      </slot>
+      <slot name="fundo" />
+      <main class="conteudo" id="conteudo">
+        <slot />
+      </main>
+    </div>
     <script is:inline set:html={scriptBotao} />
   </body>
 </html>

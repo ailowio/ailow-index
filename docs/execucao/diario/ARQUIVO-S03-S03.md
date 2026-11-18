@@ -23,3 +23,11 @@ Decisões: IoT por data de arquivo, 3 fluxos n8n, roadmap, KPI/outbox, discovery
 Pendências para a próxima: o Pedro passa a lista de fluxos n8n, o LinkedIn e as datas em aberto; decide o ADR 003.
 Verificação: `npm run verify` verde (133 testes; `feed: 67 entradas, 47 publicadas`). Canários: número duplicado e ferramenta inexistente reprovam o build; revertidos. Grep de conteúdo proibido sem achados.
 
+
+### S03c — ADR 003 aceito + plano S04+ — 2026-11-18 — Claude Sonnet 5.5 (subagente), orquestrado por Claude Opus 5.5
+Feito: ADR 003 com status Aceito e as 13 decisões do Pedro (áudio de 18/11) registradas; exceções: UXM-01 fica, UXM-03 removida (o Voltar nunca sai do site), UXM-08 trocada pelo Pulso. Plano: Contrato 7 (delegação de merge ao orquestrador), tabela S03d–S13, Estado sobrescrito, A1 reduzido a 1 linha. `roteiro-pitch.md` virou o prompt do pitch.
+Referências citadas no ADR (só leitura): UXM-03 em `harness/practices/ux-mobile.md:16`; Voltar do Cloud em `ailow-cloud/apps/web/src/componentes/navegacao.tsx:14-45`; `uqr` 0.1.3 nos `package.json` do Cloud.
+Decisões: nenhuma nova do agente. Interpretações: "Material" lido como "mesmas diretrizes de parecer app do Cloud, sem imitar Material à risca"; custo de JS do Voltar (≤ 1 KB gz) é estimativa a medir na S05.
+Pendências para a próxima: S03d (feed parte 3, sem UI). LinkedIn, os 75 fluxos n8n e o Instagram já foram lidos pelo orquestrador (insumos no Estado de retomada).
+Verificação: `npm run verify` verde pelo orquestrador (ver PR).
+

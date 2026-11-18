@@ -10,6 +10,7 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 - `@types/node` volta de 26.6.6 para 22.20.5 (o #3 subiu o major antes do `ignore`; os tipos seguem o Node 22 do `.nvmrc`).
 
 ### Adicionado
+- S05, home como app + Voltar (ADR 003): `/` vira a tela inicial de celular (grade de 6 ícones SVG, papel de parede Pulso, moldura de aparelho no desktop), páginas internas mínimas "em construção" (`/pedro`, `/pedro/entrevistas`, `/pulse`, `/cloud`, `/sobre`, `/apresentacao`, todas `noindex`) com layout `App.astro`, transição nativa "abrir/fechar app" (`view-transition-name` ícone↔selo, zero JS) e trava do Voltar (≤ 1 KB gz) que nunca deixa o navegador sair da home. E2E em `e2e/home-app.e2e.ts`; rotas novas em `scripts/orcamentos-peso.json`.
 - S04, fundações do Pulso de produto (ADR 003): tokens em rem com tema escuro (padrão) e claro derivado (`src/styles/`), fontes Barlow, Barlow Condensed e JetBrains Mono auto-hospedadas (`@fontsource`, OFL), layout base com tema sem flash, botão de tema, `@view-transition` e logo oficial em máscara (`src/layouts/Base.astro`, `public/logo.svg`).
 - Playwright + axe (`npm run e2e`, pasta `e2e/`): sem scroll horizontal em 360 e 1280 px nos 2 temas, axe sem serious/critical, zero requisição externa, tema persistente, logo com a assinatura oficial.
 - Teste de contraste dos tokens (`test/contraste.test.ts`) e orçamento de peso por rota (`scripts/peso.mjs`, `scripts/orcamentos-peso.json`, dentro do `verify`).
