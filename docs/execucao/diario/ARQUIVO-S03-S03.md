@@ -8,3 +8,11 @@ Números: 12 conflitos de data apontados. Exemplos: Vitest entra em 16/03, não 
 Decisões do Pedro: marcar a lista; responder as perguntas (VPS #001, fluxos n8n, LinkedIn, ferramentas principais, autorização de clientes e eventos, meses faltantes). Dois achados de higiene em outros repositórios ficaram registrados na lista privada para decisão do Pedro; nada foi alterado.
 Pendências para a próxima: S03 parte 2 grava em `src/content/prs/` só os itens confirmados (mais ids novos no catálogo, se aprovados).
 Verificação (orquestrador): varredura do arquivo sem IP, fatura, token ou nome de cliente; `git status` do app igual ao da S02 (nada escrito no app).
+
+### S03b — Discovery do A1 + ADR 003 proposto — 2026-11-18 — subagente Sonnet 5.5, orquestrado por Claude Opus 5.5
+Feito: `docs/execucao/brief-app.md` (H1–H5 contra doc oficial; R1–R5 com critério mensurável), `docs/adr/003-navegacao-app-pwa-e-tema-pulso.md` (status Proposto; 3 alternativas de navegação e decisões D1–D6 separadas; tabela S04+ proposta) e `docs/execucao/roteiro-pitch.md` (rascunho para o Pedro).
+Números: hipóteses verificadas: wa.me `?text=`, manifest e HTTPS, escopo do SW, View Transitions (Chrome 126; Safari 18.2; Firefox não). Não verificadas: anexo pelo `wa.me`, `share({files})` por versão em Chrome Android e Safari iOS, peso do ClientRouter, direitos das imagens.
+Decisões: nenhuma é do agente. Recomendação: B (home como app, páginas normais com transição nativa), vídeo auto-hospedado, PWA só no cartão. Achados: o Pulso não é DS de produto (sem tema claro nem componentes); o repo público expõe a rota do cartão; o UXM-03 não se cumpre na raiz.
+Pendências para a próxima: o Pedro decide o ADR 003 (10 perguntas nele); S03 parte 2.
+Verificação: ver relatório do orquestrador (`npm run verify`); varredura manual dos 3 arquivos sem IP, e-mail, telefone, token nem nomes de terceiros.
+
