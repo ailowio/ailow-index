@@ -1,0 +1,15 @@
+{
+  "descricao": "Orcamentos por rota (ADR 003, D3). Unidade: KiB (1024 bytes) gzip. js = JS inline + externo carregado pela pagina. peso = HTML + CSS + JS + imagens da pagina; NAO conta fontes (woff/woff2), video nem legendas (.vtt). Rotas fora da tabela usam 'padrao'.",
+  "padrao": { "jsGzKB": 10, "pesoGzKB": 150 },
+  "rotas": {
+    "/": { "jsGzKB": 10, "pesoGzKB": 60 },
+    "/apresentacao": { "jsGzKB": 10, "pesoGzKB": 150 },
+    "/cartao": { "jsGzKB": 20, "pesoGzKB": 100 },
+    "/pedro/entrevistas": { "jsGzKB": 10, "pesoGzKB": 400 }
+  },
+  "notas": [
+    "Numeros de / , /apresentacao, /cartao e /pedro/entrevistas vem do ADR 003 (aprovados pelo Pedro em 2026-11-18); JS 10 KB por pagina e 20 KB no cartao tambem.",
+    "padrao = 150 KiB (decisao do agente na S04, o ADR nao tem numero para as demais rotas: /pedro, /pulse, /cloud e subrotas). Revisar quando existirem (S06/S07).",
+    "Os nomes /apresentacao e /cartao sao provisorios; a sessao que criar a rota ajusta a chave."
+  ]
+}

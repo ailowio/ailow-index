@@ -10,6 +10,10 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 - `@types/node` volta de 26.6.6 para 22.20.5 (o #3 subiu o major antes do `ignore`; os tipos seguem o Node 22 do `.nvmrc`).
 
 ### Adicionado
+- S04, fundações do Pulso de produto (ADR 003): tokens em rem com tema escuro (padrão) e claro derivado (`src/styles/`), fontes Barlow, Barlow Condensed e JetBrains Mono auto-hospedadas (`@fontsource`, OFL), layout base com tema sem flash, botão de tema, `@view-transition` e logo oficial em máscara (`src/layouts/Base.astro`, `public/logo.svg`).
+- Playwright + axe (`npm run e2e`, pasta `e2e/`): sem scroll horizontal em 360 e 1280 px nos 2 temas, axe sem serious/critical, zero requisição externa, tema persistente, logo com a assinatura oficial.
+- Teste de contraste dos tokens (`test/contraste.test.ts`) e orçamento de peso por rota (`scripts/peso.mjs`, `scripts/orcamentos-peso.json`, dentro do `verify`).
+- Job `e2e` no CI.
 - Job `seguranca-sast` (Semgrep 1.185.0) no CI.
 - `.github/dependabot.yml` (npm e GitHub Actions, semanal, minor/patch agrupados).
 - Threat model, matriz de acessos, inventários de interfaces e de rotinas (`docs/seguranca/`, `docs/auditoria/`).

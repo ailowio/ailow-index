@@ -19,9 +19,12 @@ npm run dev        # http://localhost:4321
 ## Testes e qualidade
 
 ```bash
-npm run verify     # lint (Biome) + tipos (astro check) + testes (Vitest) + build — igual ao CI
+npm run verify     # lint (Biome) + tipos (astro check) + testes (Vitest) + build + peso — igual ao CI
 npm test           # só os testes
 npm run build      # gera dist/ (HTML estático)
+npm run peso       # orçamento de JS e de peso gzip por rota sobre o dist/ (scripts/orcamentos-peso.json); já entra no verify
+npx playwright install chromium   # uma vez por máquina
+npm run e2e        # Playwright + axe sobre build + preview (porta 4329): 360x640 e 1280x800, 2 temas, 0 requisição externa
 npm run preview    # serve o dist/ localmente
 ```
 

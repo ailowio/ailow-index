@@ -1,0 +1,96 @@
+/*
+ * Tokens de produto do Pulso (ADR 003, D5/D6).
+ * Derivados de D:/videos/design-system-pulso/tokens.css (DS de vídeo 1080x1920, px de canvas);
+ * aqui tudo em rem. Tema escuro é o padrão do Pulso; o claro é derivado de `estudio` e `tinta`.
+ *
+ * Pares de texto e fundo permitidos: src/styles/pares-contraste.json (travado por test/contraste.test.ts).
+ * Proibidos para texto: amarelo sobre estudio (1,4:1) e `linha` (2,3:1). O amarelo é só preenchimento
+ * ou marcador; o texto sobre ele é `tinta`.
+ */
+
+/* Paleta bruta do Pulso. Não usar direto em componentes: use os papéis abaixo. */
+:root {
+  --grafite: #111214;
+  --grafite-800: #1c1e21;
+  --linha: #4a5057;
+  --aco: #9aa1a8;
+  --branco: #ffffff;
+  --estudio: #eeeeeb;
+  --tinta: #111214;
+  --tinta-2: #5b6168;
+  --amarelo: #ffc400;
+  --sinal: #3aa6ff;
+  --sinal-fraco: #1b6fb0;
+
+  /* Espaçamento (grade de 0,5 rem). */
+  --espaco-1: 0.5rem;
+  --espaco-2: 1rem;
+  --espaco-3: 1.5rem;
+  --espaco-4: 2rem;
+  --espaco-6: 3rem;
+  --espaco-8: 4rem;
+
+  /* Raio: quina reta é o padrão do Pulso; card e selo são exceções nomeadas. */
+  --raio-0: 0;
+  --raio-selo: 0.25rem;
+  --raio-card: 0.5rem;
+
+  /* Traço e foco. */
+  --traco-fino: 0.125rem;
+  --traco-borda: 0.25rem;
+  --foco-largura: 0.1875rem;
+  --foco-afastamento: 0.1875rem;
+
+  /* Alvo de toque mínimo (UXM): 48 px em 16 px de base. */
+  --alvo: 3rem;
+
+  /* Tipografia: famílias do Pulso, auto-hospedadas (@fontsource, OFL). */
+  --fonte-titulo: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --fonte-corpo: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --fonte-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --texto-base: 1.0625rem;
+  --texto-pequeno: 0.9375rem;
+  --texto-titulo: clamp(2.25rem, 9vw, 3.5rem);
+  --texto-subtitulo: 1.375rem;
+
+  /* Movimento (valores do Pulso; a transição de página usa o curto). */
+  --dur-tique: 100ms;
+  --dur-curta: 200ms;
+  --dur-media: 333ms;
+  --ease-entra: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Papéis de cor: tema escuro (padrão). */
+:root,
+:root[data-tema="escuro"] {
+  color-scheme: dark;
+  --fundo: var(--grafite);
+  --superficie: var(--grafite-800);
+  --texto: var(--branco);
+  --texto-2: var(--aco);
+  --acento: var(--amarelo);
+  --sobre-acento: var(--tinta);
+  --dado: var(--sinal);
+  --borda: var(--linha);
+  --borda-ui: var(--aco);
+  --foco: var(--amarelo);
+  --logo: #07bdd5;
+}
+
+/* Tema claro derivado: papel `estudio`, texto `tinta`. O amarelo nunca vira texto aqui. */
+:root[data-tema="claro"] {
+  color-scheme: light;
+  --fundo: var(--estudio);
+  --superficie: var(--branco);
+  --texto: var(--tinta);
+  --texto-2: var(--tinta-2);
+  --acento: var(--amarelo);
+  --sobre-acento: var(--tinta);
+  --dado: var(--sinal-fraco);
+  --borda: #c9c9c4;
+  --borda-ui: var(--tinta-2);
+  --foco: var(--tinta);
+  --logo: #067284;
+}

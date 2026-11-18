@@ -68,7 +68,7 @@ Ao terminar: diário curto + poda + Estado de retomada; entregue o prompt da SNN
 
 ### Estado de retomada
 
-- **Data:** 2026-11-18 · **Última sessão:** S03d (subagente Sonnet 5.5): feed 82 entradas (81 publicadas), catálogo 88 ferramentas; renumeração só até o deploy, depois append-only. **Próxima: S04** (fundações do Pulso). Execução: um subagente Sonnet por sessão, uma por vez, orquestrado pelo Opus.
+- **Data:** 2026-11-18 · **Última sessão:** S04 (subagente Sonnet 5.5, ainda sem commit): tokens/tema do Pulso, `Base.astro`, Playwright+axe (`npm run e2e`, 28 testes), `scripts/peso.mjs` no `verify`, job `e2e` no CI (ainda não rodou no GitHub). Feed: 82 entradas (81 publicadas); renumeração só até o deploy, depois append-only. **Próxima: S05** (home como app + Voltar); usa `src/layouts/Base.astro`, os tokens de `src/styles/` e acrescenta a rota em `ROTAS` de `e2e/fundacoes.e2e.ts`. Execução: um subagente Sonnet por sessão, uma por vez, orquestrado pelo Opus.
 - **Git:** `main` em `19abc3d` + o PR da S03c. GitHub alinhado: 0 PR aberto, só a branch `main`; forks privados. Remoto `ailowio/ailow-index` (público); `main` protegida por ruleset com 4 checks (`verify`, `seguranca-sca`, `seguranca-sast`, `seguranca-segredos`); secret scanning, push protection, Dependabot e private vulnerability reporting ligados. Mudança só por PR.
 - **Ambiente:** Node 22.23.5 · Astro 7.4.12 · TypeScript 6.0.3 · `@types/node` 22 · gitleaks 8.30.1 local (winget). Exceção EX-02 (picomatch sem correção) em `docs/excecoes.md`. Feed: 82 entradas, 81 confirmadas (1 `fora`).
 - **Pendências do Pedro:**
