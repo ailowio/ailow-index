@@ -89,7 +89,7 @@ Ao terminar: diário curto + poda + Estado de retomada; entregue o prompt da SNN
 
 ### Estado de retomada
 
-- **Data:** 2026-11-18 · **Última sessão:** S03b (discovery do A1; subagente Sonnet 5.5). Entregues: `docs/execucao/brief-app.md`, `docs/adr/003-navegacao-app-pwa-e-tema-pulso.md` (**Proposto, aguardando decisão do Pedro**) e `docs/execucao/roteiro-pitch.md` (rascunho). **S03 parte 2 pendente** (grava só o que o Pedro marcou `confirmado`). S04–S07 seguem suspensas; a tabela S04+ proposta está no ADR 003. Execução: um subagente Sonnet por sessão, uma por vez, orquestrado pelo Opus.
+- **Data:** 2026-11-18 · **Última sessão:** S03 parte 2 (feed gravado; subagente Sonnet 5.5): 67 entradas em `src/content/prs/`, 47 confirmadas e 20 pendentes. A S03b entregou `docs/execucao/brief-app.md`, `docs/adr/003-navegacao-app-pwa-e-tema-pulso.md` (**Proposto, aguardando decisão do Pedro**) e `docs/execucao/roteiro-pitch.md` (rascunho). S04–S07 seguem suspensas; a tabela S04+ proposta está no ADR 003. Execução: um subagente Sonnet por sessão, uma por vez, orquestrado pelo Opus.
 - **GitHub:** remoto `ailowio/ailow-index` (público); `main` protegida por ruleset com 4 checks (`verify`, `seguranca-sca`, `seguranca-sast`, `seguranca-segredos`); secret scanning, push protection, Dependabot e private vulnerability reporting ligados. Mudança só por PR.
 - **Ambiente:** Node 22.23.5 · Astro 7.4.12 · TypeScript 6.0.3 · `@types/node` 22.20.5 · gitleaks 8.30.1 local (winget). Exceção EX-02 (picomatch sem correção) em `docs/excecoes.md`.
 - **Pendências do Pedro:**

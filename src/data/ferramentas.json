@@ -33,6 +33,9 @@
   { "id": "github-actions", "nome": "GitHub Actions", "categoria": "infra" },
   { "id": "netlify", "nome": "Netlify", "categoria": "infra" },
   { "id": "prometheus", "nome": "Prometheus", "categoria": "infra" },
+  { "id": "minio", "nome": "MinIO", "categoria": "infra" },
+  { "id": "orion-setup", "nome": "Orion Setup", "categoria": "infra" },
+  { "id": "servidor-email-proprio", "nome": "Servidor de e-mail próprio", "categoria": "infra" },
 
   { "id": "vitest", "nome": "Vitest", "categoria": "qualidade" },
   { "id": "playwright", "nome": "Playwright", "categoria": "qualidade" },
@@ -42,6 +45,7 @@
   { "id": "trivy", "nome": "Trivy", "categoria": "qualidade" },
   { "id": "gitleaks", "nome": "gitleaks", "categoria": "qualidade" },
   { "id": "schemathesis", "nome": "Schemathesis", "categoria": "qualidade" },
+  { "id": "spectral", "nome": "Spectral", "categoria": "qualidade" },
 
   { "id": "esp32", "nome": "ESP32 (Arduino C++)", "categoria": "iot" },
   { "id": "freertos", "nome": "FreeRTOS", "categoria": "iot" },
@@ -56,17 +60,29 @@
   { "id": "mcp", "nome": "MCP", "categoria": "automacao-ia" },
   { "id": "openai", "nome": "OpenAI API", "categoria": "automacao-ia" },
   { "id": "assemblyai", "nome": "AssemblyAI", "categoria": "automacao-ia" },
+  { "id": "claude-api", "nome": "Claude API", "categoria": "automacao-ia" },
+  { "id": "codex", "nome": "Codex", "categoria": "automacao-ia" },
 
   { "id": "asaas", "nome": "Asaas", "categoria": "integracoes" },
   { "id": "conta-azul", "nome": "Conta Azul (OAuth 2.0)", "categoria": "integracoes" },
   { "id": "base-erp", "nome": "Base ERP", "categoria": "integracoes" },
   { "id": "nfe", "nome": "NF-e", "categoria": "integracoes" },
+  { "id": "brasil-nfe", "nome": "Brasil NFe", "categoria": "integracoes" },
+  { "id": "c6-developers", "nome": "C6 Developers (API do C6 Bank)", "categoria": "integracoes" },
+  { "id": "meta-graph-api", "nome": "Meta Graph API", "categoria": "integracoes" },
+  { "id": "evolution-api", "nome": "Evolution API", "categoria": "integracoes" },
+  { "id": "chatwoot", "nome": "Chatwoot", "categoria": "integracoes" },
+  { "id": "metricool", "nome": "Metricool", "categoria": "integracoes" },
 
   { "id": "remotion", "nome": "Remotion", "categoria": "video" },
   { "id": "davinci-resolve", "nome": "DaVinci Resolve", "categoria": "video" },
   { "id": "ffmpeg", "nome": "ffmpeg", "categoria": "video" },
   { "id": "elevenlabs", "nome": "ElevenLabs", "categoria": "video" },
   { "id": "heygen", "nome": "HeyGen", "categoria": "video" },
+  { "id": "runway", "nome": "Runway", "categoria": "video" },
+  { "id": "google-flow", "nome": "Google Flow", "categoria": "video" },
+  { "id": "veo-3-1", "nome": "Veo 3.1", "categoria": "video" },
+  { "id": "nano-banana-pro", "nome": "Nano Banana Pro", "categoria": "video" },
 
   { "id": "okr", "nome": "OKR", "categoria": "gestao" },
   { "id": "adr", "nome": "ADR (registro de decisão)", "categoria": "gestao" }
