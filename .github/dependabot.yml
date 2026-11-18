@@ -13,6 +13,14 @@ updates:
         update-types:
           - "minor"
           - "patch"
+    # Majors travados de propósito (revisar quando o ecossistema permitir):
+    # - typescript: o @astrojs/check 0.9.12 só aceita TypeScript 5 ou 6.
+    # - @types/node: os tipos acompanham o Node em produção (22, ver .nvmrc), não a última versão.
+    ignore:
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
