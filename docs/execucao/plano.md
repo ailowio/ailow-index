@@ -68,13 +68,13 @@ Ao terminar: diário curto + poda + Estado de retomada; entregue o prompt da SNN
 
 ### Estado de retomada
 
-- **Data:** 2026-11-18 · **Última sessão:** S03c (subagente Sonnet 5.5): ADR 003 **Aceito** com as 13 decisões, tabela S03d–S13 acima, `roteiro-pitch.md` virou o prompt do pitch. **Próxima: S03d** (feed parte 3, sem UI). Execução: um subagente Sonnet por sessão, uma por vez, orquestrado pelo Opus.
+- **Data:** 2026-11-18 · **Última sessão:** S03d (subagente Sonnet 5.5): feed 82 entradas (81 publicadas), catálogo 88 ferramentas; renumeração só até o deploy, depois append-only. **Próxima: S04** (fundações do Pulso). Execução: um subagente Sonnet por sessão, uma por vez, orquestrado pelo Opus.
 - **Git:** `main` em `19abc3d` + o PR da S03c. GitHub alinhado: 0 PR aberto, só a branch `main`; forks privados. Remoto `ailowio/ailow-index` (público); `main` protegida por ruleset com 4 checks (`verify`, `seguranca-sca`, `seguranca-sast`, `seguranca-segredos`); secret scanning, push protection, Dependabot e private vulnerability reporting ligados. Mudança só por PR.
-- **Ambiente:** Node 22.23.5 · Astro 7.4.12 · TypeScript 6.0.3 · `@types/node` 22 · gitleaks 8.30.1 local (winget). Exceção EX-02 (picomatch sem correção) em `docs/excecoes.md`. Feed: 67 entradas, 47 confirmadas.
+- **Ambiente:** Node 22.23.5 · Astro 7.4.12 · TypeScript 6.0.3 · `@types/node` 22 · gitleaks 8.30.1 local (winget). Exceção EX-02 (picomatch sem correção) em `docs/excecoes.md`. Feed: 82 entradas, 81 confirmadas (1 `fora`).
 - **Pendências do Pedro:**
   - ligar MFA no GitHub e no Registro.br (no fim);
   - DNS na S12; revisão visual em lote antes do deploy;
   - rodar o prompt do pitch em `D:/videos` e gravar o vídeo;
   - lista bloqueada local: nada a bloquear por enquanto (Pedro, 2026-11-18); o mecanismo fica.
-- **Insumos da S03d (fora do git, só leitura):** `D:/apps/_scratch/ailow-index-respostas-extraidas-2026-11-18.md`, `…-respostas-2-extraidas-2026-11-18.md` e `ailow-index-linkedin-n8n-2026-11-18.md` (LinkedIn, 75 fluxos n8n, Instagram).
+- **Pendências do feed (decisão do Pedro):** uso de Cloudflare (sem evidência; só no catálogo); hospedagem do Outline e do Jessica; Meta Graph API, Claude API, OpenAI API, Codex, C6 Developers, servidor de e-mail próprio e Google Calendar estão no catálogo sem entrada que os use.
 - **Pendências abertas:** `CHANGELOG.md` do sgi-copel com ano errado em v1.0.0/v1.1.0 (decisão do Pedro: não corrigir; no SGI só leitura).
