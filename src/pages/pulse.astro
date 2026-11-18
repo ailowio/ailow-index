@@ -1,5 +1,47 @@
 ---
 import App from "../layouts/App.astro";
+import "../styles/institucional.css";
 ---
 
-<App id="pulse" />
+<App id="pulse" descricao="Pulse: dados de produção das máquinas, do gateway ao Postgres.">
+  <div class="institucional">
+    <section aria-labelledby="o-que-titulo">
+      <h2 id="o-que-titulo">Dados de produção sem planilha</h2>
+      <p class="tese">
+        O Pulse leva o sinal da máquina até um banco de dados confiável: a máquina conta, o gateway envia, o coletor
+        grava.
+      </p>
+      <p class="estado">Estado: coletor publicado, ainda sem validação com os sensores em campo</p>
+    </section>
+
+    <section aria-labelledby="como-titulo">
+      <h2 id="como-titulo">Como funciona hoje</h2>
+      <ul class="pontos">
+        <li>Um gateway com módulos de entrada digital na fábrica registra os sinais das máquinas.</li>
+        <li>O gateway publica as leituras por MQTT, num broker no servidor próprio da Ailow.</li>
+        <li>Um coletor grava essas mensagens em Postgres, em dois containers.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="limite-titulo">
+      <h2 id="limite-titulo">O que ainda não existe</h2>
+      <p>
+        O Pulse hoje é só a coleta e o armazenamento. Ainda não há tela, painel nem alerta: eles vêm depois que os
+        dados estiverem validados em campo.
+      </p>
+    </section>
+
+    <section aria-labelledby="prova-titulo">
+      <h2 id="prova-titulo">Prova no portfólio</h2>
+      <p>
+        O trabalho vem de uma série de firmwares para o gateway, do broker MQTT e do coletor, todos registrados no
+        feed.
+      </p>
+      <div class="provas">
+        <a href="/pedro/label/escopo-pulse">Coletor MQTT para Postgres</a>
+        <a href="/pedro/label/escopo-iot">Firmware e implantação de sensores</a>
+        <a href="/pedro/label/mqtt">Entradas com MQTT</a>
+      </div>
+    </section>
+  </div>
+</App>
