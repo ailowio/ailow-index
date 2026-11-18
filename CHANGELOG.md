@@ -6,6 +6,7 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ### Corrigido
 - CI: versiona a pasta da collection `prs` (PR #1).
+- Dependabot: ignora major de `typescript` (o `@astrojs/check` 0.9.12 aceita só `^5 || ^6`) e de `@types/node` (segue o Node 22).
 
 ### Adicionado
 - Job `seguranca-sast` (Semgrep 1.185.0) no CI.
