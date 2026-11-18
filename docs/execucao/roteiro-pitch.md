@@ -1,36 +1,30 @@
-# Roteiro do vídeo de pitch — RASCUNHO PARA O PEDRO
+# Prompt do roteiro do pitch
 
-Proposta da S03b (2026-11-18, subagente Sonnet 5.5). Quem grava é o Pedro; nada aqui é decisão. Ajuste livremente.
+O Pedro roda este prompt em `D:/videos` (harness de vídeos) e devolve o roteiro.
 
-## Parâmetros
+```text
+Tarefa: escrever o ROTEIRO do vídeo de pitch do Pedro (elevator pitch) para a página de apresentação do site ailow.com.br. Use as skills de roteiro deste harness (D:/videos) e as fontes de fatos daqui (claims, BRIEFs). Só roteiro; não gravar nem editar.
 
-- **Duração alvo:** 60 s (faixa 45–60 s; o plano pede ~1 min). Teto: 75 s.
-- **Formato:** vertical 9:16 (a página é mobile first), legenda queimada, sem música alta (abre sem som no celular).
-- **Peso de entrega para o site:** versão web em MP4 H.264, alvo ≤ 8 MB para 60 s (estimativa de engenharia, **não medida**; o ADR 003 D2 mede com o arquivo real). Cartaz (frame) em imagem separada.
-- **Voz do Pulso (DS):** direto, verbo no começo, números com unidade, sem "olá pessoal", sem emoji. Pedro em cena (real, não só B-roll). Se houver clone ou voz sintética, declarar "IA" na tela.
-- Só afirmar o que está confirmado no feed (ADR 002). Sem nome de cliente, sem IP, sem valor.
+Contexto do uso:
+- O vídeo abre a página de apresentação, que é o destino do QR Code do cartão de visita do Pedro. A página é mobile first, com rolagem. Abaixo do vídeo vêm o portfólio em feed de PRs (/pedro), as entrevistas e os contatos.
+- O avatar do Pedro também aparece na página, num pop-up que pode ser expandido. Avalie se o roteiro serve ao avatar ou se pede uma versão curta para ele.
+- Quem recebe chegou por QR ou WhatsApp. A saudação que acompanha o link é: "Muito prazer, meu nome é Pedro. Segue meu trabalho abaixo; fico à disposição." O vídeo continua esse tom: cordial, sem propaganda, sem "entre em contato".
 
-## Blocos
+Quem é o Pedro (só fatos confirmados; confira cada um nas fontes deste harness antes de usar):
+- Cargo: Produtos Digitais e Operações. Founder da Ailow, fundada em out/2025 (data única em todo material). Sócio da Copel desde 2015 (indústria de embalagens e têxtil, Fortaleza).
+- O que construiu: o SGI da Copel (sistema de gestão próprio, multiusuário, com NF-e emitida dentro dele); sensores de produção em todas as máquinas da fábrica (implantação concluída em 18/11/2026); o Ailow Cloud (ERP no celular para varejo, v1.x em produção, Projeto Final do Full Cycle entregue em 16/11/2026); fluxos e agentes de IA (n8n, Telegram).
+- Prova pública: entrevistas UFC (2025-09), TV Record (2025-10) e TV Verdes Mares/Globo (2026-02); palestra no Sindigráfica/FIEC (2026-04).
+- Formação: Administração (UFC), MBA (FGV), IA Aplicada a Negócios (FGV). Use as datas do material deste harness (fonte única).
 
-| Tempo | Bloco | O que o Pedro diz (ideia, não script) | O que aparece na tela |
-|---|---|---|---|
-| 0–5 s | Gancho | Uma frase que diz o que ele faz, sem se apresentar com "oi" | Pedro em cena, plano médio; texto curto em caixa-alta (3–4 palavras); frame 0 de impacto real (máquina, mão, tela) |
-| 5–15 s | Quem | Nome, de onde vem (indústria, desde 2015), o que construiu | Pedro; legenda com nome e cargo; 1 imagem de campo |
-| 15–30 s | O que a Ailow faz | Pulse (dados da máquina) e Cloud (gestão no celular), em uma frase cada, só o que existe hoje | Telas reais do Cloud e do Pulse; sem UI que não existe |
-| 30–45 s | Prova | Uma ou duas provas concretas: entrevistas, números já confirmados no feed | Selos das entrevistas (UFC, Record, Verdes Mares); número com unidade e data |
-| 45–55 s | O caminho | Como a pessoa vê o trabalho: "o resto está aqui na página" | Seta/ícone apontando para baixo (a rolagem da apresentação) |
-| 55–60 s | Fecho cordial | Despedida cortês e direta, sem propaganda: "Fico à disposição." | Pedro; logo Ailow; sem CTA agressivo |
+Restrições:
+- 45–60 s (teto 75 s), vertical 9:16, legenda queimada, abre bem sem som.
+- Voz do DS Pulso: direto, verbo no começo, números com unidade, sem "olá pessoal", sem emoji. Pedro em cena. Se usar voz ou avatar gerados por IA, sinalizar na tela conforme o DS.
+- Proibido: número sem claim confirmado, nome de pessoa física além do Pedro, IP, valores, nome de empresa adquirida, feature que não existe (venda por voz, UI do Pulse), episódio "a produzir".
+- Final: despedida cordial ("Fico à disposição."), logo Ailow, sem CTA agressivo.
 
-## Checklist de gravação
-
-- [ ] Texto final revisado pelo Pedro (nada de número sem claim confirmado).
-- [ ] Legenda gerada e revisada; arquivo `.srt`/`.vtt` entregue junto (acessibilidade).
-- [ ] Cartaz (poster) exportado em WebP/JPG.
-- [ ] Exportar duas versões: 720p (site) e original (guardar fora do repositório).
-- [ ] Medir o peso real e voltar ao ADR 003 D2.
-
-## Perguntas para o Pedro
-
-1. 60 s ou menos? O plano diz "~1 min".
-2. Você aparece em cena (real), clone, ou os dois? (O DS exige "CLONE IA" se for clone.)
-3. As telas do Cloud/Pulse: usar gravação real do produto de demonstração sem dado de cliente?
+Entrega:
+1. Roteiro em blocos com tempo, fala exata e o que aparece na tela (gancho 0–5 s, quem, o que constrói, prova, o caminho na página, fecho).
+2. Lista dos claims usados, cada um com a fonte (arquivo e linha).
+3. Versão curta de 15–20 s para o avatar pop-up, se fizer sentido.
+4. Especificação de exportação para o site: MP4 H.264 720p, alvo ≤ 8 MB para 60 s, poster em WebP, legenda .vtt.
+```
