@@ -30,7 +30,8 @@ nome de cliente/prospect sem ok, projeto pessoal privado, KPI do SGI sem claim c
 - Nada commitado sem pedido explícito.
 
 ## Fluxo de entrega
-Conventional Commits · PR pequena com template · CI verde (`verify`, `seguranca-sca`, `seguranca-segredos`) · revisão humana (IA comenta, não aprova) · SemVer + CHANGELOG.
+Conventional Commits · PR pequena com template · CI verde (`verify`, `seguranca-sca`, `seguranca-sast`, `seguranca-segredos`) · revisão humana (IA comenta, não aprova) · SemVer + CHANGELOG.
+Governança: `docs/harness-adoption.md` · `docs/seguranca/threat-model.md` · `docs/auditoria/` · `docs/ia.md` · `SECURITY.md`.
 
 ## Handoff
 Ao encerrar a sessão: entrada curta no diário, Estado de retomada sobrescrito no plano, prompt da próxima no chat.
