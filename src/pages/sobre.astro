@@ -1,5 +1,47 @@
 ---
 import App from "../layouts/App.astro";
+import "../styles/institucional.css";
 ---
 
-<App id="sobre" />
+<App id="sobre" descricao="A Ailow constrói e opera sistemas industriais com dados confiáveis, automação e IA.">
+  <div class="institucional">
+    <section aria-labelledby="tese-titulo">
+      <h2 id="tese-titulo">O que a Ailow faz</h2>
+      <p class="tese">
+        A Ailow constrói e opera sistemas industriais com dados confiáveis, automação e IA, conectando escritório e
+        chão de fábrica com apps, alertas e dashboards.
+      </p>
+    </section>
+
+    <section aria-labelledby="operacao-titulo">
+      <h2 id="operacao-titulo">Como trabalha</h2>
+      <ul class="pontos">
+        <li>Não existe projeto sem operação: o sistema é uma assinatura e a operação contínua faz parte dela.</li>
+        <li>O sistema roda na infraestrutura da Ailow. O cliente recebe uma URL e uma credencial de acesso.</li>
+        <li>A integração com o ERP que a empresa já usa é opcional, não um requisito.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="produtos-titulo">
+      <h2 id="produtos-titulo">Produtos</h2>
+      <ul class="pontos">
+        <li><a href="/pulse">Pulse</a>: dados de produção das máquinas, do gateway ao banco de dados.</li>
+        <li><a href="/cloud">Cloud</a>: ERP no celular para quem vende no balcão, em operação.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="prova-titulo">
+      <h2 id="prova-titulo">Prova no portfólio</h2>
+      <p>
+        O que já foi construído está registrado no portfólio de changelog do fundador, com a data e a prova de cada
+        entrega.
+      </p>
+      <div class="provas">
+        <a href="/pedro">Portfólio completo</a>
+        <a href="/pedro/label/escopo-pulse">Pulse no feed</a>
+        <a href="/pedro/label/escopo-cloud">Cloud no feed</a>
+        <a href="/pedro/label/escopo-iot">IoT no feed</a>
+      </div>
+    </section>
+  </div>
+</App>

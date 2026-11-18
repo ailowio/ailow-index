@@ -1,5 +1,49 @@
 ---
 import App from "../layouts/App.astro";
+import "../styles/institucional.css";
 ---
 
-<App id="cloud" />
+<App id="cloud" descricao="Cloud: ERP no celular para quem vende no balcão, por assinatura de módulos.">
+  <div class="institucional">
+    <section aria-labelledby="o-que-titulo">
+      <h2 id="o-que-titulo">ERP no celular para quem vende no balcão</h2>
+      <p class="tese">
+        O Cloud é um ERP pensado para o celular, para o lojista pequeno que vende no balcão e precisa de vendas,
+        produtos, compras, clientes e financeiro num só lugar.
+      </p>
+      <p class="estado">Estado: no ar, em operação</p>
+      <a class="acao" href="https://cloud.ailow.com.br" rel="noopener noreferrer">Abrir o Cloud</a>
+    </section>
+
+    <section aria-labelledby="modelo-titulo">
+      <h2 id="modelo-titulo">Como é oferecido</h2>
+      <ul class="pontos">
+        <li>Assinatura por módulo: cada loja usa só o que precisa.</li>
+        <li>Cada empresa tem os dados isolados das demais, garantido no banco de dados (RLS).</li>
+        <li>O sistema roda na infraestrutura da Ailow; o cliente recebe uma URL e uma credencial.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="piloto-titulo">
+      <h2 id="piloto-titulo">Loja piloto</h2>
+      <p>
+        O Cloud nasceu de um discovery na Marcant Moda Íntima, loja piloto, com visita à loja e o primeiro rascunho da
+        tela de venda feito no papel, junto com o cliente. Uma versão posterior trouxe eixos de grade configuráveis, a
+        partir do que a loja precisava.
+      </p>
+    </section>
+
+    <section aria-labelledby="prova-titulo">
+      <h2 id="prova-titulo">Prova no portfólio</h2>
+      <p>
+        O código é público e o contrato da API, os testes de carga e de segurança e as versões em produção estão
+        registrados no feed.
+      </p>
+      <div class="provas">
+        <a href="/pedro/label/escopo-cloud">Cloud no feed</a>
+        <a href="/pedro/label/openapi">Contrato OpenAPI</a>
+        <a href="/pedro">Portfólio completo</a>
+      </div>
+    </section>
+  </div>
+</App>

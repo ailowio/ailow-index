@@ -1,0 +1,83 @@
+/*
+ * /sobre, /pulse e /cloud (S07): páginas de texto no padrão do Pulso.
+ * Só papéis de tokens.css. O scroll é interno ao .conteudo (exceção UXM-01, ADR 003).
+ */
+
+.institucional {
+  display: grid;
+  gap: var(--espaco-4);
+  padding: var(--espaco-3) var(--espaco-2) var(--espaco-8);
+  min-inline-size: 0;
+}
+
+.institucional section {
+  display: grid;
+  gap: var(--espaco-2);
+  min-inline-size: 0;
+}
+
+.institucional h2 {
+  font-size: var(--texto-subtitulo);
+  padding-block-end: var(--espaco-1);
+  border-block-end: var(--traco-borda) solid var(--acento);
+  display: inline-block;
+  justify-self: start;
+}
+
+.institucional .tese {
+  font-size: var(--texto-subtitulo);
+  line-height: 1.4;
+}
+
+.institucional p,
+.institucional li {
+  overflow-wrap: anywhere;
+}
+
+.institucional ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--espaco-2);
+}
+
+.institucional ul.pontos li {
+  padding-inline-start: var(--espaco-2);
+  border-inline-start: var(--traco-borda) solid var(--borda);
+}
+
+.institucional .estado {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  letter-spacing: 0.04em;
+  color: var(--texto-2);
+  text-transform: uppercase;
+}
+
+.institucional .provas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-2);
+}
+
+.institucional .provas a,
+.institucional .acao {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 3rem;
+  padding-inline: var(--espaco-3);
+  border: var(--traco-borda) solid var(--borda);
+  color: var(--texto);
+  text-decoration: none;
+  max-inline-size: 100%;
+}
+
+.institucional .acao {
+  border-color: var(--acento);
+}
+
+.institucional .provas a:hover,
+.institucional .acao:hover {
+  border-color: var(--acento);
+}
