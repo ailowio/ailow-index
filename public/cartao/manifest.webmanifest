@@ -1,0 +1,18 @@
+{
+  "id": "/cartao/",
+  "name": "Cartão de visita Ailow",
+  "short_name": "Cartão",
+  "description": "Cartão de visita de Pedro Fernandes, Ailow.",
+  "lang": "pt-BR",
+  "start_url": "/cartao/",
+  "scope": "/cartao/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#111214",
+  "theme_color": "#111214",
+  "icons": [
+    { "src": "/cartao/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/cartao/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/cartao/icone-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

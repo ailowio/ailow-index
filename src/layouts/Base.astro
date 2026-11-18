@@ -39,6 +39,7 @@ const scriptBotao = `(function(){var b=document.getElementById("botao-tema");if(
     {!indexar && <meta name="robots" content="noindex" />}
     {descricao && <meta name="description" content={descricao} />}
     <title>{tituloPagina}</title>
+    <slot name="head" />
     <script is:inline set:html={scriptTema} />
   </head>
   <body class={classeCorpo}>

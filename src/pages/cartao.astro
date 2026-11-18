@@ -1,0 +1,130 @@
+---
+import { renderSVG } from "uqr";
+import Base from "../layouts/Base.astro";
+import { apresentacao } from "../data/apresentacao";
+import { cartao, URL_APRESENTACAO } from "../data/cartao";
+import { scriptVoltar } from "../config/voltar";
+import "../styles/cartao.css";
+
+// QR gerado no build (0 JS de QR no cliente). Módulos escuros sobre um ladrilho claro nos dois temas:
+// leitores de câmera falham com QR invertido. Cores = grafite e estúdio do Pulso.
+const qr = renderSVG(URL_APRESENTACAO, { ecc: "M", border: 2, blackColor: "#111214", whiteColor: "#eeeeeb" });
+const { pessoa } = apresentacao;
+---
+
+<Base titulo={cartao.titulo} descricao="Cartão de visita de Pedro Fernandes." classeCorpo="tela-app">
+  <link slot="head" rel="manifest" href="/cartao/manifest.webmanifest" />
+  <meta slot="head" name="theme-color" content="#111214" />
+  <div class="cartao" id="cartao" data-material={JSON.stringify(cartao.material)}>
+    <section class="identidade" aria-labelledby="cartao-nome">
+      <h1 id="cartao-nome">{pessoa.nome}</h1>
+      <p>{pessoa.cargo}</p>
+    </section>
+
+    <figure class="qr">
+      <div class="qr-ladrilho" role="img" aria-label={`QR code que abre ${URL_APRESENTACAO}`} set:html={qr} />
+      <figcaption>Aponte a câmera para abrir a apresentação.</figcaption>
+    </figure>
+
+    <form class="whatsapp" id="form-wa" novalidate>
+      <label for="numero-wa">WhatsApp do contato</label>
+      <div class="linha">
+        <input
+          id="numero-wa"
+          name="numero"
+          type="tel"
+          inputmode="tel"
+          autocomplete="off"
+          placeholder="(85) 99999-9999"
+          aria-describedby="aviso-wa"
+        />
+        <button type="submit" class="enviar">Enviar</button>
+      </div>
+      <p id="aviso-wa" class="aviso" role="alert"></p>
+    </form>
+
+    <section class="material" aria-label="Compartilhar">
+      <button type="button" id="botao-compartilhar" class="compartilhar" hidden>Compartilhar</button>
+      <a class="link-apresentacao" href="/apresentacao">ailow.com.br/apresentacao</a>
+    </section>
+  </div>
+  <script is:inline set:html={scriptVoltar} />
+  <script>
+    import { apresentacao } from "../data/apresentacao";
+    import { normalizarNumero, ramoCompartilhar, textoWhatsapp, URL_APRESENTACAO, urlWhatsapp } from "../data/cartao";
+    import type { Material } from "../data/cartao";
+
+    const raiz = document.getElementById("cartao") as HTMLElement;
+    const form = document.getElementById("form-wa") as HTMLFormElement;
+    const campo = document.getElementById("numero-wa") as HTMLInputElement;
+    const aviso = document.getElementById("aviso-wa") as HTMLElement;
+    const botao = document.getElementById("botao-compartilhar") as HTMLButtonElement;
+
+    // O número só existe no campo e na URL do clique: nada é gravado (storage, cookie, IndexedDB).
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const n = normalizarNumero(campo.value);
+      if (!n) {
+        aviso.textContent = "Número inválido. Digite o DDD e o número, por exemplo (85) 99999-9999.";
+        campo.setAttribute("aria-invalid", "true");
+        campo.focus();
+        return;
+      }
+      aviso.textContent = "";
+      campo.removeAttribute("aria-invalid");
+      campo.value = "";
+      location.assign(urlWhatsapp(n));
+    });
+    campo.addEventListener("input", () => {
+      if (aviso.textContent) {
+        aviso.textContent = "";
+        campo.removeAttribute("aria-invalid");
+      }
+    });
+
+    function lerMaterial(): Material[] {
+      try {
+        const v = JSON.parse(raiz.dataset.material ?? "[]");
+        return Array.isArray(v) ? v : [];
+      } catch {
+        return [];
+      }
+    }
+
+    async function arquivos(material: Material[]): Promise<File[]> {
+      return Promise.all(
+        material.map(async (m) => {
+          const r = await fetch(m.caminho);
+          return new File([await r.blob()], m.caminho.split("/").pop() || m.nome, { type: m.tipo });
+        }),
+      );
+    }
+
+    const material = lerMaterial();
+    const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
+    const temShare = typeof nav.share === "function";
+    // canShare({files}) é testado com arquivos de verdade (só o tipo e o nome contam); sem material não há ramo de arquivos.
+    const amostra = material.map((m) => new File([""], m.caminho.split("/").pop() || m.nome, { type: m.tipo }));
+    const podeArquivos = temShare && typeof nav.canShare === "function" && amostra.length > 0 && nav.canShare({ files: amostra });
+    const ramo = ramoCompartilhar({ material, podeArquivos, temShare });
+
+    if (ramo !== "link") {
+      botao.hidden = false;
+      botao.addEventListener("click", async () => {
+        try {
+          if (ramo === "arquivos") {
+            await nav.share({ files: await arquivos(material), text: textoWhatsapp() });
+          } else {
+            await nav.share({ title: "Pedro Fernandes, Ailow", text: apresentacao.saudacao, url: URL_APRESENTACAO });
+          }
+        } catch {
+          // Cancelar a folha de compartilhamento lança AbortError: não é erro.
+        }
+      });
+    }
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/cartao/sw.js", { scope: "/cartao/" }).catch(() => {});
+    }
+  </script>
+</Base>
