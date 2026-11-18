@@ -15,6 +15,6 @@
     "Numeros de / , /apresentacao, /cartao e /pedro/entrevistas vem do ADR 003 (aprovados pelo Pedro em 2026-11-18); JS 10 KB por pagina e 20 KB no cartao tambem.",
     "padrao = 150 KiB (decisao do agente na S04, o ADR nao tem numero para as demais rotas: /pedro, /pulse, /cloud e subrotas). Revisar quando existirem (S06/S07).",
     "S06: /pedro (20,4 KiB gz medido) fica em 150; as 87 paginas /pedro/label/* (7 a 9 KiB) usam o padrao (o script nao tem curinga).",
-    "Os nomes /apresentacao e /cartao sao provisorios; a sessao que criar a rota ajusta a chave."
+    "/apresentacao confirmada na S09 (150 KiB); /cartao segue provisorio ate a S10."
   ]
 }

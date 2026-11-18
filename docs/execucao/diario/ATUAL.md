@@ -7,14 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### S06 — `/pedro` (feed) no Pulso — 2026-11-18 — Claude Sonnet 5.5 (subagente)
-Feito: `/pedro` com nome, cargo "Produtos Digitais e Operações", apresentação só com fatos, links (LinkedIn, Instagram, Entrevistas), bloco "Antes do primeiro commit", filtro por frente, painel "Ferramentas" derivado (por categoria, nº de PRs e "desde #NNN"; `<details>` fechado) e feed de 81 cartões de PR (#082 no topo; selo merged/open/closed, data AAAA-MM, `+ferramenta` na 1ª aparição, soft skills, prova pública como link e privada como texto). 87 páginas `/pedro/label/<slug>` (ferramenta = id; frente = `escopo-<id>`, porque `n8n` é ferramenta e escopo). Corpo renderizado com `render()` do Astro. Código: `src/changelog/labels.ts`, `CartaoPR.astro`, `feed.css`.
-Números: testes 171 -> 179; E2E 138 -> 184 (`e2e/pedro-feed.e2e.ts`: 3 rotas x 2 temas x 2 viewports). `/pedro` 20,4 KiB gz (JS 0,62); labels 7-9 KiB; orçamento padrão 150 (labels usam o `padrao`; o script não tem curinga).
-Decisões: rola só o `main` (exceção UXM-01), a página não; painel recolhido para o feed aparecer logo; chips com alvo de 48 px; sem ícone nem embed de terceiros.
-Canário (L-0006): um cartão extra injetado em `/pedro` reprovou a contagem (esperado 81, recebido 82); removido. Pendentes/`fora` conferidos contra o disco.
-Pendências para a próxima: S07. Revisão visual do Pedro em lote.
-Verificação: `npm run verify` e `npm run e2e` verdes; screenshots em `D:/apps/_scratch/ailow-index-s06/`.
-
 ### S07 — Institucional, `/pulse`, `/cloud` — 2026-11-18 — Claude Sonnet 5.5 (subagente), orquestrado por Claude Opus 5.5
 Feito: miolo de `/sobre`, `/pulse` e `/cloud` trocado por conteúdo real (`App.astro`, cabeçalho, Voltar e `noindex` intactos); `src/styles/institucional.css` (tokens, 2 temas). `/sobre`: frase-mãe da tese (dossiê, seção 5), operação por assinatura, infra da Ailow com URL e credencial, ERP de terceiro opcional. `/pulse`: máquina, gateway, MQTT, Postgres; diz que ainda não há tela nem alerta (entradas #056 e #076). `/cloud`: ERP no celular, assinatura por módulo, RLS, loja piloto Marcant sem dado real (#070, #075, #078, #079), link `https://cloud.ailow.com.br`. Cada página linka para `/pedro/label/...` (escopo-pulse, escopo-cloud, escopo-iot, mqtt, openapi). Sem logo extra: a do cabeçalho já é o asset travado por hash.
 Números: testes Vitest 179 -> 184; E2E 184 -> 234 (`e2e/institucional.e2e.ts`: 3 rotas x 2 temas x 2 projetos x 4 testes + 2 de rede). Peso das 3 rotas ~6,3 KiB gz, JS 0,62 KiB (orçamento 150 e 10).
@@ -31,3 +23,13 @@ Canários (L-0006): nome injetado num cartão e limite de imagem baixado a 1 KB 
 Decisões: âncora `#pr-NNN` como prova; primeira imagem `eager`, demais `lazy`.
 Pendências para a próxima: S09. Revisão visual do Pedro em lote (conferir os quadros escolhidos).
 Verificação: `npm run verify` e `npm run e2e` (258 passed) verdes; screenshots em `D:/apps/_scratch/ailow-index-s08/`.
+
+### S09 — Apresentação (R3) + avatar pop-up — 2026-11-18 — Claude Sonnet 5.5 (subagente), orquestrado por Claude Opus 5.5
+Feito: `/apresentacao` rolável (scroll do `.conteudo`, como as demais): saudação exata, avatar redondo que abre `<dialog>` nativo (foto grande, nome, cargo, 1 frase do `/pedro`; botão fechar 48 px com `aria-label`; Esc, clique no fundo, Tab preso, foco devolvido ao gatilho), caminho com 5 links internos, 3 ícones SVG (LinkedIn, Instagram, GitHub `ailowio`) de 48 px. Fonte única `src/data/apresentacao.ts` (`video: null` + `marcaVideo()`), `src/styles/apresentacao.css`, `test/apresentacao.test.ts`, `e2e/apresentacao.e2e.ts`. Foto real: TV Verdes Mares, t=84 s, `yadif`, recorte de 780 px no rosto sem tarja, WebP 160 px (3,4 KB) e 480 px (12 KB) em `public/pedro-foto/`.
+Números: Vitest 191 -> 200; E2E 258 -> 286 (7 testes x 2 temas x 2 projetos + 2 x 2 projetos). `/apresentacao` 22,06 KiB gz de 150, JS 0,87 KiB de 10.
+Canários (L-0006): `preload="auto"` e `tel:` em contatos reprovaram o Vitest; "retirar" o `g.focus()` NÃO reprovou (o Chromium já devolve o foco do `<dialog>`), então o canário foi reforçado (tirar o foco do gatilho ao fechar) e reprovou os 4 E2E de avatar. Tudo revertido.
+Como plugar o vídeo (Pedro grava depois): copiar para `public/apresentacao/` o mp4 (720p H.264, alvo ≤ 8 MB), o poster WebP e o `.vtt`; em `src/data/apresentacao.ts` trocar `video: null` por `{ mp4, poster, vtt, largura, altura }`. A seção aparece com `preload="none"`. Nenhum teste precisa mudar: o teste de dados confere que os 3 arquivos existem quando o vídeo está configurado (o orquestrador trocou, antes do merge, o teste que travava `video: null`).
+Decisões: sem telefone, e-mail ou WhatsApp; ícone do GitHub é um glifo `</>` genérico (sem copiar a marca); Tab dentro do dialog é interceptado (1 só elemento focável).
+Pendências do Pedro: ok para publicar telefone/e-mail/WhatsApp (o WhatsApp é o cartão da S10); gravar o vídeo; conferir a foto escolhida.
+Pendências para a próxima: S10 (cartão PWA). Revisão visual em lote.
+Verificação: `npm run verify` (200 testes, peso ok) e `npm run e2e` (286 passed) verdes; screenshots em `D:/apps/_scratch/ailow-index-s09/`.

@@ -1,0 +1,169 @@
+/*
+ * /apresentacao (S09, R3): saudação, avatar pop-up, vídeo opcional, caminho e contatos.
+ * Só papéis de tokens.css. Esta rota rola (exceção UXM-01, ADR 003): o scroll é do .conteudo.
+ */
+
+.apresentacao {
+  display: grid;
+  gap: var(--espaco-4);
+  padding: var(--espaco-3) var(--espaco-2) var(--espaco-8);
+  min-inline-size: 0;
+  max-inline-size: 40rem;
+  inline-size: 100%;
+  margin-inline: auto;
+}
+
+.apresentacao h2 {
+  font-size: var(--texto-subtitulo);
+  overflow-wrap: anywhere;
+}
+
+.apresentacao .saudacao {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--espaco-3);
+}
+
+.avatar-gatilho {
+  inline-size: 5rem;
+  block-size: 5rem;
+  min-inline-size: var(--alvo);
+  padding: 0;
+  border: var(--traco-borda) solid var(--acento);
+  border-radius: 50%;
+  background: var(--superficie);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.avatar-gatilho img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.saudacao-texto {
+  font-size: var(--texto-subtitulo);
+  line-height: 1.35;
+}
+
+.avatar-dialogo {
+  inline-size: min(90vw, 24rem);
+  max-block-size: 90dvh;
+  overflow-y: auto;
+  padding: var(--espaco-3);
+  border: var(--traco-borda) solid var(--acento);
+  background: var(--superficie);
+  color: var(--texto);
+  margin: auto;
+}
+
+.avatar-dialogo::backdrop {
+  background: rgb(0 0 0 / 0.65);
+}
+
+.avatar-dialogo[open] {
+  display: grid;
+  gap: var(--espaco-2);
+}
+
+.avatar-dialogo img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  border-radius: var(--raio-card);
+}
+
+.avatar-dialogo h3 {
+  font-size: var(--texto-subtitulo);
+}
+
+.avatar-dialogo p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.avatar-dialogo .cargo {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}
+
+.avatar-dialogo .fechar {
+  position: absolute;
+  inset-block-start: var(--espaco-1);
+  inset-inline-end: var(--espaco-1);
+  inline-size: var(--alvo);
+  block-size: var(--alvo);
+  display: grid;
+  place-items: center;
+  background: var(--fundo);
+  color: var(--texto);
+  border: var(--traco-fino) solid var(--borda-ui);
+  cursor: pointer;
+}
+
+.apresentacao .icone {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.apresentacao .video video {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  background: var(--fundo);
+}
+
+.apresentacao ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.caminho {
+  display: grid;
+  gap: var(--espaco-2);
+}
+
+.caminho ul {
+  display: grid;
+  gap: var(--espaco-1);
+}
+
+.caminho a {
+  display: flex;
+  align-items: center;
+  min-block-size: var(--alvo);
+  padding-inline: var(--espaco-3);
+  border: var(--traco-borda) solid var(--borda);
+  color: var(--texto);
+  text-decoration: none;
+}
+
+.contatos {
+  display: grid;
+  gap: var(--espaco-2);
+}
+
+.contatos ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-2);
+}
+
+.contatos a {
+  display: grid;
+  place-items: center;
+  inline-size: var(--alvo);
+  block-size: var(--alvo);
+  border: var(--traco-borda) solid var(--acento);
+  color: var(--texto);
+}
