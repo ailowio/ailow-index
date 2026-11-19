@@ -7,7 +7,7 @@ const { saudacao, pessoa, video, caminho, contatos } = apresentacao;
 const htmlVideo = marcaVideo(video);
 
 // Dialog nativo: showModal prende o foco e fecha com Esc; aqui só o botão, o clique no fundo e o retorno do foco.
-const scriptAvatar = `(function(){var g=document.getElementById("avatar-gatilho"),d=document.getElementById("avatar-dialogo");if(!g||!d||typeof d.showModal!=="function")return;g.addEventListener("click",function(){d.showModal()});d.querySelector("[data-fechar]").addEventListener("click",function(){d.close()});d.addEventListener("click",function(e){if(e.target===d)d.close()});d.addEventListener("keydown",function(e){if(e.key==="Tab"){e.preventDefault();d.querySelector("[data-fechar]").focus()}});d.addEventListener("close",function(){g.focus()})})()`;
+const scriptAvatar = `(function(){var g=document.getElementById("avatar-gatilho"),d=document.getElementById("avatar-dialogo");if(!g||!d||typeof d.showModal!=="function")return;g.addEventListener("click",function(){d.showModal();history.pushState({d:1},"")});addEventListener("popstate",function(){if(d.open)d.close()});d.querySelector("[data-fechar]").addEventListener("click",function(){d.close()});d.addEventListener("click",function(e){if(e.target===d)d.close()});d.addEventListener("keydown",function(e){if(e.key==="Tab"){e.preventDefault();d.querySelector("[data-fechar]").focus()}});d.addEventListener("close",function(){g.focus();if(history.state&&history.state.d)history.back()})})()`;
 ---
 
 <App id="contato" descricao="Apresentação de Pedro Fernandes, Produtos Digitais e Operações.">
