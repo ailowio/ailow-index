@@ -4,6 +4,7 @@
 !package-lock.json
 !astro.config.mjs
 !tsconfig.json
+!CHANGELOG.md
 !src
 !public
 !scripts/csp.mjs

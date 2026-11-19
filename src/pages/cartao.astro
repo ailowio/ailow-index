@@ -12,7 +12,7 @@ const qr = renderSVG(URL_APRESENTACAO, { ecc: "M", border: 2, blackColor: "#1112
 const { pessoa } = apresentacao;
 ---
 
-<Base titulo={cartao.titulo} descricao="Cartão de visita de Pedro Fernandes." classeCorpo="tela-app">
+<Base titulo={cartao.titulo} descricao="Cartão de visita de Pedro Fernandes." classeCorpo="tela-app" rodape={false}>
   <link slot="head" rel="manifest" href="/cartao/manifest.webmanifest" />
   <meta slot="head" name="theme-color" content="#111214" />
   <div class="cartao" id="cartao" data-material={JSON.stringify(cartao.material)}>

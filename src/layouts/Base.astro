@@ -7,6 +7,7 @@ import "../styles/tokens.css";
 import "../styles/global.css";
 import "../styles/telas.css";
 import BotaoTema from "../components/BotaoTema.astro";
+import Rodape from "../components/Rodape.astro";
 import { SITE } from "../config/site";
 
 interface Props {
@@ -18,9 +19,11 @@ interface Props {
   classeCorpo?: string;
   /** Home: no desktop, a tela vira a moldura de um aparelho centralizada. */
   moldura?: boolean;
+  /** Versão clicável no rodapé (S12e). O cartão de visita PWA passa false. */
+  rodape?: boolean;
 }
 
-const { titulo, descricao, indexar = false, classeCorpo, moldura = false } = Astro.props;
+const { titulo, descricao, indexar = false, classeCorpo, moldura = false, rodape = true } = Astro.props;
 const tituloPagina = titulo ? `${titulo} | ${SITE.nome}` : SITE.nome;
 
 // Tema sem flash (ADR 003, D6): roda antes da pintura. Padrão do sistema; a escolha do usuário vence.
@@ -50,7 +53,7 @@ const scriptBotao = `(function(){var b=document.getElementById("botao-tema");if(
       <slot name="cabecalho">
         <header class="cabecalho">
           <a class="marca" href="/" aria-label={`${SITE.nome}, página inicial`}>
-            <span class="logo" aria-hidden="true"></span>
+            <span class="logo-pastilha" aria-hidden="true"><span class="logo"></span></span>
             <span>{SITE.nome}</span>
           </a>
           <BotaoTema />
@@ -60,6 +63,7 @@ const scriptBotao = `(function(){var b=document.getElementById("botao-tema");if(
       <main class="conteudo" id="conteudo">
         <slot />
       </main>
+      {rodape && <Rodape />}
     </div>
     <script is:inline set:html={scriptBotao} />
   </body>

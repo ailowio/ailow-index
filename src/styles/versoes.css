@@ -1,0 +1,88 @@
+/*
+ * /versoes (S12e): histórico de versões lido do CHANGELOG. Só papéis de tokens.css.
+ * O scroll é interno ao .conteudo (exceção UXM-01, ADR 003). Cada versão é um <details>.
+ */
+
+.versoes {
+  display: grid;
+  gap: var(--espaco-2);
+  padding: var(--espaco-3) var(--espaco-2) var(--espaco-8);
+  min-inline-size: 0;
+}
+
+.versoes .titulo {
+  font-size: var(--texto-subtitulo);
+  padding-block-end: var(--espaco-1);
+  border-block-end: var(--traco-borda) solid var(--acento);
+  display: inline-block;
+  justify-self: start;
+}
+
+.versoes .resumo {
+  margin: 0;
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}
+
+.versao {
+  background: var(--superficie);
+  border: var(--traco-fino) solid var(--borda);
+  border-radius: var(--raio-card);
+  padding: 0 var(--espaco-2) var(--espaco-1);
+  min-inline-size: 0;
+}
+
+.versao summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-2);
+  min-block-size: var(--alvo);
+  padding-block: var(--espaco-1);
+  cursor: pointer;
+}
+
+.versao .numero {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: var(--texto-subtitulo);
+  letter-spacing: 0.02em;
+}
+
+.versao .data {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}
+
+.versao .abertura {
+  color: var(--texto-2);
+  padding-block-end: var(--espaco-1);
+}
+
+.grupo-versao h4 {
+  margin: 0;
+  padding-block: var(--espaco-1);
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-base);
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+
+.grupo-versao ul {
+  margin: 0;
+  padding-inline-start: 1.25rem;
+  display: grid;
+  gap: var(--espaco-1);
+}
+
+.grupo-versao li {
+  min-inline-size: 0;
+}
+
+.versao code {
+  font-family: var(--fonte-mono);
+  font-size: 0.875em;
+  overflow-wrap: anywhere;
+}
