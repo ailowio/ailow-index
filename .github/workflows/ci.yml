@@ -156,3 +156,18 @@ jobs:
           severity: CRITICAL,HIGH
           ignore-unfixed: true
           exit-code: "1"
+
+  # S12: testes do pipeline de deploy sem servidor (docker substituído por atalhos). O canário tem de provar que o
+  # teste reprova quando a reversão é quebrada (L-0006): `canario` sai com 0 só se a quebra foi detectada.
+  deploy-test:
+    name: deploy-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: cenários do deploy.sh e do ssh-entrada.sh
+        run: bash scripts/deploy-test.sh
+      - name: canário (o teste tem de detectar a reversão quebrada)
+        run: bash scripts/deploy-test.sh canario

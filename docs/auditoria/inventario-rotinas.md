@@ -8,13 +8,15 @@
 | R-02 | Dependabot (npm e github-actions) | PRs de atualização de dependência | Pedro | GitHub | semanal (`.github/dependabot.yml`) | manifestos → PRs agrupados | Média | dono do repositório | aba Insights → Dependency graph → Dependabot | PR aberto | sim | n/a |
 | R-03 | Alertas de segurança do Dependabot e secret scanning | detectar CVE e segredo | Pedro | GitHub | contínua | repositório → alertas | Alta | dono do repositório | aba Security | notificação do GitHub (canal: não verificado) | n/a | `docs/excecoes.md` (EX-02) |
 | R-05 | Job `imagem` do CI | build da imagem nginx não-root, smoke (rotas, cabeçalhos, CSP por hash, manifest, sw.js) e Trivy | Pedro | GitHub Actions | a cada PR e push em `main` | `Dockerfile` + `ops/web/` → pass/fail | Alta | quem altera `ci.yml` por PR | aba Actions | check vermelho no PR | sim (re-run) | `README.md` |
-| R-04 | Deploy do site (**planejada, S07**) | publicar a imagem | Pedro | GitHub Actions → VPS | manual, com approval | tag → imagem nginx | Alta | dono, com aprovação do Environment | a definir | a definir | sim (reimplantar a tag anterior) | a criar na S07 |
+| R-04 | Workflow `Deploy` (S12) | implantar uma tag no servidor, com reversão automática | Pedro | GitHub Actions → servidor (SSH com comando forçado) | manual (`workflow_dispatch`), com approval no Environment `producao` | tag → stack `ailow-index` | Alta | quem altera `deploy.yml` por PR; aprovação do dono | histórico do run (aprovador, código de saída, digest `web=`) | run vermelho; códigos 20/21 no log | sim (reimplantar a tag anterior) | `docs/runbooks/deploy.md`, `docs/runbooks/rollback.md` |
+| R-06 | Workflow `Publicar imagem` (S12) | construir, escanear (Trivy) e publicar a imagem no GHCR | Pedro | GitHub Actions | push de tag `vX.Y.Z` | tag → `ghcr.io/ailowio/ailow-index-web:<tag>` | Alta | quem cria tag (dono) e altera `publicar.yml` por PR | aba Actions; digest no resumo do run | run vermelho | sim (re-run) | `docs/runbooks/deploy.md` |
+| R-07 | Job `deploy-test` do CI (S12) | testar `deploy.sh` e `ssh-entrada.sh` sem servidor, com canário | Pedro | GitHub Actions | a cada PR e push em `main` | `scripts/deploy-test.sh` → pass/fail | Média | quem altera `ci.yml` por PR | aba Actions | check vermelho no PR | sim (re-run) | `README.md` |
 
 ## Backups e continuidade (AUD-43/44)
 | Sistema | Escopo | Frequência | Retenção | Cifrado? | Local (separado?) | Último teste de restauração | RPO | RTO |
 |---------|--------|-----------|----------|----------|-------------------|-----------------------------|-----|-----|
 | Repositório (git, GitHub) | todo o código e conteúdo | a cada push; cada clone é uma cópia completa | histórico completo | n/a (público) | GitHub + clone local do Pedro | **não realizado** (nenhum clone de restauração testado) | até o último push | quanto durar reconfigurar ruleset e Actions; não medido |
-| Site em produção | n/a (estático, reconstruível pelo build) | n/a | n/a | n/a | n/a | n/a (sem deploy ainda; ensaio de rollback na S07) | n/a | a medir na S07 |
+| Site em produção | n/a (estático, sem dados; reconstruível pela tag no GHCR) | n/a | tags no GHCR | n/a | GHCR + git | rollback por tag **ainda não ensaiado em produção** (S12 entrega o mecanismo; registrar após a 1a troca de versão) | n/a | a medir no ensaio |
 
 ## Revisão
 - Revisado por: Pedro (pendente) em ____ · Rotinas sem dono ou sem alerta: R-01/R-03, canal de notificação a confirmar (⇒ conferir Settings → Notifications do GitHub).

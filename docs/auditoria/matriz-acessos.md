@@ -1,7 +1,7 @@
 # Matriz de acessos — ailow-index   (AUD-01/03/06/09)
 
 - **Dono do sistema:** Pedro · **Dono dos dados:** Pedro (o site não guarda dado de terceiro) · **Classificação dos dados:** públicos (conteúdo institucional); sem dado pessoal ou financeiro · **Última atualização:** 2026-11-18
-- Estado: repositório público; **sem deploy ainda** (S07). Itens "não verificado" dependem do Pedro conferir na plataforma.
+- Estado: repositório público; deploy entregue na S12 (ADR 004), **ainda não executado em produção**. Itens "não verificado" dependem do Pedro conferir na plataforma.
 
 ## 1. Perfis (papéis) e o que cada um pode fazer
 | Perfil | Descrição / função | Dados e telas acessíveis | Pode alterar? | Privilegiado? | Justificativa (menor privilégio) |
@@ -21,9 +21,10 @@ Colaboradores adicionais no repositório: **não verificado** (conferir em Setti
 | Conta / credencial | Tipo | Dono | Escopo | Criada em | Rotação (prazo/última) | Onde é guardada |
 |---|---|---|---|---|---|---|
 | `GITHUB_TOKEN` dos workflows | credencial efêmera do CI | GitHub | `contents: read` (declarado em `.github/workflows/ci.yml`) | por run | expira ao fim do run | n/a (gerado pelo GitHub) |
-| Secrets de Actions e Environments | — | Pedro | **nenhum secret é usado hoje** (o CI não referencia `secrets.*`) | n/a | n/a | n/a. Os do deploy entram na S07 e este item deve ser atualizado |
-| Registrador do domínio / DNS de `ailow.com.br` | conta de terceiro | Pedro | domínio e registros | não verificado | não verificado | não verificado. A registrar na S07 |
-| Acesso à VPS (SSH, Traefik) | planejado (S07) | Pedro | publicar a imagem do site | n/a | n/a | n/a. Entra com o deploy |
+| Secrets do Environment `producao` (S12): `DEPLOY_SSH_KEY`, `DEPLOY_HOST_KEY`, `DEPLOY_HOST`, `DEPLOY_USER` | credenciais de deploy | Pedro | só o job `implantar em producao` do `deploy.yml`, com aprovação do revisor | na criação do Environment (a registrar) | revisão em 2027-02-18; rotação da chave: trocar o par e o `authorized_keys` | GitHub Environment (valores nunca no repositório) |
+| Chave de deploy do ailow-index (S12) | chave SSH ed25519 dedicada, **acesso novo** | Pedro | `command="/opt/ailow-index/bin/ssh-entrada.sh",restrict`: só `deploy vX.Y.Z`; sem shell, pty ou encaminhamento | a registrar na criação | idem | privada só no secret; pública no `authorized_keys` do usuário de deploy no servidor |
+| Registrador do domínio / DNS de `ailow.com.br` | conta de terceiro | Pedro | domínio e registros | não verificado | não verificado | não verificado. A registrar após o DNS |
+| Acesso ao servidor (SSH, Docker, Traefik do host) | conta do Pedro no host; usuário de deploy (nome fora do repositório) | Pedro | administrar o servidor; o usuário de deploy só é alcançado pela chave acima | n/a | n/a | fora do repositório |
 
 ## 4. Regras
 - Conta nominal; sem compartilhamento. Concessão só com aprovação do dono registrada aqui.

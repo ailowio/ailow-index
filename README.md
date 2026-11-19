@@ -61,8 +61,14 @@ Checks obrigatórios do CI: `verify`, `seguranca-sca`, `seguranca-sast`, `segura
 
 ## Operação
 
-Deploy previsto para a S07, só com pedido explícito: imagem nginx estática atrás do Traefik da VPS,
-pipeline com aprovação. Rollback: reimplantar a tag anterior.
+## Deploy
+
+Imagem nginx estática atrás do Traefik do servidor, por pipeline com aprovação (ADR 004): tag `vX.Y.Z` na `main`
+publica a imagem (`Publicar imagem`); o workflow `Deploy` (manual) para no approval do Environment `producao`.
+Rollback: rodar o `Deploy` com a tag anterior. Passo a passo, bootstrap do servidor, secrets e DNS:
+[`docs/runbooks/deploy.md`](docs/runbooks/deploy.md) e [`docs/runbooks/rollback.md`](docs/runbooks/rollback.md).
+Testes do pipeline sem servidor: `bash scripts/deploy-test.sh` e `bash scripts/deploy-test.sh canario`.
+Deploy e DNS só com pedido explícito do Pedro.
 
 ## Versionamento
 

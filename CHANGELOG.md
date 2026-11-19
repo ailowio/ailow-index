@@ -21,6 +21,24 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 - Threat model, matriz de acessos, inventários de interfaces e de rotinas (`docs/seguranca/`, `docs/auditoria/`).
 - `docs/harness-adoption.md`, `docs/ia.md`, `CONTRIBUTORS.md`, `SECURITY.md` e este `CHANGELOG.md`.
 
+## [1.0.0] - 2026-11-18
+
+Primeira versão publicável do site `ailow.com.br` (a tag `v1.0.0` é criada depois do merge).
+
+### Adicionado
+- S12, deploy: stack Swarm `ops/stack/index.yaml` (Traefik, HSTS de 1 ano, `www` redireciona para o apex), `ops/deploy/ssh-entrada.sh` e `deploy.sh` (comando forçado, saúde de dentro do container, reversão automática), workflows `Publicar imagem` e `Deploy` (approval no Environment `producao`), `scripts/deploy-test.sh` com canário e job `deploy-test` no CI, `test/deploy-stack.test.ts`, runbooks de deploy e rollback, ADR 004 e inventários de auditoria atualizados.
+- S11, endurecimento: imagem nginx sem root, log JSON, CSP por hash, job `imagem` (Trivy), orçamentos de peso e de JS.
+- S10, cartão de visita `/cartao/` (rota escondida, PWA, QR gerado no build, `wa.me`).
+- S09, `/apresentacao` com avatar em pop-up e espaço para o vídeo.
+- S08, `/pedro/entrevistas`.
+- S07, páginas institucional, `/pulse` e `/cloud`.
+- S06, `/pedro`: feed de PRs, rótulos derivados e painel de ferramentas.
+- S05, home como app com transição nativa e trava do Voltar.
+- S04, fundações do Pulso de produto (tokens, tema claro e escuro, fontes auto-hospedadas) e E2E com axe.
+- S03, curadoria do feed (82 entradas, 81 confirmadas).
+- S02, modelo do changelog (ADR 002) e linter de conteúdo público; S02b, governança do repositório (threat model, inventários, Dependabot, SAST).
+- S01, scaffold Astro estático com `verify` e CI.
+
 ## [0.1.0] - 2026-11-18
 
 Bootstrap do app (tier A).
