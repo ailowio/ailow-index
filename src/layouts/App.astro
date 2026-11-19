@@ -18,7 +18,9 @@ const app = appPorId(id);
 
 // A seta anda um passo para trás no histórico quando a página anterior é do próprio site
 // ("home -> ícone -> página -> Voltar" volta à home); aberta direto, segue o link para o pai.
-const scriptSeta = `(function(){var a=document.querySelector("[data-voltar]");if(!a)return;a.addEventListener("click",function(e){try{if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin){e.preventDefault();history.back()}}catch(x){}})})()`;
+// Anti-laço: referrer que é subpágina desta (ex.: label -> "Todo o feed") segue o pai; sem isso a seta voltaria à label.
+// Toque duplo: a trava `b` evita 2 history.back() (andaria 2 telas); pageshow a rearma após o bfcache.
+const scriptSeta = `(function(){var a=document.querySelector("[data-voltar]");if(!a)return;var b=0;addEventListener("pageshow",function(){b=0});a.addEventListener("click",function(e){if(b){e.preventDefault();return}try{var r=new URL(document.referrer),p=location.pathname;if(p.length>1&&p.slice(-1)==="/")p=p.slice(0,-1);if(history.length>1&&r.origin===location.origin&&(location.hash||r.pathname.indexOf(p+"/")!==0)){e.preventDefault();b=1;history.back()}}catch(x){}})})()`;
 ---
 
 <Base titulo={app.titulo} descricao={descricao} classeCorpo="tela-app">
