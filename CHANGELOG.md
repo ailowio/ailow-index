@@ -1,8 +1,13 @@
 # Changelog
 
-Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamento [SemVer](https://semver.org/lang/pt-BR/). Tags publicadas: `v1.0.0` (2026-11-18).
+Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamento [SemVer](https://semver.org/lang/pt-BR/). Tags publicadas: `v1.0.0` e `v1.1.0` (2026-11-18).
 
 ## [Unreleased]
+
+## [1.1.1] - 2026-11-19
+
+### Corrigido
+- Ícones alinhados ao app: o A oficial em amarelo (`--amarelo`) sobre o grafite, no lugar do ciano da marca, nos 3 ícones do PWA do cartão. Site inteiro ganha favicon (`/favicon.svg` e `/favicon-32.png`) e `apple-touch-icon`. Gerados por `scripts/icones.mjs` a partir de `public/logo.svg` (intocada) e travados por `test/icones.test.ts`: cores, tamanhos, opacidade e zona segura do maskable; canário com o ícone antigo reprova.
 
 ## [1.1.0] - 2026-11-18
 
