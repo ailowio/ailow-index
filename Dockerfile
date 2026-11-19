@@ -11,6 +11,8 @@ RUN npm ci --ignore-scripts
 COPY astro.config.mjs tsconfig.json ./
 COPY src src
 COPY public public
+# /versoes lê o CHANGELOG.md no build.
+COPY CHANGELOG.md CHANGELOG.md
 COPY scripts/csp.mjs scripts/csp.mjs
 ENV ASTRO_TELEMETRY_DISABLED=1
 RUN npm run build

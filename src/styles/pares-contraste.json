@@ -12,7 +12,7 @@
     { "texto": "--borda-ui", "fundo": "--superficie", "min": 3 },
     { "texto": "--foco", "fundo": "--fundo", "min": 3 },
     { "texto": "--foco", "fundo": "--superficie", "min": 3 },
-    { "texto": "--logo", "fundo": "--fundo", "min": 3 },
+    { "texto": "--logo", "fundo": "--logo-fundo", "min": 3 },
     { "texto": "--icone-traco", "fundo": "--icone-fundo", "min": 3 }
   ]
 }

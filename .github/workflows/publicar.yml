@@ -37,6 +37,13 @@ jobs:
         run: |
           git fetch --no-tags origin main
           git merge-base --is-ancestor "$GITHUB_SHA" origin/main || { echo "tag fora da main: não publico" >&2; exit 1; }
+      - name: a tag (vX.Y.Z) tem de ser igual à versão do package.json
+        run: |
+          VERSAO_PKG="$(node -p "JSON.parse(require('fs').readFileSync('package.json','utf8')).version")"
+          if [ "$VERSAO" != "v${VERSAO_PKG}" ]; then
+            echo "tag ${VERSAO} diferente da versão do package.json (v${VERSAO_PKG}): suba a versão do package.json e o CHANGELOG no PR antes de criar a tag" >&2
+            exit 1
+          fi
       - name: build da imagem
         run: |
           docker build \

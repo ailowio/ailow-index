@@ -1,8 +1,17 @@
 # Changelog
 
-Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamento [SemVer](https://semver.org/lang/pt-BR/). Tags publicadas: `v1.0.0` e `v1.1.0` (2026-11-18).
+Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamento [SemVer](https://semver.org/lang/pt-BR/). Tags publicadas: `v1.0.0` e `v1.1.0` (2026-11-18); `v1.1.1` (2026-11-19).
 
 ## [Unreleased]
+
+## [1.2.0] - 2026-11-19
+
+### Adicionado
+- S12e: a versão do site (`v1.2.0`, lida do `package.json`) no rodapé da home e das páginas internas, como link para `/versoes`, que mostra o histórico de todas as versões publicadas lendo este `CHANGELOG.md` no build. O cartão de visita fica sem o rodapé. Como o cartão é rota escondida, a página de versões omite a rota dele ao ler este arquivo.
+- Workflow `Publicar imagem`: passo que falha se a tag `vX.Y.Z` não for igual à versão do `package.json`.
+
+### Alterado
+- S12e: a logo das páginas passa do ciano para o amarelo canário (`--amarelo`); no tema claro ela fica sobre uma pastilha grafite (`--logo-fundo`), porque amarelo sobre o papel `estudio` dá 1,4:1.
 
 ## [1.1.1] - 2026-11-19
 

@@ -80,6 +80,15 @@ a {
   text-transform: uppercase;
 }
 
+/* Pastilha da logo: grafite no tema claro (amarelo sobre estudio é 1,4:1); no escuro some no fundo. */
+.logo-pastilha {
+  display: inline-flex;
+  flex: none;
+  padding: 0.25rem;
+  background-color: var(--logo-fundo);
+  border-radius: var(--raio-selo);
+}
+
 /* A logo oficial (public/logo.svg, intocada) vira máscara; a cor vem do tema (--logo). */
 .logo {
   display: block;

@@ -76,7 +76,9 @@
   --borda: var(--linha);
   --borda-ui: var(--aco);
   --foco: var(--amarelo);
-  --logo: #07bdd5;
+  /* Logo canário (amarelo); no escuro a pastilha tem a cor do fundo (invisível). */
+  --logo: var(--amarelo);
+  --logo-fundo: var(--fundo);
   --moldura: var(--linha);
   --icone-fundo: var(--grafite-800);
   --icone-traco: var(--amarelo);
@@ -95,7 +97,9 @@
   --borda: #c9c9c4;
   --borda-ui: var(--tinta-2);
   --foco: var(--tinta);
-  --logo: #067284;
+  /* Amarelo sobre estudio dá 1,4:1: no claro a logo amarela vai sobre uma pastilha grafite. */
+  --logo: var(--amarelo);
+  --logo-fundo: var(--grafite);
   --moldura: var(--tinta);
   --icone-fundo: var(--grafite-800);
   --icone-traco: var(--amarelo);

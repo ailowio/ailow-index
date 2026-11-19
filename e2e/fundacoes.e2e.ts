@@ -155,10 +155,11 @@ test("a logo servida é a oficial (5 paths, mesma assinatura) e pinta com a cor 
     .locator(".logo")
     .evaluate((el) => ({ cor: getComputedStyle(el).backgroundColor, mascara: getComputedStyle(el).maskImage }));
   expect(claro.mascara).toContain("/logo.svg");
-  expect(claro.cor).toBe("rgb(6, 114, 132)");
+  // Logo canário nos 2 temas: decisão do Pedro em 2026-11-19 ("muda a logo tb, deixa tudo canário"), S12e.
+  expect(claro.cor).toBe("rgb(255, 196, 0)");
   await page.getByRole("button", { name: "Tema claro" }).click();
   const escuro = await page.locator(".logo").evaluate((el) => getComputedStyle(el).backgroundColor);
-  expect(escuro).toBe("rgb(7, 189, 213)");
+  expect(escuro).toBe("rgb(255, 196, 0)");
 });
 
 test("a transição entre páginas usa @view-transition e respeita movimento reduzido", async ({ page }) => {

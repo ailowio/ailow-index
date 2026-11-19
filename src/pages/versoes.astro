@@ -1,0 +1,39 @@
+---
+import App from "../layouts/App.astro";
+import { carregarVersoes, segmentos } from "../data/versoes";
+import "../styles/versoes.css";
+
+// Lido do CHANGELOG.md no build; tudo sai escapado (nenhum set:html).
+const versoes = carregarVersoes();
+---
+
+<App id="sobre" descricao="Histórico de versões do site da Ailow.">
+  <div class="versoes">
+    <h2 class="titulo">Versões</h2>
+    <p class="resumo">
+      <span data-total-versoes>{versoes.length}</span>
+      {versoes.length === 1 ? " versão" : " versões"}, a mais recente primeiro.
+    </p>
+    {
+      versoes.map((v, i) => (
+        <details class="versao" data-versao={v.versao} open={i === 0}>
+          <summary>
+            <span class="numero">{v.data ? `v${v.versao}` : v.versao}</span>
+            {v.data && <time class="data" datetime={v.data}>{v.data.split("-").reverse().join("/")}</time>}
+          </summary>
+          {v.resumo && <p class="abertura">{segmentos(v.resumo).map((s) => (s.tipo === "codigo" ? <code>{s.valor}</code> : s.valor))}</p>}
+          {v.grupos.map((g) => (
+            <section class="grupo-versao">
+              <h4>{g.nome}</h4>
+              <ul>
+                {g.itens.map((item) => (
+                  <li>{segmentos(item).map((s) => (s.tipo === "codigo" ? <code>{s.valor}</code> : s.valor))}</li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </details>
+      ))
+    }
+  </div>
+</App>
