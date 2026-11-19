@@ -1,0 +1,38 @@
+---
+import { carregarFeed } from "../../changelog/carregar";
+import { rotuloNumero, stackCompleta } from "../../changelog/labels";
+import App from "../../layouts/App.astro";
+import "../../styles/stack.css";
+
+const { prs, catalogos } = await carregarFeed();
+const stack = stackCompleta(prs, catalogos);
+---
+
+<App id="pedro" pai="/pedro" paiNome="o portfólio" descricao="Todas as ferramentas que Pedro Fernandes já usou ou conheceu.">
+  <div class="stack">
+    <h2 class="titulo">Stack</h2>
+    <p class="resumo">
+      <span data-total-stack>{stack.total}</span> ferramentas em{" "}
+      <span data-total-categorias>{stack.categorias}</span> categorias
+    </p>
+    {
+      stack.grupos.map((g) => (
+        <section class="grupo-stack" aria-labelledby={`cat-${g.categoria}`}>
+          <h3 id={`cat-${g.categoria}`}>{g.nome}</h3>
+          <ul>
+            {g.linhas.map((l) => (
+              <li data-ferramenta={l.id}>
+                {l.slug ? <a href={`/pedro/label/${l.slug}`}>{l.nome}</a> : <span class="nome">{l.nome}</span>}
+                <span class="meta">
+                  {l.slug && l.desde !== null
+                    ? `${l.prs} ${l.prs === 1 ? "PR" : "PRs"} · desde ${rotuloNumero(l.desde)}`
+                    : "sem entrada no feed"}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</App>

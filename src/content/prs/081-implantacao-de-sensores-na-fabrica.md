@@ -9,4 +9,4 @@ prova: { privada: "registros em vídeo da instalação do quadro de sensores (lo
 verificacao: confirmado
 ---
 
-Em 18 de novembro de 2026, todas as máquinas da fábrica estão com sensores, com as caixas instaladas e rodando: a implantação está concluída, separada do MVP desligado em agosto. Um ajuste de firmware numa das caixas está em andamento (ver o firmware v1.9). Próximo passo: atualizar a plataforma de monitoramento.
+Em 18 de novembro de 2026, todas as máquinas da fábrica estão com sensores, com as caixas instaladas e rodando: a implantação está concluída, separada do MVP desligado em agosto. O firmware v1.9 dos gateways está em validação em campo (ver o item sobre ele). Próximo passo: atualizar a plataforma de monitoramento.
