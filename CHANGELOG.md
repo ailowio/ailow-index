@@ -1,8 +1,19 @@
 # Changelog
 
-Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamento [SemVer](https://semver.org/lang/pt-BR/). Nenhuma tag foi criada ainda.
+Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamento [SemVer](https://semver.org/lang/pt-BR/). Tags publicadas: `v1.0.0` (2026-11-18).
 
 ## [Unreleased]
+
+## [1.1.0] - 2026-11-18
+
+### Adicionado
+- S12b: `/pedro/stack` com as 88 ferramentas do catálogo em 10 categorias (com e sem entrada no feed) e link "Stack (88)" no perfil do `/pedro`.
+
+### Alterado
+- S12b: entrada #080 (firmware v1.9, segue aberta) com o relato de 18/11/2026: v1.9 gravada nos dois gateways, validação em campo a partir de 19/11. #081 coerente.
+
+### Corrigido
+- S12c: seta Voltar em laço (label ↔ `/pedro`), Voltar do sistema com o dialog do avatar aberto saindo da página e toque duplo andando 2 telas; E2E de regressão com 11 cenários (PR #21).
 
 ### Corrigido
 - CI: versiona a pasta da collection `prs` (PR #1).
