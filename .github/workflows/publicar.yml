@@ -1,0 +1,64 @@
+# Publica a imagem do site no GHCR quando uma tag de versão é criada (S12, ADR 004).
+# O servidor só faz `pull`; nada compila no host. Rollback = voltar a tag anterior (docs/runbooks/rollback.md).
+# Regras: OPS-*, SEC-12 (scan antes de publicar), CI-07 (permissão mínima), CI-18 (actions fixadas por SHA), AUD-24.
+# Só roda em tag `vX.Y.Z` (criada pelo humano, no commit já mergeado e com CI verde): nenhum push de branch publica.
+# Actions: mesmas versões e SHAs do ci.yml.
+name: Publicar imagem
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+
+# Escrita em pacotes só neste workflow; nenhum outro job do repositório tem esta permissão.
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: publicar-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    name: publicar
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # Minúsculas: o GHCR não aceita maiúsculas no nome do repositório.
+      IMAGEM: ghcr.io/ailowio/ailow-index-web
+      VERSAO: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # O merge-base abaixo precisa do histórico.
+          fetch-depth: 0
+      - name: a tag tem de apontar para um commit que está na main
+        run: |
+          git fetch --no-tags origin main
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main || { echo "tag fora da main: não publico" >&2; exit 1; }
+      - name: build da imagem
+        run: |
+          docker build \
+            --label "org.opencontainers.image.source=https://github.com/ailowio/ailow-index" \
+            --label "org.opencontainers.image.version=${VERSAO}" \
+            --label "org.opencontainers.image.revision=${GITHUB_SHA}" \
+            -t "${IMAGEM}:${VERSAO}" .
+      # SEC-12: nada com CRITICAL/HIGH corrigível sobe para o registro.
+      - uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: ghcr.io/ailowio/ailow-index-web:${{ github.ref_name }}
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
+      - name: login no GHCR (token do próprio workflow, sem segredo novo)
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+      - name: publica e registra o digest (evidência da release)
+        run: |
+          docker push "${IMAGEM}:${VERSAO}"
+          {
+            echo "### ailow-index-web:${VERSAO}"
+            docker inspect --format '{{index .RepoDigests 0}}' "${IMAGEM}:${VERSAO}"
+          } >> "$GITHUB_STEP_SUMMARY"

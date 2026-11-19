@@ -1,0 +1,70 @@
+# Stack Swarm do site (S12, ADR 004): stack `ailow-index`, um serviço `site` (nginx sem root, site estático).
+# Implantação só pelo pipeline: ops/deploy/deploy.sh (docker stack deploy -c ops/stack/index.yaml ailow-index).
+# O Traefik do host termina o TLS; aqui só se declaram as labels. Nomes de router/middleware com prefixo
+# `ailow-index-` para não colidir com os de outros sistemas do host (o Cloud usa `ailow-web` e `ailow-hsts`).
+# Variáveis: ops/stack/index.env.example. Comentários sempre em linha própria.
+# O serviço se chama `site`, não `web`: na rede do proxy o nome curto vira alias de DNS e o Cloud já tem um `web` lá.
+services:
+  site:
+    image: ${REGISTRY:-ghcr.io/ailowio}/ailow-index-web:${TAG:?defina TAG (a versão a implantar, ex v1.0.0)}
+    networks:
+      - proxy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    read_only: true
+    cap_drop: [ALL]
+    # nginx-unprivileged escreve temporários e pid em /tmp. No Swarm a chave `tmpfs:` é ignorada: use volume do tipo tmpfs.
+    # Logs vão para stdout/stderr; o resto do sistema de arquivos fica somente leitura.
+    volumes:
+      - type: tmpfs
+        target: /tmp
+    deploy:
+      replicas: 1
+      update_config:
+        order: start-first
+        failure_action: rollback
+        monitor: 30s
+      rollback_config:
+        order: start-first
+      restart_policy:
+        condition: any
+        delay: 5s
+      resources:
+        limits:
+          memory: ${WEB_MEM:-64M}
+          cpus: "${WEB_CPUS:-0.25}"
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=${PROXY_NETWORK:?defina PROXY_NETWORK (nome da rede do Traefik)}
+        # Domínio principal (apex): HTTPS, certificado ACME e HSTS de 1 ano.
+        - traefik.http.routers.ailow-index.rule=Host(`ailow.com.br`)
+        - traefik.http.routers.ailow-index.entrypoints=${ENTRYPOINT:-websecure}
+        - traefik.http.routers.ailow-index.tls=true
+        - traefik.http.routers.ailow-index.tls.certresolver=${CERT_RESOLVER:?defina CERT_RESOLVER (nome do resolvedor ACME do Traefik)}
+        - traefik.http.routers.ailow-index.middlewares=ailow-index-hsts
+        - traefik.http.routers.ailow-index.service=ailow-index
+        - traefik.http.services.ailow-index.loadbalancer.server.port=8080
+        # www: redireciona (permanente) para o apex preservando o caminho; também com TLS para o redirect valer em HTTPS.
+        - traefik.http.routers.ailow-index-www.rule=Host(`www.ailow.com.br`)
+        - traefik.http.routers.ailow-index-www.entrypoints=${ENTRYPOINT:-websecure}
+        - traefik.http.routers.ailow-index-www.tls=true
+        - traefik.http.routers.ailow-index-www.tls.certresolver=${CERT_RESOLVER:?defina CERT_RESOLVER (nome do resolvedor ACME do Traefik)}
+        - traefik.http.routers.ailow-index-www.middlewares=ailow-index-www-redirect,ailow-index-hsts
+        - traefik.http.routers.ailow-index-www.service=ailow-index
+        # `$$` é o escape do `$` na interpolação do Compose: o Traefik recebe ${1}.
+        - 'traefik.http.middlewares.ailow-index-www-redirect.redirectregex.regex=^https://www\.ailow\.com\.br(.*)'
+        - 'traefik.http.middlewares.ailow-index-www-redirect.redirectregex.replacement=https://ailow.com.br$${1}'
+        - traefik.http.middlewares.ailow-index-www-redirect.redirectregex.permanent=true
+        # HSTS de 1 ano, só para estes hosts (sem includeSubdomains: o domínio pai pode ter outros subdomínios).
+        - traefik.http.middlewares.ailow-index-hsts.headers.stsSeconds=31536000
+        - traefik.http.middlewares.ailow-index-hsts.headers.stsIncludeSubdomains=false
+
+networks:
+  # Rede do Traefik que já existe no host (o nome varia por servidor).
+  proxy:
+    external: true
+    name: ${PROXY_NETWORK:?defina PROXY_NETWORK (nome da rede do Traefik)}
