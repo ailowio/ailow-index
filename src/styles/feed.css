@@ -133,6 +133,16 @@
   cursor: pointer;
 }
 
+.painel .ver-stack {
+  margin: var(--espaco-1) 0 0;
+}
+
+.painel .ver-stack a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--alvo);
+}
+
 .painel summary h2 {
   border: 0;
   padding: 0;

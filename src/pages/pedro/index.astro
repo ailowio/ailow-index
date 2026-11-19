@@ -1,6 +1,7 @@
 ---
 import CartaoPR from "../../components/CartaoPR.astro";
 import { carregarFeed } from "../../changelog/carregar";
+import { stackCompleta } from "../../changelog/labels";
 import App from "../../layouts/App.astro";
 import "../../styles/feed.css";
 
@@ -9,6 +10,7 @@ const nomesFerramentas = Object.fromEntries(catalogos.ferramentas.map((f) => [f.
 const nomesSkills = Object.fromEntries(catalogos.softSkills.map((s) => [s.id, s.nome]));
 // Mais recente no topo.
 const feed = [...prs].sort((a, b) => b.numero - a.numero);
+const stack = stackCompleta(prs, catalogos);
 const frentes = labels.filter((l) => l.tipo === "escopo").sort((a, b) => b.total - a.total);
 ---
 
@@ -25,6 +27,7 @@ const frentes = labels.filter((l) => l.tipo === "escopo").sort((a, b) => b.total
         <li><a href="https://www.linkedin.com/in/pedro-fernand/" rel="me noopener noreferrer">LinkedIn</a></li>
         <li><a href="https://www.instagram.com/pedro_fernand/" rel="me noopener noreferrer">Instagram</a></li>
         <li><a href="/pedro/entrevistas">Entrevistas</a></li>
+        <li><a href="/pedro/stack">Stack (<span data-total-stack>{stack.total}</span>)</a></li>
       </ul>
     </section>
 
@@ -77,6 +80,7 @@ const frentes = labels.filter((l) => l.tipo === "escopo").sort((a, b) => b.total
           ))
         }
       </details>
+      <p class="ver-stack"><a href="/pedro/stack">Ver a stack completa ({stack.total} ferramentas)</a></p>
     </section>
 
     <section class="feed" aria-labelledby="feed-titulo">

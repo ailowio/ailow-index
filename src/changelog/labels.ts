@@ -105,3 +105,53 @@ export function agruparPainel(linhas: LinhaPainel[]): GrupoPainel[] {
   }
   return [...grupos.values()];
 }
+
+export interface LinhaStack {
+  id: string;
+  nome: string;
+  /** Entradas publicadas que usam a ferramenta (0 = ainda sem entrada no feed). */
+  prs: number;
+  /** Número da entrada mais antiga; null sem entrada. */
+  desde: number | null;
+  /** Rota /pedro/label/<slug>; null quando não há entrada (a label não existe). */
+  slug: string | null;
+}
+
+export interface GrupoStack {
+  categoria: Categoria;
+  nome: string;
+  linhas: LinhaStack[];
+}
+
+export interface Stack {
+  total: number;
+  categorias: number;
+  grupos: GrupoStack[];
+}
+
+/** Toda ferramenta do catálogo, por categoria (ordem do catálogo), com o uso no feed publicado. */
+export function stackCompleta(prs: EntradaComNovidades[], catalogos: Catalogos): Stack {
+  const labels = new Map(
+    labelsDoFeed(prs, catalogos)
+      .filter((l) => l.tipo === "ferramenta")
+      .map((l) => [l.id, l]),
+  );
+  const grupos = new Map<string, GrupoStack>();
+  for (const f of catalogos.ferramentas) {
+    const categoria = f.categoria as Categoria;
+    let g = grupos.get(categoria);
+    if (!g) {
+      g = { categoria, nome: NOMES_CATEGORIA[categoria] ?? categoria, linhas: [] };
+      grupos.set(categoria, g);
+    }
+    const l = labels.get(f.id);
+    g.linhas.push({
+      id: f.id,
+      nome: f.nome,
+      prs: l?.total ?? 0,
+      desde: l?.desde ?? null,
+      slug: l?.slug ?? null,
+    });
+  }
+  return { total: catalogos.ferramentas.length, categorias: grupos.size, grupos: [...grupos.values()] };
+}
