@@ -1,6 +1,6 @@
 # Inventário de interfaces e integrações — ailow-index   (AUD-60..69)
 
-*Última atualização: 2026-11-20 (I-13, V05). O site em produção não tem integração (sem API, formulário, pagamento nem script de terceiro). As interfaces abaixo são de build e CI; as de produção estão planejadas.*
+*Última atualização: 2026-11-20 (I-13, V05; primeira importação real na V06: 6 pacotes). O site em produção não tem integração (sem API, formulário, pagamento nem script de terceiro). As interfaces abaixo são de build e CI; as de produção estão planejadas.*
 
 | ID | Interface | Origem → Destino | Dados trafegados (e classificação) | Método/protocolo | Frequência | Autenticação · escopo · rotação | Contrato/mapeamento | Dono | Criticidade |
 |----|-----------|------------------|------------------------------------|------------------|-----------|---------------------------------|---------------------|------|-------------|
@@ -16,7 +16,7 @@
 | I-11 | Let's Encrypt via Traefik do host (S12) | Traefik do host → ACME | domínios `ailow.com.br` e `www` | HTTPS (ACME) | emissão e renovação | gerida pelo Traefik do host · **renovação não verificada** | labels em `ops/stack/index.yaml` | Pedro (host: quem administra o servidor) | Alta |
 | I-08 | `wa.me` (cartão `/cartao/`, em produção quando houver deploy) | navegador do visitante → `https://wa.me/<número>?text=<saudação>` | número digitado pelo próprio visitante (dado pessoal): vai só na URL do clique, nunca é gravado (storage, cookie, IndexedDB, cache) nem enviado ao site | navegação do navegador | por clique em Enviar | n/a | `src/data/cartao.ts`; testes `test/cartao.test.ts` e `e2e/cartao.e2e.ts` | Pedro | Baixa |
 
-| I-13 | Bancada → site (pacote de publicação, V05) | pasta `final/site/<slug>/` da bancada (`D:/videos`, fora do git) → máquina do Pedro → `public/midia/<slug>/` do repositório | vídeo ≤ 60 s, pôster, legendas `.vtt`, `site.json` (título, data, fatos `#NNN`, aprovação); dado de negócio só se estiver em tela (limite declarado: o linter não vê a imagem) | cópia local de arquivos por `npm run importar-midia`; o CI nunca vê a bancada | por peça publicada | sem conta nem token: acesso ao disco da máquina do Pedro; `aprovado_por`/`aprovado_em` no `site.json` | ADR 008, `docs/contratos/bancada-site.md`, `src/midia/pacote.ts` (schema Zod); testes `test/midia/` e `test/pulso-tokens.test.ts` | Pedro | Média |
+| I-13 | Bancada → site (pacote de publicação, V05) | pasta `final/site/<slug>/` da bancada (`D:/videos`, fora do git) → máquina do Pedro → `public/midia/<slug>/` do repositório | vídeo ≤ 60 s, pôster, legendas `.vtt`, `site.json` (título, data, fatos `#NNN`, aprovação); dado de negócio só se estiver em tela (limite declarado: o linter não vê a imagem) | cópia local de arquivos por `npm run importar-midia`; o CI nunca vê a bancada | por peça publicada | sem conta nem token: acesso ao disco da máquina do Pedro; `aprovado_por`/`aprovado_em` no `site.json` | ADR 008, `docs/contratos/bancada-site.md`, `src/midia/pacote.ts` (schema Zod); testes `test/midia/`, `test/midia-publicada.test.ts` (V06) e `test/pulso-tokens.test.ts` | Pedro | Média |
 
 ## Controles de integridade por interface (AUD-62/63/65/66/67)
 | ID | Completude/exatidão | Idempotência | Validação na entrada | Tratamento de erro | Conciliação | Log de execução |

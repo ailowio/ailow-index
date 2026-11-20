@@ -4,6 +4,13 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-11-20
+
+### Adicionado
+- V06 (ADR 005 e 008): **a `/apresentacao` (e a `/bio`) ganha o vídeo "O que eu faço?"**, no slot que já existia. O vídeo só começa a baixar depois do toque (`preload="none"`, pôster próprio, legenda em português); a página avisa que parte da imagem e da voz é gerada por IA. E2E conta as requisições: 0 de vídeo antes do toque, e o toque carrega o `.mp4` do próprio site.
+- V06: **5 pacotes da bancada importados** com `npm run importar-midia` para `public/midia/<slug>/`, cada um em 720p (H.264 + AAC, até 60 s e 8 MB), com pôster WebP (até 80 KB) e legenda `.vtt`: os teasers das entrevistas P1 e P2, o Fixado 00 e os episódios #1 e #2 do Chão de Fábrica. As páginas que os usam vêm nas próximas sessões; o episódio E6 (mais de 60 s) fica para o YouTube.
+- V06: teste de que todo arquivo em `public/midia` tem até 8 MB, que todo vídeo tem `.vtt` e pôster e que cada pasta ainda é um pacote válido (com canário que reprova arquivo grande, vídeo sem legenda e sem pôster).
+
 ## [1.7.0] - 2026-11-20
 
 ### Adicionado

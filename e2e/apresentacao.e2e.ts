@@ -117,11 +117,50 @@ test("zero requisição a terceiros e nenhuma mídia de vídeo no carregamento",
   await page.waitForLoadState("networkidle");
   expect(externas).toEqual([]);
   expect(videos).toEqual([]);
-  await expect(page.locator("video")).toHaveCount(0);
+  // V06 · 2026-11-20 · ADR 005: o slot ganhou o vídeo do pacote Fixado 00 (antes: `toHaveCount(0)`).
+  // A prova continua a mesma: o <video> existe com preload="none" e nenhuma requisição de mídia acontece antes do toque.
+  await expect(page.locator("video")).toHaveCount(1);
+  await expect(page.locator("video")).toHaveAttribute("preload", "none");
   await expect(page.locator("body")).not.toContainText(/em breve|a produzir|em construção/i);
   const hrefs = await page.locator("a[href^='http']").evaluateAll((as) => as.map((a) => new URL((a as HTMLAnchorElement).href).hostname));
   // F0 (2026-11-20, decisão do Pedro): entra o WhatsApp (wa.me). Link não é requisição: o carregamento segue sem terceiros.
   expect(hrefs.sort()).toEqual(["github.com", "wa.me", "www.instagram.com", "www.linkedin.com"]);
+});
+
+// V06 · 2026-11-20 · ADR 005: 0 byte de vídeo antes do toque; depois do toque o vídeo carrega (do próprio site).
+test("vídeo do pitch: 0 requisição de mídia antes do toque, e o toque carrega o mp4 do site", async ({ page, baseURL }) => {
+  const origem = new URL(baseURL ?? "http://localhost").origin;
+  const antes: string[] = [];
+  const respostas: { url: string; status: number; tipo: string }[] = [];
+  page.on("request", (req) => {
+    if (/\.(mp4|webm)(\?|$)/i.test(req.url()) || req.resourceType() === "media") antes.push(req.url());
+  });
+  page.on("response", (res) => {
+    if (/\.mp4(\?|$)/i.test(res.url())) respostas.push({ url: res.url(), status: res.status(), tipo: res.headers()["content-type"] ?? "" });
+  });
+  await page.goto(ROTA);
+  await page.waitForLoadState("networkidle");
+  // Rola até o vídeo, espera um pouco: ver o vídeo não é tocar.
+  await page.locator("video").scrollIntoViewIfNeeded();
+  await page.waitForTimeout(800);
+  expect(antes, "nenhuma requisição de mídia antes do toque").toEqual([]);
+  const estado = await page.locator("video").evaluate((v: HTMLVideoElement) => ({ rede: v.networkState, pronto: v.readyState, poster: v.poster }));
+  expect(estado.pronto).toBe(0);
+  expect(new URL(estado.poster).pathname).toBe("/midia/fixado-00-o-que-eu-faco/poster.webp");
+
+  const pedido = page.waitForRequest((r) => /\.mp4(\?|$)/i.test(r.url()));
+  // O primeiro toque no pôster só mostra os controles no Chromium headless; o play() vem do mesmo gesto do usuário.
+  await page.locator("video").click({ position: { x: 40, y: 40 } });
+  await page.locator("video").evaluate((v: HTMLVideoElement) => v.play());
+  const req = await pedido;
+  expect(new URL(req.url()).origin).toBe(origem);
+  expect(new URL(req.url()).pathname).toBe("/midia/fixado-00-o-que-eu-faco/video-720p.mp4");
+  await expect.poll(() => respostas.length, { timeout: 10_000 }).toBeGreaterThan(0);
+  await expect.poll(() => page.locator("video").evaluate((v: HTMLVideoElement) => v.readyState), { timeout: 10_000 }).toBeGreaterThanOrEqual(2);
+  expect([200, 206]).toContain(respostas[0].status);
+  expect(respostas[0].tipo).toContain("video/mp4");
+  await expect(page.locator("video track[kind='captions']")).toHaveAttribute("src", "/midia/fixado-00-o-que-eu-faco/legenda.vtt");
+  await expect(page.getByText("parte da imagem e da voz é gerada por IA")).toBeVisible();
 });
 
 // F0 (2026-11-20, decisão do Pedro): a apresentação é rota pública e indexável.
