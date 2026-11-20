@@ -49,6 +49,13 @@ export const CATEGORIAS = [
 /** V09: tamanho máximo do `resumo_dono` (uma ou duas frases curtas). */
 export const RESUMO_MAX = 220;
 
+/**
+ * V10 (ADR 006 item 2): verbo × status do PLANO da bancada. uso = "uso, roda"; validado = "validei num piloto";
+ * testando = "estou testando"; construindo = "estou construindo"; proximo = "o próximo passo é".
+ */
+export const STATUS_FATO = ["uso", "validado", "testando", "construindo", "proximo"] as const;
+export type StatusFato = (typeof STATUS_FATO)[number];
+
 export type Tipo = (typeof TIPOS)[number];
 export type Escopo = (typeof ESCOPOS)[number];
 export type Categoria = (typeof CATEGORIAS)[number];
@@ -71,6 +78,8 @@ export interface EntradaPR {
   corpo: string;
   /** V09: leitura "Para empresários" (só nas entradas de vitrine). */
   resumo_dono?: string;
+  /** V10: verbo × status do fato (ADR 006). Só onde a própria entrada sustenta. */
+  status_fato?: StatusFato;
 }
 
 export interface Ferramenta {

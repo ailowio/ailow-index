@@ -8,6 +8,7 @@ soft_skills: [gestao-de-mudanca, decisao-documentada]
 prova: { publica: "https://github.com/ailowio/ailow-cloud/releases/tag/v1.0.0" }
 verificacao: confirmado
 resumo_dono: "O Cloud entrou no ar em 13 de novembro de 2026. A versão seguinte foi a primeira publicada por um processo automático, com aprovação."
+status_fato: uso
 ---
 
 Versão 1.0.0 do Cloud em produção em 13 de novembro de 2026, no Docker Swarm com Traefik. A versão 1.0.1 foi a primeira implantada pelo pipeline com aprovação.

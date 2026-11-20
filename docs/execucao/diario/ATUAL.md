@@ -7,16 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### V07 — Na TV (entrevistas) — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
-Leu: Contrato, V07, retomada, V06; ADR 005, 007 item 5; brainstorm §5.2; `.vtt` dos teasers; roteiro da série (bancada).
-Feito: `/na-tv` com a escada UFC → Record → afiliada Globo em tarjas de TV (GC) no Pulso, só com o nome em texto; P1 e P2 no degrau da UFC com 4 chips cada (tempo = início de um cue do `.vtt`) e legenda grande fora do quadro (a nativa fica `hidden`: os teasers já têm legenda queimada). Fachada do YouTube (`FachadaYoutube.astro` + `fachada-youtube.ts`, cliente 1 KB) só com `youtubeId`: hoje nenhum, nada renderiza, CSP intacta; I-12 no inventário como inativa. `/pedro/entrevistas` → 301 `/na-tv/` no nginx (+ meta refresh noindex do build); ícone "Na TV" na home; sitemap. `peso.mjs` passa a contar `poster=`. Versão 1.9.0.
-Decisões (delegação): P2 no degrau da UFC, não da Record (o pôster traz o selo "UFC · Experiências Inspiradoras" e a fala é da UFC); fotos das emissoras fora (têm bug/logo; arquivos e dados de `entrevistas.ts` ficam); `/na-tv` com orçamento 150 (os 400 do ADR 003 eram das fotos); pai da seta = início.
-Testes antigos alterados (comentário "V07 · 2026-11-20 · ADR 007 item 5"): `entrevistas.e2e.ts`, `voltar-regressao.e2e.ts` (H1, H1b, H3), `home-app.e2e.ts` (c), `csp.e2e.ts`, `pedro-feed.e2e.ts`, `apresentacao.e2e.ts`, `entrevistas.test.ts`, `indexacao.test.ts`, `apresentacao.test.ts`, `peso.test.ts`, `scripts/smoke-imagem.mjs`.
-Canários (L-0006): chip fora do cue, iframe no HTML, iframe no carregamento, 302 no nginx (Vitest vermelho); `preload="auto"` e seek +2 s (E2E vermelho); pôster acima do teto (peso). Revertidos.
-Falhas no caminho: preview na 4330 esquecido travou o `webServer` do Playwright (L-0012); estilo computado de `<source>`/`<track>` vem vazio.
-Números: Vitest 504 → 529; E2E 686 → 734 passed; `/na-tv` JS 1,09/10 KiB, peso 60,7/150; `/apresentacao` e `/bio` 28,65 → 50,2 (pôster passou a contar).
-Screenshots: `D:/apps/.playwright-mcp/auditoria/v07/`.
-
 ### V08 — Chão de Fábrica — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
 Leu: Contrato, V08, retomada, V07; ADR 006, 007 item 5; brainstorm §5.6; colheita de IoT §5 e §7; #080, #081 e vizinhas; READMEs dos episódios na bancada (só leitura).
 Feito: `/chao-de-fabrica` com a série presa a um "cabo" (borne amarelo por episódio); #1 (10/11) e #2 (11/11) com os pacotes da V06 (`preload="none"`, pôster, `.vtt`, "Narração com voz gerada por IA"), reaproveitando CSS e script da `/na-tv`; #3 "Firmware v1.9" como relatório de campo (sintoma → hipótese → o que era → decisão → estado) só com o texto da #080. Provas: #081, #062, #076, #080. Fita "em validação" no sensor em cada máquina (#081) e na v1.9 (#080). Links no `/pedro` e na `/na-tv`; sitemap; selo em `SECOES` (home intacta). Caixa de legenda: antes do play só a dica (68 → ~36 px), 2 linhas no primeiro play. Versão 1.10.0.
@@ -36,3 +26,12 @@ Canários (L-0006): resumo com IPv4 fora do linter (build verde → vermelho); "
 Falhas no caminho: título cortado em 360 px (E2E pegou; fonte por `data-app`); erro nos builds de fixture sem #047/#069/#078 (agora filtra; o teste garante as 3); busca de "Todo o feed" cortada por `head`: 8 E2E vermelhos na 1ª rodada.
 Números: Vitest 544 → 574; E2E 776 → 814 passed; `/pedro` JS 1,03/10 KiB, peso 29,4/150.
 Screenshots: `D:/apps/.playwright-mcp/auditoria/v09/`.
+
+### V10 — Fonte única de fatos — 2026-11-20 — Claude Sonnet 5.5 (subagente)
+Leu: Contrato, V10, retomada, V09; ADR 006 inteiro; `esquemas.ts`, `tipos.ts`; claims.csv e PLANO §4 da bancada (só leitura, salvo a coluna autorizada).
+Feito: `status_fato` opcional (uso · validado · testando · construindo · proximo) no Zod; preenchido só em 7 entradas de vitrine que o sustentam: #033, #054, #078 = uso; #032, #076, #080, #081 = testando. `npm run conferir-fatos -- <claims.csv> [--prs <pasta>]` (`scripts/conferir-fatos.ts` + `src/changelog/fatos.ts`, sem dependência): divergências, ids inexistentes, não comparáveis, consistentes e "sem fato_site" com sugestão; exit 0 com relatório, 2 em erro de leitura. Coluna `fato_site` no claims.csv (backup `claims.csv.bak-2026-11-20`, diff confirma só a coluna nova): C02 #005, C04 #020, C08 #061, C11 #059, C13 #039, C14 #062, C16 #081, C17 #047, C23 #044.
+Resultado: divergente por script = C16 -> #081 (construindo x testando). C04 e C11 não são comparáveis pelo script (#020 e #059 fora da vitrine, sem `status_fato`); leitura manual: C11 diverge (claim "testando", #059 "em uso" segundo o Pedro); C04 bate na data, diverge na origem (template Lovable x planilha). Relatório local em `docs/execucao/v2/`.
+Decisões (delegação): "Em implantação" = alias de construindo (não está no PLANO §4); #081 = testando (o site já a mostra "em validação"; o corpo ainda diz "concluída", V11); #069 e #079 sem status (a entrada não diz se está em uso); #059 e #020 não preenchidas (fora do escopo de vitrine); sem bump de versão (ferramenta interna, nada visível).
+Canários (L-0006): trocar `=== esperado` por "qualquer status" deixou 4 Vitest vermelhos (revertido); fixture sintético tem divergência (K02) e id inexistente (K03).
+Números: Vitest 574 → 603; E2E ver PR.
+Para a V11: C16/#081, C11/#059 (preencher `status_fato: uso` ou corrigir o claim), C04/#020, C05 (#053 x #072 desfeita); C09, C12, C20 sem entrada óbvia.

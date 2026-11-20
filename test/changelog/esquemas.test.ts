@@ -79,6 +79,25 @@ describe("resumo_dono (opcional)", () => {
   });
 });
 
+// V10 (2026-11-20, ADR 006 item 2): verbo × status do PLANO §4 da bancada, opcional.
+describe("status_fato (opcional)", () => {
+  it("entrada sem status_fato continua válida e não ganha o campo", () => {
+    const r = esquemaPR.safeParse(base);
+    expect(r.success).toBe(true);
+    expect(r.data && "status_fato" in r.data).toBe(false);
+  });
+
+  it.each(["uso", "validado", "testando", "construindo", "proximo"])("aceita e preserva %j", (status_fato) => {
+    const r = esquemaPR.safeParse({ ...base, status_fato });
+    expect(r.success).toBe(true);
+    expect(r.data?.status_fato).toBe(status_fato);
+  });
+
+  it.each(["", "Em produção", "em uso", "planejado", "USO", 3])("rejeita %j", (status_fato) => {
+    expect(esquemaPR.safeParse({ ...base, status_fato }).success).toBe(false);
+  });
+});
+
 describe("catálogos", () => {
   it("os catálogos reais são válidos e sem id repetido", () => {
     const r = esquemaCatalogos.safeParse({ ferramentas: ferramentasReais, softSkills: softSkillsReais });

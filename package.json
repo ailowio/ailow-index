@@ -17,6 +17,7 @@
     "peso": "node scripts/peso.mjs",
     "tokens:sincronizar": "node --experimental-strip-types scripts/sincronizar-tokens.ts",
     "importar-midia": "node --experimental-strip-types scripts/importar-midia.ts",
+    "conferir-fatos": "node --experimental-strip-types scripts/conferir-fatos.ts",
     "e2e": "playwright test",
     "verify": "npm run lint && npm run check && npm run test && npm run build && npm run peso"
   },

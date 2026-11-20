@@ -1,0 +1,10 @@
+### V07 — Na TV (entrevistas) — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
+Leu: Contrato, V07, retomada, V06; ADR 005, 007 item 5; brainstorm §5.2; `.vtt` dos teasers; roteiro da série (bancada).
+Feito: `/na-tv` com a escada UFC → Record → afiliada Globo em tarjas de TV (GC) no Pulso, só com o nome em texto; P1 e P2 no degrau da UFC com 4 chips cada (tempo = início de um cue do `.vtt`) e legenda grande fora do quadro (a nativa fica `hidden`: os teasers já têm legenda queimada). Fachada do YouTube (`FachadaYoutube.astro` + `fachada-youtube.ts`, cliente 1 KB) só com `youtubeId`: hoje nenhum, nada renderiza, CSP intacta; I-12 no inventário como inativa. `/pedro/entrevistas` → 301 `/na-tv/` no nginx (+ meta refresh noindex do build); ícone "Na TV" na home; sitemap. `peso.mjs` passa a contar `poster=`. Versão 1.9.0.
+Decisões (delegação): P2 no degrau da UFC, não da Record (o pôster traz o selo "UFC · Experiências Inspiradoras" e a fala é da UFC); fotos das emissoras fora (têm bug/logo; arquivos e dados de `entrevistas.ts` ficam); `/na-tv` com orçamento 150 (os 400 do ADR 003 eram das fotos); pai da seta = início.
+Testes antigos alterados (comentário "V07 · 2026-11-20 · ADR 007 item 5"): `entrevistas.e2e.ts`, `voltar-regressao.e2e.ts` (H1, H1b, H3), `home-app.e2e.ts` (c), `csp.e2e.ts`, `pedro-feed.e2e.ts`, `apresentacao.e2e.ts`, `entrevistas.test.ts`, `indexacao.test.ts`, `apresentacao.test.ts`, `peso.test.ts`, `scripts/smoke-imagem.mjs`.
+Canários (L-0006): chip fora do cue, iframe no HTML, iframe no carregamento, 302 no nginx (Vitest vermelho); `preload="auto"` e seek +2 s (E2E vermelho); pôster acima do teto (peso). Revertidos.
+Falhas no caminho: preview na 4330 esquecido travou o `webServer` do Playwright (L-0012); estilo computado de `<source>`/`<track>` vem vazio.
+Números: Vitest 504 → 529; E2E 686 → 734 passed; `/na-tv` JS 1,09/10 KiB, peso 60,7/150; `/apresentacao` e `/bio` 28,65 → 50,2 (pôster passou a contar).
+Screenshots: `D:/apps/.playwright-mcp/auditoria/v07/`.
+

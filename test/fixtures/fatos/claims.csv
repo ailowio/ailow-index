@@ -1,0 +1,9 @@
+﻿id,afirmacao,status_declarado,prova_exigida,fato_site
+K01,"Sistema de pedidos, em uso na grafica",Em produção,Relato,#001
+K02,"O emissor roda em producao",Em produção,Relato,#002
+K03,Estou testando algo que nao existe,Em teste,Relato,#999
+K04,Relatorio de visita,Em produção,Relato,#003
+K05,"Fato pessoal ""citado""",Fato pessoal,Relato,#001
+K06,Estou construindo um painel de estoque para a grafica,Em desenvolvimento,Relato,
+K07,Assunto sem relacao nenhuma,Em produção,Relato,
+K08,Implantando o painel,Em implantação (diretor 2026-11-06),Relato,#004
