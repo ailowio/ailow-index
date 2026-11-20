@@ -1,0 +1,125 @@
+---
+import FachadaYoutube from "../components/FachadaYoutube.astro";
+import App from "../layouts/App.astro";
+import { ancoraPR, rotuloPR } from "../data/consultoria";
+import { arquivosTeaser, DEGRAUS, entrevistaDoDegrau, TOPO, tempoTexto } from "../data/na-tv";
+import "../styles/na-tv.css";
+
+// V07 (2026-11-20, ADR 007 item 5; ADR 005): o arco UFC -> Record -> afiliada Globo como escada. Cada degrau
+// é uma tarja de TV (GC) no Pulso, sem logo de emissora (só o nome em texto). Os teasers ficam no degrau de onde a
+// fala saiu, com preload="none", pôster e .vtt; os chips levam o player ao início da resposta. A legenda grande
+// fica fora do quadro (os teasers já têm legenda queimada embaixo). Textos em src/data/na-tv.ts.
+const total = DEGRAUS.length;
+---
+
+<App
+  id="entrevistas"
+  tituloPagina="Na TV: entrevistas e reportagens com Pedro Fernandes"
+  descricao="Da universidade à TV aberta: a entrevista na UFC, a reportagem na TV Record e a entrevista na TV Verdes Mares, afiliada Globo, com trechos em vídeo."
+>
+  <div class="na-tv">
+    <section class="na-tv-topo" aria-labelledby="natv-titulo">
+      <p class="sobretitulo">{TOPO.sobretitulo}</p>
+      <h2 id="natv-titulo">{TOPO.titulo}</h2>
+      <p class="tese">{TOPO.tese}</p>
+    </section>
+
+    <ol class="escada-tv" aria-label="As entrevistas, da mais antiga à mais recente">
+      {
+        DEGRAUS.map((d, i) => {
+          const e = entrevistaDoDegrau(d);
+          return (
+            <li class="degrau-tv" data-feed={d.feed}>
+              <article class="gc" aria-labelledby={`gc-${d.feed}`}>
+                <p class="gc-chapeu">
+                  <svg class="mini-escada" viewBox="0 0 28 22" aria-hidden="true" focusable="false">
+                    {[0, 1, 2].map((k) => (
+                      <rect
+                        x={k * 10 + 1}
+                        y={22 - (k + 1) * 7}
+                        width="6"
+                        height={(k + 1) * 7 - 1}
+                        class={k <= i ? "cheio" : "vazio"}
+                      />
+                    ))}
+                  </svg>
+                  <span class="gc-degrau">
+                    Degrau {i + 1} de {total}
+                  </span>
+                  <span class="gc-alcance">{d.alcance}</span>
+                </p>
+                <div class="gc-barra">
+                  <h3 id={`gc-${d.feed}`} class="gc-veiculo">
+                    {e.veiculo}
+                  </h3>
+                  <p class="gc-data">
+                    <time datetime={e.data}>{e.dataTexto}</time>
+                  </p>
+                </div>
+                <p class="gc-texto">{e.texto}</p>
+
+                {d.youtubeId && <FachadaYoutube youtubeId={d.youtubeId} titulo={e.veiculo} />}
+
+                {d.teasers.length > 0 && (
+                  <div class="teasers">
+                    {d.teasers.map((t) => {
+                      const a = arquivosTeaser(t.slug);
+                      const id = `player-${t.slug}`;
+                      return (
+                        <figure class="teaser" data-teaser={t.slug}>
+                          <figcaption class="teaser-titulo">
+                            <span class="teaser-rotulo">Trecho</span> {t.titulo}
+                          </figcaption>
+                          <div class="teaser-tela">
+                            <video
+                              id={id}
+                              data-player
+                              preload="none"
+                              poster={a.poster}
+                              controls
+                              playsinline
+                              width="720"
+                              height="1280"
+                            >
+                              <source src={a.mp4} type="video/mp4" />
+                              <track kind="captions" src={a.vtt} srclang="pt-BR" label="Português" default />
+                            </video>
+                          </div>
+                          <p class="legenda-tv" data-legenda={id} aria-hidden="true" />
+                          <div class="chips-tv" role="group" aria-label={`Pule para a resposta: ${t.titulo}`}>
+                            {t.chips.map((c) => (
+                              <button
+                                type="button"
+                                class="chip-tv"
+                                data-alvo={id}
+                                data-t={c.inicio}
+                                aria-label={`${c.pergunta} Toca a partir de ${tempoTexto(c.inicio)}`}
+                              >
+                                <span class="chip-tempo" aria-hidden="true">
+                                  {tempoTexto(c.inicio)}
+                                </span>
+                                <span class="chip-pergunta">{c.pergunta}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </figure>
+                      );
+                    })}
+                  </div>
+                )}
+
+                <a class="prova" href={`/pedro/#${ancoraPR(d.feed)}`}>
+                  Prova no Diário de obra: {rotuloPR(d.feed)}
+                </a>
+              </article>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</App>
+
+<script>
+  import "../scripts/na-tv";
+</script>

@@ -13,13 +13,15 @@ describe("indexação (F0)", () => {
       "/pulse/",
       "/cloud/",
       "/pedro/",
-      "/pedro/entrevistas/",
+      // V07 · 2026-11-20 · ADR 007 item 5: /pedro/entrevistas virou 301 para /na-tv e sai daqui.
       "/pedro/stack/",
       "/apresentacao/",
       // V03 · 2026-11-20 · ADR 007 item 5: /consultoria ganha conteúdo e sai do noindex do placeholder da V02.
       "/consultoria/",
       // V04 · 2026-11-20 · ADR 007 item 5: /educacao ganha conteúdo e sai do noindex do placeholder da V02.
       "/educacao/",
+      // V07 · 2026-11-20 · ADR 007 item 5: /na-tv entra no lugar de /pedro/entrevistas.
+      "/na-tv/",
       "/explorar/",
       "/explorar/transcritor-de-audio/",
       "/explorar/agente-producao-teares/",

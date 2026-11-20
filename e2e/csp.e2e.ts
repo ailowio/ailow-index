@@ -13,7 +13,8 @@ const conf = readFileSync(join(raiz, "ops/web/seguranca.conf"), "utf8");
 const modelo = /add_header Content-Security-Policy "([^"]+)" always;/.exec(conf)?.[1] ?? "";
 const csp = modelo.replace("$csp_script_hashes", hashesDoDist(join(raiz, "dist")).join(" "));
 
-const ROTAS = ["/", "/pedro/", "/pedro/entrevistas/", "/apresentacao/", "/pulse/", "/cloud/", "/sobre/", "/cartao/"];
+// V07 · 2026-11-20 · ADR 007 item 5: /pedro/entrevistas/ virou 301; /na-tv/ (com os players) entra no lugar.
+const ROTAS = ["/", "/pedro/", "/na-tv/", "/apresentacao/", "/pulse/", "/cloud/", "/sobre/", "/cartao/"];
 
 test.beforeEach(async ({ page }) => {
   await page.route("**/*", async (route) => {

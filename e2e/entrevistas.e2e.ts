@@ -1,8 +1,10 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
+// V07 · 2026-11-20 · ADR 007 item 5: a página de entrevistas virou /na-tv (/pedro/entrevistas responde 301).
+// As garantias deste arquivo seguem valendo na rota nova; mudou só o que a V07 mudou de propósito (marcado abaixo).
 const TEMAS = ["escuro", "claro"] as const;
-const ROTA = "/pedro/entrevistas";
+const ROTA = "/na-tv";
 const BLOQUEADOS = /cl[aá]udia|buhamra|viviane|bastos/i;
 
 for (const tema of TEMAS) {
@@ -18,16 +20,13 @@ for (const tema of TEMAS) {
       await page.evaluate(() => document.fonts.ready);
     });
 
-    test("3 cartões, cada um com imagem carregada e prova no feed", async ({ page }) => {
-      const cartoes = page.locator(".entrevista");
+    // V07: as fotos saíram (traziam logo/tarja da emissora; o plano da V07 pede "sem marca de emissora").
+    test("3 cartões, cada um com prova no feed", async ({ page }) => {
+      const cartoes = page.locator(".degrau-tv");
       await expect(cartoes).toHaveCount(3);
       for (let i = 0; i < 3; i++) {
         const c = cartoes.nth(i);
-        const img = c.locator("img");
-        await img.scrollIntoViewIfNeeded();
-        await expect(img).toBeVisible();
-        await expect.poll(() => img.evaluate((e) => (e as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
-        await expect(c.locator("a[href^='/pedro#pr-']")).toHaveCount(1);
+        await expect(c.locator("a[href^='/pedro/#pr-']")).toHaveCount(1);
       }
     });
 
@@ -58,20 +57,22 @@ for (const tema of TEMAS) {
       expect(html).not.toMatch(BLOQUEADOS);
     });
 
-    test("a seta Voltar leva a /pedro", async ({ page }) => {
-      await expect(page.locator("[data-voltar]")).toHaveAttribute("href", "/pedro");
+    // V07: /na-tv é rota de primeiro nível (ADR 007 item 5); o pai é a home.
+    test("a seta Voltar leva ao início", async ({ page }) => {
+      await expect(page.locator("[data-voltar]")).toHaveAttribute("href", "/");
     });
   });
 }
 
 test("o link de prova abre o cartão do feed", async ({ page }) => {
   await page.goto(ROTA);
-  await page.locator(".entrevista a[href='/pedro#pr-012']").click();
-  await expect(page).toHaveURL(/\/pedro#pr-012$/);
+  // V07: o link usa a forma canônica /pedro/#pr-NNN (como /consultoria e /educacao).
+  await page.locator(".degrau-tv a[href='/pedro/#pr-012']").click();
+  await expect(page).toHaveURL(/\/pedro\/?#pr-012$/);
   await expect(page.locator("#pr-012")).toHaveCount(1);
 });
 
-test("zero requisição a terceiros em /pedro/entrevistas", async ({ page, baseURL }) => {
+test("zero requisição a terceiros em /na-tv", async ({ page, baseURL }) => {
   const origem = new URL(baseURL ?? "http://localhost").origin;
   const externas: string[] = [];
   page.on("request", (req) => {

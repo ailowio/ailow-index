@@ -212,7 +212,9 @@ test.describe("Voltar (ADR 003 item 4, revisto na F0)", () => {
     await seta.click();
     await expect(page).toHaveURL(/\/$/);
 
-    await page.goto("/pedro/entrevistas");
+    // V07 · 2026-11-20 · ADR 007 item 5: a subpágina de exemplo era /pedro/entrevistas, que virou /na-tv
+    // (primeiro nível, pai = início). /pedro/stack segue como subpágina com pai /pedro.
+    await page.goto("/pedro/stack");
     await page.getByRole("link", { name: /Voltar/ }).click();
     await expect(page).toHaveURL(/\/pedro\/?$/);
   });

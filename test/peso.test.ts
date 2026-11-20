@@ -97,6 +97,17 @@ describe("orçamento de peso por rota (ADR 003, D3)", () => {
     expect(r.stderr).not.toContain("/cartao:");
   });
 
+  // V07 · 2026-11-20: o pôster do <video> é imagem que a página baixa; passa a contar no peso.
+  it("CANÁRIO: o pôster do vídeo conta no peso (o mp4 não)", () => {
+    const html = '<html><body><video preload="none" poster="/m/p.webp"><source src="/m/v.mp4"></video></body></html>';
+    const r = montar(
+      { "index.html": html, "m/p.webp": randomBytes(70 * 1024), "m/v.mp4": randomBytes(10 * 1024) },
+      folgado,
+    );
+    expect(r.status).toBe(1);
+    expect(r.stderr).toMatch(/peso .* > 60 KiB/);
+  });
+
   it("falha se não houver dist", () => {
     const r = spawnSync(process.execPath, [script, "--dist", join(tmpdir(), "nao-existe-peso")], {
       encoding: "utf8",
@@ -108,7 +119,9 @@ describe("orçamento de peso por rota (ADR 003, D3)", () => {
     expect(orcamentoReal.rotas["/"]).toEqual({ jsGzKB: 10, pesoGzKB: 60 });
     expect(orcamentoReal.rotas["/apresentacao"].pesoGzKB).toBe(150);
     expect(orcamentoReal.rotas["/cartao"]).toEqual({ jsGzKB: 20, pesoGzKB: 100 });
-    expect(orcamentoReal.rotas["/pedro/entrevistas"].pesoGzKB).toBe(400);
+    // V07 · 2026-11-20 · ADR 007 item 5: /pedro/entrevistas virou 301 para /na-tv (sem as fotos dos 400 KiB).
+    expect(orcamentoReal.rotas["/pedro/entrevistas"]).toBeUndefined();
+    expect(orcamentoReal.rotas["/na-tv"]).toEqual({ jsGzKB: 10, pesoGzKB: 150 });
     expect(orcamentoReal.padrao.jsGzKB).toBe(10);
   });
 });

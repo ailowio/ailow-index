@@ -19,7 +19,8 @@ async function pegar(caminho) {
   return fetch(`${base}${caminho}`, { redirect: "manual" });
 }
 
-for (const rota of ["/", "/pedro/", "/cartao/", "/apresentacao/", "/pulse/", "/cloud/", "/pedro/entrevistas/"]) {
+// V07 · 2026-11-20 · ADR 007 item 5: /pedro/entrevistas/ virou 301 (conferido abaixo); /na-tv/ entra no lugar.
+for (const rota of ["/", "/pedro/", "/cartao/", "/apresentacao/", "/pulse/", "/cloud/", "/na-tv/"]) {
   const r = await pegar(rota);
   conferir(r.status === 200, `${rota} -> ${r.status}`);
   const csp = r.headers.get("content-security-policy") ?? "";
@@ -38,6 +39,12 @@ conferir(
   redirecionamento.status === 301 && redirecionamento.headers.get("location") === "/pedro/",
   `/pedro -> ${redirecionamento.status} ${redirecionamento.headers.get("location")}`,
 );
+
+for (const antiga of ["/pedro/entrevistas", "/pedro/entrevistas/"]) {
+  const r = await pegar(antiga);
+  conferir(r.status === 301 && r.headers.get("location") === "/na-tv/", `${antiga} -> ${r.status} ${r.headers.get("location")}`);
+  conferir((r.headers.get("content-security-policy") ?? "").includes("default-src 'self'"), `${antiga} (301) tem CSP`);
+}
 
 const saude = await pegar("/health");
 conferir(saude.status === 200 && (await saude.text()).trim() === "ok", `/health -> ${saude.status}`);

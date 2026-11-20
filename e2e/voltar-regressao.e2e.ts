@@ -17,8 +17,9 @@ async function assentar(page: Page) {
 }
 
 test.describe("Voltar: matriz de regressão", () => {
+  // V07 · 2026-11-20 · ADR 007 item 5: as entrevistas agora são /na-tv (a rota antiga responde 301). Mesmo cenário.
   test("H1: 'Prova no feed' abre /pedro#pr-NNN; a seta e o Voltar do sistema voltam às entrevistas", async ({ page }) => {
-    await page.goto("/pedro/entrevistas");
+    await page.goto("/na-tv");
     const antes = await page.evaluate(() => history.length);
     await page.locator("a.prova").first().click();
     await expect(page).toHaveURL(/\/pedro\/?#pr-\d{3}$/);
@@ -26,22 +27,23 @@ test.describe("Voltar: matriz de regressão", () => {
     // Uma entrada nova, nunca duas (âncora não pode empilhar histórico a mais).
     expect(await page.evaluate(() => history.length)).toBe(antes + 1);
     await seta(page).click();
-    await expect(page).toHaveURL(/\/pedro\/entrevistas\/?$/);
+    await expect(page).toHaveURL(/\/na-tv\/?$/);
     // Pelo sistema também.
     await page.locator("a.prova").first().click();
     await expect(page).toHaveURL(/#pr-\d{3}$/);
     await page.goBack();
-    await expect(page).toHaveURL(/\/pedro\/entrevistas\/?$/);
+    await expect(page).toHaveURL(/\/na-tv\/?$/);
   });
 
   test("H1b: dentro do feed, o Voltar do sistema depois de um hash volta à tela anterior (não só troca o hash)", async ({ page }) => {
     await page.goto("/");
-    await page.locator('a.app[href="/pedro/entrevistas"]').click();
+    // V07 · 2026-11-20 · ADR 007 item 5: o ícone de entrevista abre /na-tv.
+    await page.locator('a.app[href="/na-tv"]').click();
     await page.locator("a.prova").first().click();
     await expect(page).toHaveURL(/#pr-\d{3}$/);
     await assentar(page);
     await page.goBack();
-    expect(base(page)).toBe("/pedro/entrevistas");
+    expect(base(page)).toBe("/na-tv");
     await page.goBack();
     expect(base(page)).toBe("/");
   });
@@ -83,14 +85,15 @@ test.describe("Voltar: matriz de regressão", () => {
   });
 
   test("H3: pai das subpáginas aponta a rota canônica e não cai em redirect", async ({ page, request }) => {
-    for (const rota of ["/pedro/entrevistas", "/pedro/stack", "/pedro/label/escopo-sgi"]) {
+    // V07 · 2026-11-20 · ADR 007 item 5: /pedro/entrevistas virou /na-tv, rota de primeiro nível (pai = início).
+    for (const rota of ["/pedro/stack", "/pedro/label/escopo-sgi"]) {
       await page.goto(rota);
       const href = await seta(page).getAttribute("href");
       expect(href, rota).toBe("/pedro");
       const r = await request.get(href as string, { maxRedirects: 0 });
       expect(r.status(), `${rota} -> ${href}`).toBe(200);
     }
-    for (const rota of ["/pulse", "/cloud", "/sobre", "/apresentacao", "/pedro"]) {
+    for (const rota of ["/pulse", "/cloud", "/sobre", "/apresentacao", "/pedro", "/na-tv"]) {
       await page.goto(rota);
       const href = await seta(page).getAttribute("href");
       expect(href, rota).toBe("/");

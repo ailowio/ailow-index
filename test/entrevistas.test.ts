@@ -46,7 +46,8 @@ describe("/pedro/entrevistas: dados", () => {
 
   it("nenhum texto cita entrevistador", () => {
     expect(JSON.stringify(entrevistas)).not.toMatch(BLOQUEADOS);
-    const pagina = readFileSync(join(raiz, "src", "pages", "pedro", "entrevistas.astro"), "utf8");
+    // V07 · 2026-11-20 · ADR 007 item 5: a página de entrevistas agora é /na-tv (a antiga virou 301).
+    const pagina = readFileSync(join(raiz, "src", "pages", "na-tv.astro"), "utf8");
     expect(pagina).not.toMatch(BLOQUEADOS);
   });
 
