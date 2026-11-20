@@ -18,6 +18,8 @@ describe("indexação (F0)", () => {
       "/apresentacao/",
       // V03 · 2026-11-20 · ADR 007 item 5: /consultoria ganha conteúdo e sai do noindex do placeholder da V02.
       "/consultoria/",
+      // V04 · 2026-11-20 · ADR 007 item 5: /educacao ganha conteúdo e sai do noindex do placeholder da V02.
+      "/educacao/",
       "/explorar/",
       "/explorar/transcritor-de-audio/",
       "/explorar/agente-producao-teares/",

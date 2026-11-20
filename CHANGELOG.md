@@ -4,6 +4,18 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-11-20
+
+### Adicionado
+- V04 (ADR 007): **`/educacao` ganha conteúdo, "Levar para minha instituição"**: IA para empresários e equipes, em linguagem de analista do Sistema S. Os formatos (palestra, oficina e trilha) aparecem marcados como **proposta**, sem duração nem preço: formato, duração, público e conteúdo são ajustados com a instituição. Áreas temáticas só com o que o Pedro pratica na Copel, cada uma com a entrada do Diário de obra que mostra.
+- V04: **palco e mídia** só com fatos confirmados: a palestra na Sindigráfica-CE (#044), a visita do Sebrae e do SENAI para o vídeo do Sebraetec (#048), a reportagem da TV Record (#014) e a entrevista da UFC (#012), cada uma com o tipo do que foi (palestra, gravação, reportagem, entrevista). "Do outro lado da mesa": a fábrica atendida pelo Sebraetec e os cursos no IEL, na FIEC e no Sebrae.
+- V04: **kit do analista**, uma ficha com quem é, formação (MBA e IA aplicada a negócios na FGV, IEL e FIEC, FullCycle 4.0), palco e mídia, áreas temáticas, duração e valores ("combinados com a instituição"), credenciamento ("consulte a sua instituição": nenhum requisito sem fonte oficial lida, e a página nunca diz "credenciado") e o WhatsApp com a marca `[educação]`.
+- V04: a escada *Aprender → Automatizar → Sistema sob medida* com o **Aprender em destaque** ("Você está aqui", borda mais grossa) e o degrau seguinte levando à `/consultoria`.
+- Textos em `src/data/educacao.ts`; `test/v04-educacao.test.ts` exige entrada confirmada para cada fato, todo número numa delas, nenhum número nos formatos e reprova carga horária, preço, "credenciado" e requisito de edital (canários).
+
+### Alterado
+- V04: `/educacao` sai do noindex do placeholder e entra no sitemap, com título e descrição próprios. A página não tem script próprio: JS da rota 0,70 KiB gzip (o do layout; orçamento 10), peso 15,5 KiB (orçamento 150).
+
 ## [1.6.0] - 2026-11-20
 
 ### Adicionado

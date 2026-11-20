@@ -1,11 +1,9 @@
-import AxeBuilder from "@axe-core/playwright";
 import { type Page, expect, test } from "@playwright/test";
-import { linkContato } from "../src/config/contato";
 
 /**
  * V02 (2026-11-20, ADR 007 item 1): a home v2. Duas portas de mesmo peso, "Conhecer a história" abaixo e menor,
  * contato, link secundário "Diário de obra", grade de apps abaixo e um fundo de pulso que bate onde o dedo tocou.
- * As rotas /consultoria e /educacao têm só um placeholder honesto (o conteúdo é da V03/V04).
+ * As rotas /consultoria e /educacao começaram como placeholder honesto (o conteúdo veio na V03 e na V04).
  */
 
 const TEMAS = ["escuro", "claro"] as const;
@@ -224,43 +222,6 @@ test.describe("home v2: fundo de pulso", () => {
   });
 });
 
-// V03 · 2026-11-20 · ADR 007 item 5: /consultoria deixou de ser placeholder (conteúdo e indexação provados em
-// e2e/v03-consultoria.e2e.ts); só /educacao segue como placeholder até a V04.
-const PLACEHOLDERS = [{ rota: "/educacao", titulo: "Educação", origem: "educacao" as const }];
-
-for (const p of PLACEHOLDERS) {
-  test.describe(`${p.rota} (placeholder honesto da V02)`, () => {
-    test("responde, diz que está em construção e tem o WhatsApp com a origem da página", async ({ page }) => {
-      const r = await page.goto(p.rota);
-      expect(r?.status()).toBe(200);
-      await expect(page.getByRole("heading", { level: 1, name: p.titulo })).toBeVisible();
-      await expect(page.locator(".construcao")).toContainText("Em construção");
-      await expect(page.locator(".construcao .oferta")).not.toBeEmpty();
-      const botao = page.getByRole("link", { name: /Falar no WhatsApp/ });
-      await expect(botao).toHaveCount(1);
-      await expect(botao).toHaveAttribute("href", linkContato(p.origem));
-      await expect(botao).toBeInViewport();
-    });
-
-    test("fica fora do Google enquanto é placeholder", async ({ page }) => {
-      await page.goto(p.rota);
-      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex");
-    });
-
-    for (const tema of TEMAS) {
-      test(`tema ${tema}: axe limpo e sem rolagem horizontal`, async ({ page }) => {
-        await comTema(page, tema);
-        await page.goto(p.rota);
-        await page.evaluate(() => document.fonts.ready);
-        const m = await page.evaluate(() => ({
-          w: document.documentElement.scrollWidth,
-          cw: document.documentElement.clientWidth,
-        }));
-        expect(m.w).toBeLessThanOrEqual(m.cw);
-        const r = await new AxeBuilder({ page }).analyze();
-        const graves = r.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
-        expect(graves.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
-      });
-    }
-  });
-}
+// V03 · 2026-11-20 · ADR 007 item 5: /consultoria deixou de ser placeholder (e2e/v03-consultoria.e2e.ts).
+// V04 · 2026-11-20 · ADR 007 item 5: /educacao também deixou de ser placeholder (conteúdo, indexação, WhatsApp
+// [educação], axe e 360 px provados em e2e/v04-educacao.e2e.ts). O teste de placeholder ficou sem rota e saiu.
