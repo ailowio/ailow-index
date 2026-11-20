@@ -208,11 +208,13 @@ test.describe("correções de fato", () => {
     await expect(page.locator("body")).not.toContainText("alertas e dashboards");
   });
 
-  test("/pulse diz o estado real: sensores em todas as máquinas, dois gateways, v1.9 em validação", async ({ page }) => {
+  // V11 · 2026-11-20 · ok do orquestrador (X9, colheita de IoT §7): a implantação está em andamento, não em "todas as máquinas".
+  test("/pulse diz o estado real: implantação em andamento, dois gateways, v1.9 em validação", async ({ page }) => {
     await page.goto("/pulse");
     const corpo = page.locator("body");
     await expect(corpo).not.toContainText("ainda sem validação com os sensores em campo");
-    await expect(corpo).toContainText("todas as máquinas");
+    await expect(corpo).not.toContainText("todas as máquinas");
+    await expect(corpo).toContainText("em andamento");
     await expect(corpo).toContainText("dois gateways");
     await expect(corpo).toContainText("v1.9");
   });

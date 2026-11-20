@@ -4,6 +4,14 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.11.1] - 2026-11-20
+
+### Corrigido
+- V11 (ADR 002, ADR 006): **correções de conteúdo do Diário de obra a partir da colheita de IoT**, cada uma com a prova citada no campo `prova` da entrada. #063: as 25 entradas e o buffer de cerca de 4 dias são de 2 de setembro (em 31 de agosto eram 17), a v1.8 foi gravada só no gateway 1 e a leitura dos módulos usa o protocolo próprio do fabricante (sem "Modbus"). #056: a v1.6 foi escrita, mas nunca gravada em hardware. #081: a implantação dos sensores está em andamento, em parte das máquinas, com o mapa canal-máquina em conferência (`status_fato: construindo`, estado `open`); o `/pulse` deixa de dizer "todas as máquinas". #080: a conferência formal da v1.9 segue pendente (continua "em validação").
+
+### Adicionado
+- V11: duas entradas candidatas, #083 (firmware v1.7 do gateway 2) e #084 (gravação em campo dos dois gateways), com `verificacao: pendente`: não aparecem no site até a curadoria do Pedro. As 81 entradas publicadas seguem iguais, na mesma ordem.
+
 ## [1.11.0] - 2026-11-20
 
 ### Adicionado

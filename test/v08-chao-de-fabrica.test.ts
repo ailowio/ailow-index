@@ -130,7 +130,9 @@ describe("/chao-de-fabrica: fatos (ADR 006: o site é a fonte)", () => {
   });
 
   it("CANÁRIO: o detector reprova o texto atual da #081 e as frases fortes sobre a v1.9", () => {
-    const corpo081 = entrada(81).split("---").slice(2).join("---");
+    // V11 · 2026-11-20 · texto antigo da #081 preservado como canário (a entrada viva foi corrigida na V11)
+    const corpo081 =
+      "Em 18 de novembro de 2026, todas as máquinas da fábrica estão com sensores, com as caixas instaladas e rodando: a implantação está concluída, separada do MVP desligado em agosto. O firmware v1.9 dos gateways está em validação em campo (ver o item sobre ele). Próximo passo: atualizar a plataforma de monitoramento.";
     expect(frasesProibidas(corpo081).length).toBeGreaterThan(0);
     for (const s of [
       "Todas as máquinas da fábrica estão rodando.",
