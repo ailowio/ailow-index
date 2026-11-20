@@ -22,6 +22,8 @@ describe("indexação (F0)", () => {
       "/educacao/",
       // V07 · 2026-11-20 · ADR 007 item 5: /na-tv entra no lugar de /pedro/entrevistas.
       "/na-tv/",
+      // V08 · 2026-11-20 · ADR 007 item 5: /chao-de-fabrica entra (rota nova da série).
+      "/chao-de-fabrica/",
       "/explorar/",
       "/explorar/transcritor-de-audio/",
       "/explorar/agente-producao-teares/",

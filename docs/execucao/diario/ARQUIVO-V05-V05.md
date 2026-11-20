@@ -1,0 +1,9 @@
+### V05 — Ponte bancada → site — 2026-11-20 — Claude Sonnet 5.5 (subagente)
+Leu: Contrato, linha V05, retomada, V04; ADR 008, ADR 005 itens 1–2; `tokens.json` da bancada.
+Feito: schema Zod estrito (`src/midia/pacote.ts`, via `astro/zod`, sem dependência nova); `validarPacote`/`importarPacote` (`src/midia/validar.ts`): inventário por lista de permissões, tetos, cabeçalho de mp4/webp/png/vtt, `.vtt` obrigatório com vídeo, linter no `site.json` e nas legendas, tudo ou nada (copia para pasta temporária e renomeia); `npm run importar-midia -- <pasta>`; cópia `src/styles/pulso-tokens.json` + `pulso-deriva.ts` (MAPA de 31 tokens) + teste de deriva; `npm run tokens:sincronizar`; `docs/contratos/bancada-site.md`; I-13 no inventário; fixtures sintéticos em `test/fixtures/midia/`.
+Decisões (delegação): sem bump de versão nem CHANGELOG (ferramenta interna; entrada em [Unreleased] apareceria em `/versoes`); MB/KB decimais (mais estrito); a cópia dos tokens leva só nome e valor (as notas de uso citam o clone, ainda não público); `sinal-fraco` (#1b6fb0 no site, #2a6fae na bancada) e `fonte-mono` (sem IBM Plex) ficam como divergência declarada com teste que reprova exceção obsoleta; CLI roda TS por `--experimental-strip-types` (Node 22 do `.nvmrc`).
+Limites declarados: duração real do mp4, proporção do pôster, dado em tela e existência dos `#NNN` no feed não são conferidos.
+Canários (L-0006): mutação (teto ×1000, `.vtt` não exigido) deixou 4 testes vermelhos; revertida. Casos: vídeo > 8 MB, pôster/og acima do teto, > 60 s, sem `.vtt`, `.exe/.mov/.html`, subpasta, IP e `ilo.com.br`, termo local, cabeçalho falso; tokens: cor, duração, raio, espaço, traço, easing, token removido.
+Falhas no caminho: `astro check` rejeitou `groups` extra no tipo de `reduzirTokens`: tipo afrouxado.
+Números: Vitest 462 → 498; E2E 684 passed (sem mudança de rota).
+Pendências do Pedro: alinhar ou documentar `sinal-fraco`; V06 precisa dos derivados em `final/site/`.

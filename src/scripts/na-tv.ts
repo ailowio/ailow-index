@@ -25,6 +25,8 @@ for (const v of players) {
   const caixa = document.querySelector<HTMLElement>(`[data-legenda="${v.id}"]`);
   const trilha = v.textTracks[0];
   if (!caixa || !trilha) continue;
+  // V08: antes do primeiro play a caixa só mostra a dica (uma linha pequena); no play ela passa a reservar 2 linhas.
+  v.addEventListener("play", () => caixa.setAttribute("data-tocou", ""), { once: true });
   // A legenda nativa cairia por cima da queimada no vídeo: a fala vai para a caixa grande abaixo do quadro.
   trilha.mode = "hidden";
   trilha.addEventListener("cuechange", () => {

@@ -79,8 +79,22 @@ export const PORTAS: readonly PortaDoSite[] = [
   },
 ];
 
+/**
+ * V08 (ADR 007 item 5): seções com página própria que não entram na home (a grade fica com 6 apps e a tela de
+ * 360x640 da V02 não muda). Chegam pelo Diário de obra e pela /na-tv. O glifo é um quadro com a linha de pulso.
+ */
+export const SECOES: readonly AppDoSite[] = [
+  {
+    id: "chao-de-fabrica",
+    rotulo: "Chão de Fábrica",
+    rota: "/chao-de-fabrica",
+    titulo: "Chão de Fábrica",
+    glifo: '<rect x="4" y="2.5" width="16" height="19"/><path d="M4 12h4l2-4 3 8 2-4h5"/>',
+  },
+];
+
 export const appPorId = (id: string): AppDoSite => {
-  const app = [...APPS, ...PORTAS].find((a) => a.id === id);
+  const app = [...APPS, ...PORTAS, ...SECOES].find((a) => a.id === id);
   if (!app) throw new Error(`app desconhecido: ${id}`);
   return app;
 };

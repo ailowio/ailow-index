@@ -4,6 +4,17 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-11-20
+
+### Adicionado
+- V08 (ADR 007): **`/chao-de-fabrica`, a série Chão de Fábrica episódio por episódio**, presa a um "cabo" vertical com o número de cada episódio num borne amarelo. #1 "Dois quadros na parede" (10 nov 2026) e #2 "O sinal chegou" (11 nov 2026) com os vídeos da série: o vídeo só baixa depois do toque (`preload="none"`, pôster próprio, legenda em português), a fala aparece numa legenda grande abaixo do quadro e cada um avisa "Narração com voz gerada por IA".
+- V08: **#3 "Firmware v1.9" como relatório de campo** em texto: sintoma, hipótese, o que era, decisão e estado, só com o que está na entrada #080 do Diário de obra.
+- V08 (ADR 006): cada episódio liga às suas entradas do Diário de obra (#081, #062, #076, #080). O que ainda não fechou leva a fita de **"em validação"**: o sensor em cada máquina (#081) e a v1.9 em campo (#080). Um teste reprova as frases fortes que o campo ainda não confirma ("todas as máquinas", "concluída", v1.9 "validada" ou "aprovada", "resolvido") e todo número que não esteja numa entrada citada ou na fala do próprio vídeo (com canário).
+
+### Alterado
+- V08: o Diário de obra (`/pedro`) e a `/na-tv` ganham o link para o Chão de Fábrica; `/chao-de-fabrica` entra no sitemap, indexável. A home não muda (a grade segue com 6 apps).
+- V08: na `/na-tv` (e no Chão de Fábrica), **a caixa da legenda grande não reserva mais duas linhas vazias antes do play**: mostra só a dica numa linha pequena (de ~68 px para ~36 px) e passa a reservar as duas linhas no primeiro play, para nada pular entre uma fala e outra.
+
 ## [1.9.0] - 2026-11-20
 
 ### Adicionado
