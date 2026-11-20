@@ -166,6 +166,35 @@ a {
   color: var(--texto-2);
 }
 
+/* Botão de ação principal (F0: "Falar no WhatsApp"). Par de contraste --sobre-acento/--acento (≥ 4,5, testado). */
+.botao-acao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-1);
+  min-block-size: var(--alvo);
+  padding-inline: var(--espaco-3);
+  background: var(--acento);
+  color: var(--sobre-acento);
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: var(--texto-base);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 0;
+}
+
+.botao-acao svg {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* Transição nativa entre páginas (ADR 003, D1 = B): curta, só opacidade; sem animação se o usuário pede menos movimento. */
 @view-transition {
   navigation: auto;

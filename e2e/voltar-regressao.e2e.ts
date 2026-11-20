@@ -97,6 +97,7 @@ test.describe("Voltar: matriz de regressão", () => {
     }
   });
 
+  // F0 (2026-11-20, decisão do Pedro): a home não tem mais trava; o resto do H4 (não prender nem pular tela) continua.
   test("H4: ir e voltar várias vezes na home nunca prende nem pula tela", async ({ page }) => {
     await page.goto("/");
     await page.mouse.click(5, 5);
@@ -106,20 +107,18 @@ test.describe("Voltar: matriz de regressão", () => {
       await page.goBack();
       await expect(page).toHaveURL(/\/$/);
       await expect(page.locator("a.app")).toHaveCount(6);
-      expect(await page.evaluate(() => history.state?.t), `estado da home depois de ${rota}`).toBe(1);
     }
-    // Voltar na home não sai (a trava avança de novo).
-    await page.goBack();
-    await page.waitForTimeout(300);
-    expect(base(page)).toBe("/");
-    // E ainda dá para abrir outro ícone e voltar.
+    // E ainda dá para abrir outro ícone e voltar pela seta.
     await page.locator('a.app[href="/cloud"]').click();
     await expect(page).toHaveURL(/\/cloud\/?$/);
     await seta(page).click();
     await expect(page).toHaveURL(/\/$/);
   });
 
-  test("H4b: home restaurada do bfcache continua com a trava", async ({ page }) => {
+  // F0: sem trava, a home restaurada do bfcache segue o histórico normal (volta uma tela, sem pular).
+  test("H4b: home restaurada do bfcache volta exatamente uma tela", async ({ page }) => {
+    // /pulse faz o papel da página de onde a pessoa veio antes da home (o Instagram, por exemplo).
+    await page.goto("/pulse");
     await page.goto("/");
     await page.mouse.click(5, 5);
     await page.locator('a.app[href="/sobre"]').click();
@@ -128,7 +127,7 @@ test.describe("Voltar: matriz de regressão", () => {
     await expect(page).toHaveURL(/\/$/);
     await page.goBack();
     await page.waitForTimeout(300);
-    expect(base(page)).toBe("/");
+    expect(base(page)).toBe("/pulse");
   });
 
   test("H5: home -> Portfólio -> label -> Stack... cada Voltar do sistema volta exatamente uma tela", async ({ page }) => {
@@ -147,9 +146,10 @@ test.describe("Voltar: matriz de regressão", () => {
     // A label saiu do histórico quando a seta voltou e a Stack entrou no lugar dela.
     await page.goBack();
     expect(base(page)).toBe("/");
+    // F0 (2026-11-20, decisão do Pedro): sem trava na home, o próximo Voltar sai do site (aqui, para a aba em branco).
     await page.goBack();
     await page.waitForTimeout(300);
-    expect(base(page)).toBe("/");
+    expect(page.url()).toBe("about:blank");
   });
 
   test("H6: Voltar do sistema com o dialog do avatar aberto fecha o dialog e fica na página", async ({ page }) => {

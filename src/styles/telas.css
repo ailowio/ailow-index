@@ -114,9 +114,44 @@
   border-radius: var(--raio-card);
 }
 
+/* F0: o título passa a ser a frase de posicionamento (2 linhas no celular), não mais a marca. */
 .widget h1 {
-  font-size: 3.5rem;
-  letter-spacing: 0.02em;
+  font-size: clamp(1.625rem, 7.5vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+
+.widget .proposta {
+  margin: 0;
+  font-size: var(--texto-pequeno);
+  line-height: 1.4;
+  color: var(--texto-2);
+}
+
+.widget .botao-acao {
+  margin-block-start: var(--espaco-1);
+}
+
+/* F0: em telas baixas (360x640) a frase + o botão precisam caber com as 2 fileiras de ícones acima do rodapé.
+   Só espaçamento encolhe; alvos de toque (48 px) e tamanhos de texto ficam iguais. */
+@media (max-height: 740px) {
+  .home {
+    gap: var(--espaco-2);
+    padding-block-start: var(--espaco-1);
+  }
+
+  .widget {
+    gap: 0.25rem;
+    padding-block: 0.75rem;
+  }
+
+  .widget .botao-acao {
+    margin-block-start: 0.25rem;
+  }
+
+  .grade-apps {
+    row-gap: var(--espaco-2);
+  }
 }
 
 .widget .dominio {
@@ -240,6 +275,15 @@
     border: 0.5rem solid var(--moldura);
     border-radius: 2.75rem;
     box-shadow: 0 1.5rem 4rem color-mix(in srgb, var(--texto) 18%, transparent);
+  }
+
+  /* F0: a moldura tem largura de celular; o título não pode crescer com a largura da janela (vw). */
+  .tela-home .aparelho .widget h1 {
+    font-size: 1.75rem;
+  }
+
+  .tela-home .aparelho .home {
+    gap: var(--espaco-3);
   }
 }
 

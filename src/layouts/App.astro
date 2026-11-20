@@ -11,9 +11,13 @@ interface Props {
   pai?: string;
   paiNome?: string;
   descricao?: string;
+  /** Título da aba, quando difere do selo (F0: nada de "Ailow | Ailow" nem títulos repetidos). */
+  tituloPagina?: string;
+  /** F0: false nas páginas fora do Google (versões, /bio, labels). */
+  indexar?: boolean;
 }
 
-const { id, pai = "/", paiNome = "o início", descricao } = Astro.props;
+const { id, pai = "/", paiNome = "o início", descricao, tituloPagina, indexar = true } = Astro.props;
 const app = appPorId(id);
 
 // A seta anda um passo para trás no histórico quando a página anterior é do próprio site
@@ -23,7 +27,7 @@ const app = appPorId(id);
 const scriptSeta = `(function(){var a=document.querySelector("[data-voltar]");if(!a)return;var b=0;addEventListener("pageshow",function(){b=0});a.addEventListener("click",function(e){if(b){e.preventDefault();return}try{var r=new URL(document.referrer),p=location.pathname;if(p.length>1&&p.slice(-1)==="/")p=p.slice(0,-1);if(history.length>1&&r.origin===location.origin&&(location.hash||r.pathname.indexOf(p+"/")!==0)){e.preventDefault();b=1;history.back()}}catch(x){}})})()`;
 ---
 
-<Base titulo={app.titulo} descricao={descricao} classeCorpo="tela-app">
+<Base titulo={tituloPagina ?? app.titulo} descricao={descricao} indexar={indexar} classeCorpo="tela-app">
   <header class="cabecalho" slot="cabecalho">
     <a class="voltar" href={pai} data-voltar aria-label={`Voltar para ${paiNome}`}>
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">

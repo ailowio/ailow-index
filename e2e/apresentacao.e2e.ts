@@ -120,10 +120,12 @@ test("zero requisição a terceiros e nenhuma mídia de vídeo no carregamento",
   await expect(page.locator("video")).toHaveCount(0);
   await expect(page.locator("body")).not.toContainText(/em breve|a produzir|em construção/i);
   const hrefs = await page.locator("a[href^='http']").evaluateAll((as) => as.map((a) => new URL((a as HTMLAnchorElement).href).hostname));
-  expect(hrefs.sort()).toEqual(["github.com", "www.instagram.com", "www.linkedin.com"]);
+  // F0 (2026-11-20, decisão do Pedro): entra o WhatsApp (wa.me). Link não é requisição: o carregamento segue sem terceiros.
+  expect(hrefs.sort()).toEqual(["github.com", "wa.me", "www.instagram.com", "www.linkedin.com"]);
 });
 
-test("é noindex", async ({ page }) => {
+// F0 (2026-11-20, decisão do Pedro): a apresentação é rota pública e indexável.
+test("é indexável (F0)", async ({ page }) => {
   await page.goto(ROTA);
-  await expect(page.locator("meta[name=robots]")).toHaveAttribute("content", /noindex/);
+  await expect(page.locator("meta[name=robots]")).toHaveCount(0);
 });

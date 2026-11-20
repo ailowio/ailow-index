@@ -287,8 +287,10 @@ test.describe("rota escondida", () => {
       }
     };
     andar(dist);
+    // A varredura acima já lê .xml e .txt: o sitemap.xml e o robots.txt da F0 também não podem citar o cartão.
     expect(achados).toEqual([]);
-    expect(nomes.filter((n) => /sitemap/i.test(n))).toEqual([]);
+    // F0 (2026-11-20, decisão do Pedro): o site passa a ter sitemap; a regra "fora do sitemap" vale pela varredura.
+    expect(nomes.filter((n) => /sitemap/i.test(n))).toEqual(["sitemap.xml"]);
   });
 
   test("zero requisição a terceiros ao carregar o cartão", async ({ page, baseURL }) => {
