@@ -1,0 +1,13 @@
+{
+  "slug": "valido-youtube",
+  "titulo": "Entrevista sintética de teste",
+  "tipo": "entrevista",
+  "duracao_s": 1920,
+  "data": "2026-11-20",
+  "aprovado_por": "Pedro",
+  "aprovado_em": "2026-11-20",
+  "fatos": ["#012"],
+  "youtube_id": "AAAAAAAAAAA",
+  "selo_ia": false,
+  "capitulos": [{ "t": 90, "pergunta": "Pergunta sintética de teste" }]
+}

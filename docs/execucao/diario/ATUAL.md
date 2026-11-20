@@ -7,16 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### V02 — Home v2 — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
-Leu: Contrato, linha V02, retomada, V01; ADR 007; ADR 003 (home).
-Feito: home com a frase da F0 + duas portas de mesmo peso (`PORTAS` em `src/config/apps.ts`: "Fazer na minha empresa" → `/consultoria`, "Levar para minha instituição" → `/educacao`), WhatsApp, "Conhecer a história" (`/apresentacao`, menor) e "Diário de obra" (`/pedro`); grade de apps abaixo, sob a linha de pulso (saiu do fundo: cruzava os links). Pulso no toque (`.batida`, anel + onda no ponto tocado, atrás do conteúdo). Placeholders `/consultoria` e `/educacao` (App + "Em construção" + oferta + WhatsApp `[consultoria]`/`[educação]`). Versão 1.5.0.
-Decisões (delegação): placeholders com noindex até a V03/V04; frase da F0 mantida inteira (o teste da F0 exige "cursos de IA"); margem lateral da home 24 → 16 px; em 360x640 a grade não aparece sem rolar (só o conteúdo rola).
-Testes antigos alterados (comentário "V02 · 2026-11-20 · ADR 007"): home-app "360x640 não rola e os 6 ícones…" e "estado de toque" (rolar até a grade antes); f0 "360x640" e "1280x800" dos ícones (idem). Critérios iguais.
-Falhas no caminho: (1) o minificador fundiu `.app` e `.batida` numa regra só e o teste antigo do movimento reduzido (regex do `cssText`) ficou vermelho: bloco próprio para a `.batida`; (2) no desktop o pulso nascia 8 px fora (borda da moldura): `clientLeft/Top`; (3) dois canários de CSS juntos se anularam (título menor encolheu as portas): refeitos um a um.
-Canários (L-0006): fonte diferente numa porta → "mesmo peso" vermelho; +2rem acima da história → 607,9 > 584; sem reduced-motion da `.batida` → vermelho; `/consultoria` indexável → vermelho; JS da home 0,5 KiB → `peso` estourou. Revertidos e conferidos.
-Números: Vitest 363 → 367; E2E 558 → 608 passed; peso `/` 12,5/60 KiB (JS 0,67/10), `/consultoria` e `/educacao` 11,8/150 (JS 0,70).
-Screenshots: `D:/apps/.playwright-mcp/auditoria/v02/`.
-
 ### V03 — `/consultoria` — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
 Leu: Contrato, linha V03, retomada, V02; ADR 007; brainstorm §1/§5.4; colheita de IoT §7 (#081).
 Feito: método em 4 etapas com "Na Copel" e as entradas que provam; escada (Aprender → `/educacao`); casos Copel e Cloud "com a loja piloto"; raio-x de 5 perguntas em forma de OS (`mensagemRaioX`/`linkRaioX` em `contato.ts`, prévia da mensagem, envio abre o `wa.me`). Textos em `src/data/consultoria.ts`; teste exige entrada confirmada por bloco e todo número presente numa delas. Rota indexável, no sitemap. Versão 1.6.0.
@@ -37,3 +27,13 @@ Canários (L-0006): "oficina de 4 h", "Para 40 empresários", "Sou credenciado�
 Números: Vitest 402 → 462; E2E 648 → 684 passed; `/educacao` JS 0,70/10 KiB, peso 15,5/150.
 Pendências: ver "Pendências do Pedro" na retomada (itens da V04).
 Screenshots: `D:/apps/.playwright-mcp/auditoria/v04/`.
+
+### V05 — Ponte bancada → site — 2026-11-20 — Claude Sonnet 5.5 (subagente)
+Leu: Contrato, linha V05, retomada, V04; ADR 008, ADR 005 itens 1–2; `tokens.json` da bancada.
+Feito: schema Zod estrito (`src/midia/pacote.ts`, via `astro/zod`, sem dependência nova); `validarPacote`/`importarPacote` (`src/midia/validar.ts`): inventário por lista de permissões, tetos, cabeçalho de mp4/webp/png/vtt, `.vtt` obrigatório com vídeo, linter no `site.json` e nas legendas, tudo ou nada (copia para pasta temporária e renomeia); `npm run importar-midia -- <pasta>`; cópia `src/styles/pulso-tokens.json` + `pulso-deriva.ts` (MAPA de 31 tokens) + teste de deriva; `npm run tokens:sincronizar`; `docs/contratos/bancada-site.md`; I-13 no inventário; fixtures sintéticos em `test/fixtures/midia/`.
+Decisões (delegação): sem bump de versão nem CHANGELOG (ferramenta interna; entrada em [Unreleased] apareceria em `/versoes`); MB/KB decimais (mais estrito); a cópia dos tokens leva só nome e valor (as notas de uso citam o clone, ainda não público); `sinal-fraco` (#1b6fb0 no site, #2a6fae na bancada) e `fonte-mono` (sem IBM Plex) ficam como divergência declarada com teste que reprova exceção obsoleta; CLI roda TS por `--experimental-strip-types` (Node 22 do `.nvmrc`).
+Limites declarados: duração real do mp4, proporção do pôster, dado em tela e existência dos `#NNN` no feed não são conferidos.
+Canários (L-0006): mutação (teto ×1000, `.vtt` não exigido) deixou 4 testes vermelhos; revertida. Casos: vídeo > 8 MB, pôster/og acima do teto, > 60 s, sem `.vtt`, `.exe/.mov/.html`, subpasta, IP e `ilo.com.br`, termo local, cabeçalho falso; tokens: cor, duração, raio, espaço, traço, easing, token removido.
+Falhas no caminho: `astro check` rejeitou `groups` extra no tipo de `reduzirTokens`: tipo afrouxado.
+Números: Vitest 462 → 498; E2E 684 passed (sem mudança de rota).
+Pendências do Pedro: alinhar ou documentar `sinal-fraco`; V06 precisa dos derivados em `final/site/`.

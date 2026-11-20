@@ -1,0 +1,15 @@
+{
+  "slug": "valido-video",
+  "titulo": "Teaser sintético de teste",
+  "tipo": "teaser",
+  "duracao_s": 30,
+  "data": "2026-11-20",
+  "aprovado_por": "Pedro",
+  "aprovado_em": "2026-11-20",
+  "fatos": ["#080"],
+  "selo_ia": false,
+  "capitulos": [
+    { "t": 0, "pergunta": "Abertura de teste" },
+    { "t": 12.5, "pergunta": "Segunda pergunta de teste" }
+  ]
+}
