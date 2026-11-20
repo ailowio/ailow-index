@@ -2,10 +2,17 @@
 import Base from "../layouts/Base.astro";
 import BotaoWhatsapp from "../components/BotaoWhatsapp.astro";
 import IconeApp from "../components/IconeApp.astro";
-import { APPS } from "../config/apps";
+import { APPS, PORTAS } from "../config/apps";
 
 // F0 (2026-11-20): a home diz o que o Pedro faz (posicionamento da ESTRATEGIA §3.1 da bancada) e tem a ação
 // principal. A trava do Voltar saiu daqui (ADR 003 item 4 revisto; exceção EX-03): quem chega por link volta à origem.
+// V02 (2026-11-20, ADR 007 item 1): duas portas de mesmo peso, "Conhecer a história" abaixo e menor, o Diário de obra
+// como link secundário e a grade de apps abaixo. Em 360x640 portas e contato cabem sem rolar (E2E v02-home).
+
+// Fundo de pulso: o batimento nasce onde o dedo tocou. Só posiciona e reinicia a animação CSS
+// (movimento reduzido: o CSS zera a animação). passive: nunca atrasa o toque nem a rolagem.
+// clientLeft/clientTop: no desktop a moldura tem borda e o absoluto conta da borda para dentro.
+const scriptPulso = `(function(){var t=document.querySelector(".aparelho"),b=t&&t.querySelector(".batida");if(!b)return;t.addEventListener("pointerdown",function(e){var r=t.getBoundingClientRect();b.style.setProperty("--x",e.clientX-r.left-t.clientLeft+"px");b.style.setProperty("--y",e.clientY-r.top-t.clientTop+"px");b.classList.remove("bate");void b.offsetWidth;b.classList.add("bate")},{passive:true})})()`;
 ---
 
 <Base
@@ -14,31 +21,63 @@ import { APPS } from "../config/apps";
   classeCorpo="tela-home"
   moldura
 >
-  <svg slot="fundo" class="fundo-pulso" viewBox="0 0 360 96" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-    <path d="M0 48h120l16-32 24 64 20-48 12 16h168" vector-effect="non-scaling-stroke"></path>
-    <path class="destaque" d="M0 48h120l16-32 24 64 20-48 12 16h168" vector-effect="non-scaling-stroke"></path>
-  </svg>
+  <span slot="fundo" class="batida" aria-hidden="true">
+    <span class="batida-anel"></span>
+    <svg class="batida-onda" viewBox="0 0 96 48" focusable="false">
+      <path d="M0 24h30l6-14 8 28 7-20 5 6h40" pathLength="100"></path>
+    </svg>
+  </span>
   <div class="home">
     <section class="widget">
       <p class="dominio">Pedro Fernandes · Ailow</p>
       <h1>Digitalizei e sensorizei a minha fábrica.</h1>
       <p class="proposta">Agora levo isso para outras empresas, com consultoria e cursos de IA para empresários.</p>
-      <BotaoWhatsapp origem="site" />
     </section>
-    <ul class="grade-apps">
+    <nav class="portas" aria-label="Por onde começar">
       {
-        APPS.map((app, i) => (
-          <li>
-            <a class="app" href={app.rota} style={`--i:${i}`}>
-              <span class="app-tile" style={`view-transition-name: app-${app.id}`}>
-                <IconeApp id={app.id} />
-              </span>
-              <span class="app-rotulo">{app.rotulo}</span>
-            </a>
-          </li>
+        PORTAS.map((p) => (
+          <a class="porta" href={p.rota}>
+            <span class="porta-selo" style={`view-transition-name: app-${p.id}`}>
+              <IconeApp id={p.id} />
+            </span>
+            <span class="porta-texto">
+              <span class="porta-titulo">{p.chamada}</span>
+              <span class="porta-oferta">{p.oferta}</span>
+            </span>
+            <svg class="porta-seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 12h15M13 5l7 7-7 7"></path>
+            </svg>
+          </a>
         ))
       }
-    </ul>
+    </nav>
+    <BotaoWhatsapp origem="site" classe="contato-home" />
+    <p class="secundarios">
+      <a class="historia" href="/apresentacao">Conhecer a história</a>
+      <a class="diario" href="/pedro">Diário de obra</a>
+    </p>
+    <section class="apps" aria-labelledby="apps-titulo">
+      <svg class="linha-pulso" viewBox="0 0 360 48" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path d="M0 24h120l16-16 24 32 20-24 12 8h168" vector-effect="non-scaling-stroke"></path>
+        <path class="destaque" d="M0 24h120l16-16 24 32 20-24 12 8h168" vector-effect="non-scaling-stroke"></path>
+      </svg>
+      <h2 id="apps-titulo" class="apps-titulo">Apps do site</h2>
+      <ul class="grade-apps">
+        {
+          APPS.map((app, i) => (
+            <li>
+              <a class="app" href={app.rota} style={`--i:${i}`}>
+                <span class="app-tile" style={`view-transition-name: app-${app.id}`}>
+                  <IconeApp id={app.id} />
+                </span>
+                <span class="app-rotulo">{app.rotulo}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
   </div>
   <span class="gesto" aria-hidden="true"></span>
+  <script is:inline set:html={scriptPulso} />
 </Base>

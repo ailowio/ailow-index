@@ -4,6 +4,13 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-11-20
+
+### Adicionado
+- V02 (ADR 007): **home v2 com duas portas de mesmo peso**: "Fazer na minha empresa" (consultoria sob medida) leva a `/consultoria` e "Levar para minha instituição" (cursos de IA) leva a `/educacao`. Abaixo delas, o "Falar no WhatsApp", "Conhecer a história" (menor, abre a `/apresentacao`) e o link secundário "Diário de obra" (`/pedro`). A grade de apps continua logo abaixo, sob uma linha de pulso. Em 360x640 a frase, as portas, o contato e a história cabem sem rolar, acima do rodapé (E2E mede contra o contêiner e o rodapé em 360, 375, 1280 e 1440, nos 2 temas).
+- V02: fundo de pulso que bate no toque: um anel e a onda de um batimento nascem no ponto onde o dedo tocou, atrás do conteúdo (nunca cobre texto). Todo o JS da home (tema + pulso) fica em 0,67 KiB gzip, orçamento 10; com movimento reduzido, nada anima (E2E confere o estilo computado).
+- V02: `/consultoria` e `/educacao` com placeholder honesto ("Em construção", a frase da oferta e o WhatsApp com a origem de cada página, `[consultoria]` e `[educação]`). Ficam fora do Google até ganharem conteúdo (V03 e V04); orçamento de peso próprio (JS 10 KiB, peso 150 KiB).
+
 ## [1.4.0] - 2026-11-20
 
 ### Adicionado

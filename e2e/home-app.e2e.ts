@@ -72,10 +72,13 @@ test.describe("home como tela inicial", () => {
     await expect(page.locator(".logo")).toHaveCount(1);
   });
 
+  // V02 · 2026-11-20 · ADR 007: a grade de apps desceu para baixo das portas. A página continua sem rolar
+  // (UXM-01); os ícones ficam ao alcance rolando só o conteúdo, e o último chega inteiro à tela.
   test("home em 360x640 não rola e os 6 ícones ficam inteiros na tela", async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 640 });
     await page.goto("/");
     await page.waitForTimeout(700);
+    await page.locator("li:last-child a.app").scrollIntoViewIfNeeded();
     const m = await page.evaluate(() => {
       const el = document.documentElement;
       const ultimo = document.querySelector("a.app:last-child, li:last-child a.app") as HTMLElement;
@@ -104,6 +107,8 @@ test.describe("home como tela inicial", () => {
     await page.goto("/");
     await page.waitForTimeout(700);
     const tile = page.locator("a.app").first().locator(".app-tile");
+    // V02 · 2026-11-20 · ADR 007: a grade fica abaixo das portas; traz o ícone para a tela antes de pressionar.
+    await tile.scrollIntoViewIfNeeded();
     const caixa = await tile.boundingBox();
     if (!caixa) throw new Error("sem caixa");
     await page.mouse.move(caixa.x + caixa.width / 2, caixa.y + caixa.height / 2);

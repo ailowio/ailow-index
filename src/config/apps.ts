@@ -46,8 +46,40 @@ export const APPS: readonly AppDoSite[] = [
   },
 ];
 
+/**
+ * V02 (ADR 007 item 1): as duas portas da home, de mesmo peso. Não entram na grade de apps; o selo da página
+ * de destino usa o mesmo glifo e o mesmo view-transition-name (a porta "abre" como um app).
+ */
+export interface PortaDoSite extends AppDoSite {
+  /** O que a pessoa quer fazer (título da porta). */
+  chamada: string;
+  /** Uma linha: a oferta, com as palavras já publicadas no site. */
+  oferta: string;
+}
+
+export const PORTAS: readonly PortaDoSite[] = [
+  {
+    id: "consultoria",
+    rotulo: "Consultoria",
+    rota: "/consultoria",
+    titulo: "Consultoria",
+    chamada: "Fazer na minha empresa",
+    oferta: "Consultoria sob medida",
+    glifo: '<path d="M3 21V10l6 4V10l6 4V4h6v17z"/><path d="M7 17h2M12 17h2M17 17h1"/>',
+  },
+  {
+    id: "educacao",
+    rotulo: "Educação",
+    rota: "/educacao",
+    titulo: "Educação",
+    chamada: "Levar para minha instituição",
+    oferta: "Cursos de IA",
+    glifo: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5M22 9v6"/>',
+  },
+];
+
 export const appPorId = (id: string): AppDoSite => {
-  const app = APPS.find((a) => a.id === id);
+  const app = [...APPS, ...PORTAS].find((a) => a.id === id);
   if (!app) throw new Error(`app desconhecido: ${id}`);
   return app;
 };
