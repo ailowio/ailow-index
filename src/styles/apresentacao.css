@@ -136,11 +136,24 @@
   stroke-linejoin: round;
 }
 
+.apresentacao .video {
+  display: grid;
+  gap: var(--espaco-2);
+  justify-items: center;
+}
+
+/* Vídeo vertical (9:16): limita a largura para não virar uma coluna de duas telas no desktop. */
 .apresentacao .video video {
   display: block;
-  inline-size: 100%;
+  inline-size: min(100%, 22rem);
   block-size: auto;
   background: var(--fundo);
+}
+
+.apresentacao .selo-ia {
+  margin: 0;
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
 }
 
 .apresentacao ul {

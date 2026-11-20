@@ -63,7 +63,14 @@ const scriptAvatar = `(function(){var g=document.getElementById("avatar-gatilho"
     </button>
   </dialog>
 
-  {htmlVideo && <section class="video" aria-label="Vídeo de apresentação" set:html={htmlVideo} />}
+  {
+    htmlVideo && (
+      <section class="video" aria-label="Vídeo de apresentação">
+        <Fragment set:html={htmlVideo} />
+        {video?.selo_ia && <p class="selo-ia">Neste vídeo, parte da imagem e da voz é gerada por IA.</p>}
+      </section>
+    )
+  }
 
   <nav class="caminho" aria-labelledby="caminho-titulo">
     <h2 id="caminho-titulo">Meu trabalho</h2>

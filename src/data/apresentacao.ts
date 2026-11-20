@@ -11,6 +11,8 @@ export interface VideoPitch {
   vtt: string;
   largura: number;
   altura: number;
+  /** Voz ou imagem gerada por IA (pacote da bancada, ADR 008): a página avisa ao lado do vídeo. */
+  selo_ia?: boolean;
 }
 
 export interface Foto {
@@ -42,7 +44,15 @@ export const apresentacao: {
     fotoPequena: { src: "/pedro-foto/pedro-160.webp", largura: 160, altura: 160 },
     fotoGrande: { src: "/pedro-foto/pedro-480.webp", largura: 480, altura: 480 },
   },
-  video: null,
+  // V06 (2026-11-20): pacote "Fixado 00 · O que eu faço?" da bancada (ADR 005/008), 720x1280, 52 s, com clone e voz de IA.
+  video: {
+    mp4: "/midia/fixado-00-o-que-eu-faco/video-720p.mp4",
+    poster: "/midia/fixado-00-o-que-eu-faco/poster.webp",
+    vtt: "/midia/fixado-00-o-que-eu-faco/legenda.vtt",
+    largura: 720,
+    altura: 1280,
+    selo_ia: true,
+  },
   caminho: [
     { rotulo: "Portfólio", href: "/pedro" },
     { rotulo: "Entrevistas", href: "/pedro/entrevistas" },

@@ -7,16 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### V03 — `/consultoria` — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
-Leu: Contrato, linha V03, retomada, V02; ADR 007; brainstorm §1/§5.4; colheita de IoT §7 (#081).
-Feito: método em 4 etapas com "Na Copel" e as entradas que provam; escada (Aprender → `/educacao`); casos Copel e Cloud "com a loja piloto"; raio-x de 5 perguntas em forma de OS (`mensagemRaioX`/`linkRaioX` em `contato.ts`, prévia da mensagem, envio abre o `wa.me`). Textos em `src/data/consultoria.ts`; teste exige entrada confirmada por bloco e todo número presente numa delas. Rota indexável, no sitemap. Versão 1.6.0.
-Decisões (delegação): sem nome do cliente do Cloud (o feed #070 e o `/cloud` já citam: fica para o Pedro); "todas as máquinas" da #081 não é repetido (contradição em aberto na colheita); sem foto/clipe por etapa e sem slot de vídeo até a V05/V06; botão de enviar desligado sem JS (o form não manda nada ao servidor nem sem JS).
-Testes antigos alterados (comentário "V03 · 2026-11-20 · ADR 007 item 5"): `indexacao.test.ts` (lista ganha `/consultoria/`) e o placeholder do `v02-home.e2e.ts` (fica só `/educacao`).
-Falhas no caminho: (1) o rádio invisível sobre o chip intercepta o clique no texto (o teste passou a tocar o rádio); (2) o `astro preview` de screenshot na 4330 impediu o webServer do Playwright na 4329 ("another preview running"): parado e porta conferida (L-0012); (3) a escada do desktop não subia (`align-items: end`): virou teste; (4) no CI o `getAnimations()` pegou 7 transições de 0,01 ms do reduced-motion global: conta só duração > 1 ms (canário `animate()` de 5 s reprova).
-Canários (L-0006): "em 30 dias" no texto, `/consultoria/` fora da lista, `sessionStorage` no script (Vitest vermelho); pixel `/px` ao digitar, `turnos` trocado no envio, escada com `end` (E2E vermelho). Revertidos.
-Números: Vitest 367 → 402; E2E 608 → 648 passed; `/consultoria` JS 1,63/10 KiB, peso 16,3/150.
-Screenshots: `D:/apps/.playwright-mcp/auditoria/v03/` (360 e 1440, 2 temas, página inteira).
-
 ### V04 — `/educacao` — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
 Leu: Contrato, linha V04, retomada, V03; ADR 007; brainstorm §1/§5.5; ESTRATEGIA §3.4/§4 e TRAJETORIA §1/§3 (bancada); README da série Ensinando IA.
 Feito: formatos (palestra, oficina, trilha) com selo "Proposta" e sem número; áreas temáticas; palco e mídia (#044, #048, #014, #012) com o tipo real; "do outro lado da mesa" (Sebraetec, IEL, FIEC, Sebrae); kit do analista em ficha; escada com o Aprender em destaque e o Automatizar → `/consultoria`. Textos em `src/data/educacao.ts`. Sem script. Indexável, no sitemap. Versão 1.7.0.
@@ -37,3 +27,14 @@ Canários (L-0006): mutação (teto ×1000, `.vtt` não exigido) deixou 4 testes
 Falhas no caminho: `astro check` rejeitou `groups` extra no tipo de `reduzirTokens`: tipo afrouxado.
 Números: Vitest 462 → 498; E2E 684 passed (sem mudança de rota).
 Pendências do Pedro: alinhar ou documentar `sinal-fraco`; V06 precisa dos derivados em `final/site/`.
+
+### V06 — Pacotes de vídeo — 2026-11-20 — Claude Sonnet 5.5 (subagente)
+Leu: Contrato, linha V06, retomada, V05; ADR 005/008; STATUS e PUBLICAR da bancada.
+Feito: 6 pacotes em `final/site/<slug>/` da bancada (só essa pasta), importados com `npm run importar-midia`: `teaser-p1-improvisar-sob-pressao`, `teaser-p2-teoria-na-pratica`, `teaser-p3-da-dor-ao-sistema`, `fixado-00-o-que-eu-faco`, `chao-1-dois-quadros`, `chao-2-sinal-chegou`. 720x1280, 5,2–6,9 MB; pôster 15–67 KB; `.vtt` pela AssemblyAI (chave lida dentro do script, nunca impressa). `/apresentacao` e `/bio` ganham o Fixado 00 no slot (`preload="none"`, aviso "parte da imagem e da voz é gerada por IA"). Versão 1.8.0.
+Decisões (delegação): E6 (v5, 76 s, sem teaser) NÃO importado: pendência "subir no YouTube"; Fixado 00 como pitch (aprovado v8; é clone e voz de IA, `selo_ia` true; o pitch "gravado por ele" do ADR 003 segue possível depois); `aprovado_em` = 2026-11-19 (data do STATUS, que não traz data por peça); `fatos` vazio (V08 liga #080/#081); `selo_ia` true também nos 2 Chão (tarja "VOZ IA"); teasers sem selo (entrevista real).
+Revisão de tela (1 frame a cada 3 s, 6 derivados olhados): sem CNPJ, NF, IP, placa nem nome de cliente. Ressalva: no P3 (t≈27–36 s) aparece, desfocada, uma tela do ERP com colunas "R$" ilegíveis e a marca de emissora no rodapé borrado; entrou por ilegível. Se o orquestrador discordar, apague `public/midia/teaser-p3-da-dor-ao-sistema/` (o teste exige 6 slugs: ajuste junto).
+Testes antigos alterados (comentário V06): `e2e/apresentacao.e2e.ts`, "zero requisição…": `video` count 0 → 1 com `preload="none"` (mesma prova de 0 mídia antes do toque).
+Canários (L-0006): `preload="auto"` deixou 4 E2E vermelhos (revertido); `violacoes()` reprova arquivo > 8 MB, vídeo sem `.vtt` e sem pôster (teste com pasta temporária).
+Falhas no caminho: Biome proíbe `export` em teste; no Chromium headless o 1º toque no pôster só mostra controles (o E2E clica e chama `play()`); o `.vtt` (1 KB) baixa no carregamento por causa do `<track default>`, não é vídeo.
+Números: Vitest 498 → 504; E2E 684 → 686 passed; `/apresentacao` JS 1,01/10 KiB, peso 28,65/150; `public/midia` 36,3 MB somados (6 pacotes; só o Fixado 00 é servido por página até a V07/V08), a imagem do nginx cresce o mesmo.
+Screenshots: `D:/apps/.playwright-mcp/auditoria/v06/`.
