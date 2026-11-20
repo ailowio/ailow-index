@@ -24,7 +24,7 @@
 ## O que ainda falta
 | Lacuna | Regra | Quando |
 |--------|-------|--------|
-| E2E (Playwright) com axe sem `serious`/`critical`, sem scroll horizontal em 360/1280 nos 2 temas, zero requisição a terceiros | TEST-13, UX | S04 |
+| E2E (Playwright) com axe sem `serious`/`critical`, sem scroll horizontal em 360/1280 nos 2 temas, zero requisição a terceiros (antes do toque, ADR 005) | TEST-13, UX | S04 |
 | Cabeçalhos de segurança e CSP no nginx, imagem não-root, logs JSON, orçamento de JS (≤ 10 KB gz) e peso, E2E no ambiente do CI | SEC-*, OBS-*, PERF-* | S06 |
 | Deploy por workflow parado no approval, rollback ensaiado, smoke test, inventários com evidência de produção | OPS-*, AUD-24/27 | S07 |
 | Aprovação por pessoa ≠ autor | CI-08, AUD-22 | exceção EX-01, revisar em 2027-02-18 |

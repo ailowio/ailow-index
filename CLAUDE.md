@@ -17,7 +17,8 @@ Este app herda `D:\apps\harness`. Antes de qualquer trabalho:
 - Nenhum histórico git retrodatado: os PRs do feed são conteúdo.
 - Testes em `test/` ou ao lado do código (`*.test.ts`); nome descreve a regra.
 - Não adicionar dependência sem verificar versão e `engines` no registro; versões fixadas exatas.
-- Zero requisição a terceiros: fontes e imagens auto-hospedadas.
+- **Zero requisição a terceiros antes do toque** (ADR 005, 2026-11-20): fontes, imagens, ícones e scripts auto-hospedados; a única exceção é o player do YouTube (`youtube-nocookie.com`), criado só depois do toque numa fachada com pôster próprio, e provado por E2E que conta as requisições antes e depois.
+- Mídia só chega pelo pacote da bancada (ADR 008, `npm run importar-midia`); fatos têm o site como fonte única (ADR 006).
 
 ## Conteúdo público (o que nunca entra)
 IP, segredo, certificado, tópico MQTT, número de fatura, id de projeto Supabase, JSON de fluxo n8n,
