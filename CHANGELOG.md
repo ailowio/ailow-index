@@ -4,6 +4,15 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-11-20
+
+### Adicionado
+- V03 (ADR 007): **`/consultoria` ganha conteúdo, "Faz aqui na minha"**. O método em 4 etapas (diagnóstico no chão de fábrica, protótipo, implantação, operação), cada uma com o que aconteceu na Copel, a fábrica do Pedro e cliente zero, e as entradas do Diário de obra que provam (#048, #047, #067, #032, #062, #081, #080, #033, #054). A escada *Aprender → Automatizar → Sistema sob medida* (o "Aprender" leva aos cursos, `/educacao`) e os casos: Copel e o Cloud com a loja piloto. Os textos ficam em `src/data/consultoria.ts`, e um teste exige que cada bloco cite entradas confirmadas e que todo número do texto esteja numa delas.
+- V03: **raio-x de 5 perguntas** (processo que dói, como mede hoje, pessoas, turnos, sistema atual) em forma de ordem de serviço. A mensagem é montada no aparelho, aparece antes de enviar e abre no WhatsApp com a marca `[consultoria]` (`mensagemRaioX` e `linkRaioX` em `src/config/contato.ts`). Nada vai a servidor e nada fica guardado: E2E conta 0 requisição ao preencher e só a abertura do `wa.me` ao enviar, e confere o texto da URL.
+
+### Alterado
+- V03: `/consultoria` sai do noindex do placeholder e entra no sitemap, com título ("Consultoria sob medida para empresas") e descrição próprios. JS da rota 1,6 KiB gzip (orçamento 10), peso 16,3 KiB (orçamento 150).
+
 ## [1.5.0] - 2026-11-20
 
 ### Adicionado

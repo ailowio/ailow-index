@@ -1,0 +1,381 @@
+/*
+ * /consultoria (V03, ADR 007): só papéis de tokens.css e pares de pares-contraste.json.
+ * O scroll é interno ao .conteudo (exceção UXM-01, ADR 003). Mobile primeiro; nada anima.
+ * Motivo visual: a linha de produção (etapas numeradas sobre um trilho amarelo) e a escada que sobe.
+ */
+
+.consultoria {
+  display: grid;
+  gap: var(--espaco-6);
+  inline-size: 100%;
+  max-inline-size: 46rem;
+  margin-inline: auto;
+  padding: var(--espaco-3) var(--espaco-2) var(--espaco-8);
+  min-inline-size: 0;
+}
+
+.consultoria section {
+  display: grid;
+  gap: var(--espaco-2);
+  min-inline-size: 0;
+  scroll-margin-block-start: var(--espaco-2);
+}
+
+.consultoria h2 {
+  font-size: var(--texto-subtitulo);
+  padding-block-end: var(--espaco-1);
+  border-block-end: var(--traco-borda) solid var(--acento);
+  justify-self: start;
+}
+
+.consultoria h3 {
+  font-size: var(--texto-subtitulo);
+}
+
+.consultoria ol,
+.consultoria ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.consultoria .apoio {
+  color: var(--texto-2);
+}
+
+/* ---------- Topo: a frase e a ação principal ---------- */
+
+.consultoria-topo {
+  justify-items: start;
+}
+
+.consultoria-topo .sobretitulo,
+.metodo-num,
+.degrau-oferta,
+.caso-papel,
+.os-cabecalho,
+.previa-titulo {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+
+.consultoria .consultoria-topo h2 {
+  font-size: clamp(2rem, 8.5vw, 3rem);
+  line-height: 1.02;
+  border-block-end-width: 0.375rem;
+}
+
+.consultoria-topo .tese {
+  font-size: var(--texto-subtitulo);
+  line-height: 1.35;
+}
+
+.consultoria-topo .botao-acao {
+  inline-size: 100%;
+  max-inline-size: 22rem;
+}
+
+.ir-raio-x {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--alvo);
+}
+
+/* ---------- O método: trilho com 4 estações ---------- */
+
+.metodo {
+  display: grid;
+  gap: 0;
+}
+
+.metodo > li {
+  position: relative;
+  display: grid;
+  gap: var(--espaco-1);
+  padding: 0 0 var(--espaco-4) calc(2.75rem + var(--espaco-2));
+  min-inline-size: 0;
+}
+
+/* O trilho: liga o centro de cada número ao próximo. */
+.metodo > li::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(1.375rem - var(--traco-fino));
+  inline-size: var(--traco-borda);
+  background: var(--borda);
+}
+
+.metodo > li:last-child {
+  padding-block-end: 0;
+}
+
+.metodo > li:last-child::before {
+  display: none;
+}
+
+.metodo-num {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  background: var(--acento);
+  color: var(--sobre-acento);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.metodo h3 {
+  min-block-size: 2.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.na-copel {
+  display: grid;
+  gap: var(--espaco-1);
+  margin-block-start: var(--espaco-1);
+  padding: var(--espaco-2);
+  background: var(--superficie);
+  border-inline-start: var(--traco-borda) solid var(--acento);
+}
+
+/* Entradas do Diário de obra citadas: alvos de 48 px, em linha que quebra. */
+.provas-pr {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1);
+}
+
+.provas-pr a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--alvo);
+  min-inline-size: var(--alvo);
+  padding-inline: var(--espaco-1);
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  color: var(--texto);
+  border: var(--traco-fino) solid var(--borda-ui);
+  text-decoration: none;
+}
+
+.provas-pr a:hover {
+  border-color: var(--acento);
+}
+
+/* ---------- A escada: três degraus; no celular, um por linha, recuando a cada degrau ---------- */
+
+.escada {
+  display: grid;
+  gap: var(--espaco-2);
+}
+
+.degrau {
+  display: grid;
+  gap: var(--espaco-1);
+  align-content: start;
+  padding: var(--espaco-2);
+  border: var(--traco-fino) solid var(--borda);
+  border-block-start: var(--traco-borda) solid var(--acento);
+  min-inline-size: 0;
+}
+
+.degrau-automatizar {
+  margin-inline-start: var(--espaco-2);
+}
+
+.degrau-sistema {
+  margin-inline-start: var(--espaco-4);
+}
+
+.degrau-link {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  min-block-size: var(--alvo);
+}
+
+@media (min-width: 40rem) {
+  .escada {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .degrau-automatizar,
+  .degrau-sistema {
+    margin-inline-start: 0;
+  }
+
+  /* Os degraus sobem da esquerda para a direita. */
+  .degrau-aprender {
+    margin-block-start: var(--espaco-8);
+  }
+
+  .degrau-automatizar {
+    margin-block-start: var(--espaco-4);
+  }
+}
+
+/* ---------- Casos ---------- */
+
+.casos {
+  display: grid;
+  gap: var(--espaco-3);
+}
+
+.casos > li {
+  display: grid;
+  gap: var(--espaco-1);
+  padding-inline-start: var(--espaco-2);
+  border-inline-start: var(--traco-borda) solid var(--borda);
+  min-inline-size: 0;
+}
+
+@media (min-width: 40rem) {
+  .casos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Raio-x: uma ordem de serviço de chão de fábrica ---------- */
+
+.raio-x {
+  display: grid;
+  gap: var(--espaco-3);
+  padding: var(--espaco-2);
+  background: var(--superficie);
+  border: var(--traco-fino) dashed var(--borda-ui);
+  counter-reset: pergunta;
+  min-inline-size: 0;
+}
+
+.os-cabecalho {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--espaco-1);
+  padding-block-end: var(--espaco-1);
+  border-block-end: var(--traco-fino) dashed var(--borda-ui);
+}
+
+.campo {
+  display: grid;
+  gap: var(--espaco-1);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+  counter-increment: pergunta;
+}
+
+.campo > label,
+.campo > legend {
+  display: flex;
+  gap: var(--espaco-1);
+  padding: 0;
+  font-weight: 600;
+}
+
+.campo > label::before,
+.campo > legend::before {
+  content: counter(pergunta) ".";
+  font-family: var(--fonte-mono);
+  color: var(--texto-2);
+}
+
+.campo textarea,
+.campo input[type="text"] {
+  inline-size: 100%;
+  min-block-size: var(--alvo);
+  padding: var(--espaco-1);
+  font: inherit;
+  color: var(--texto);
+  background: var(--fundo);
+  border: var(--traco-fino) solid var(--borda-ui);
+  border-radius: var(--raio-0);
+  resize: vertical;
+}
+
+.campo input::placeholder {
+  color: var(--texto-2);
+  opacity: 1;
+}
+
+.opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1);
+}
+
+/* Opção = um chip inteiro tocável; o rádio nativo fica por cima, invisível (teclado e leitor funcionam). */
+.opcao {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--alvo);
+  min-inline-size: var(--alvo);
+  padding-inline: var(--espaco-2);
+  color: var(--texto);
+  background: var(--fundo);
+  border: var(--traco-fino) solid var(--borda-ui);
+  cursor: pointer;
+}
+
+.opcao input {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.opcao:has(input:checked) {
+  background: var(--acento);
+  color: var(--sobre-acento);
+  border-color: var(--acento);
+}
+
+.opcao:has(input:focus-visible) {
+  outline: var(--foco-largura) solid var(--foco);
+  outline-offset: var(--foco-afastamento);
+}
+
+.previa {
+  display: grid;
+  gap: var(--espaco-1);
+}
+
+.raio-x-previa {
+  max-width: none;
+  padding: var(--espaco-2);
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  white-space: pre-wrap;
+  color: var(--texto);
+  background: var(--fundo);
+  border-inline-start: var(--traco-borda) solid var(--acento);
+}
+
+.raio-x .botao-acao {
+  inline-size: 100%;
+  cursor: pointer;
+}
+
+.raio-x .botao-acao:disabled {
+  cursor: default;
+}
+
+.raio-x .aviso {
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}

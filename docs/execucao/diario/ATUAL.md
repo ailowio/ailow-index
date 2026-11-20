@@ -7,15 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### F0 (deploy) + F5 — Explorador do n8n — 2026-11-20 — Claude Opus 5.5 (orquestrador)
-Deploy da F0: PR #26 (7 checks verdes depois de trocar a base do nginx para 1.31.7: o Trivy barrou 4 CRITICAL e 2 HIGH no 1.30.6, e a 1.30.7 não foi publicada no Docker Hub), tag `v1.3.0`, imagem (run 44671540552), Deploy (run 44671689042) **aprovado pelo agente por delegação explícita do Pedro** (EX-04), smoke de fora verde (rotas 200, noindex só onde deve, `[instagram]` no `/bio`, HSTS, `v1.3.0` no rodapé).
-F5: o Pedro guardou a chave da API do n8n (`N8N_API_KEY`) no arquivo de ambiente da raiz de `D:/apps` e pediu para obter, analisar e reproduzir os fluxos. A chave é carregada dentro do script que chama a API e nunca é impressa; para achar o arquivo, um script listou só nomes de variáveis e se tinham valor. Só GET (nada alterado no n8n): 86 fluxos, 9 ativos, 2.011 nós. Export bruto, análise e conversor ficam em `D:/apps/_scratch/n8n/` (fora do git). 5 fluxos publicados como versão derivada e saneada (lista de permissões; notas adesivas, parâmetros, credenciais, ids e URLs fora; nomes de pessoas viraram papéis). Página `/explorar` + uma por fluxo, SVG no build, 1,4 KiB de JS, painel por toque/Enter, zoom, arrastar, "Ver rodando", "Ver como lista".
-Falhas no caminho: (1) o padrão do id do n8n exigia dígito e o canário (um id real sem dígito) passava: corrigido; (2) axe `label-content-name-mismatch` nos nós: as linhas do rótulo (`tspan`) se juntavam sem espaço; corrigido; (3) `import.meta.glob` não existe no Playwright: o carregador passou a usar `node:fs`; (4) o guard do harness bloqueou um `cat >>` deste diário porque o texto citava o caminho do arquivo de ambiente (falso positivo: o comando não lia o arquivo); registrado com a ferramenta de edição, sem contornar o guard.
-Canários (L-0006): nó sujo reprova o saneamento (9 achados); sem o "o que faz" no nó, o teste do painel reprova (5 falhas).
-Paralelo: um agente documentou a pasta de IoT e 11 sessões (6 Cursor, 5 Claude Code) em `docs/execucao/v2/IOT-COLHEITA.md` (local). Achou contradições no feed (#056, #063, #081) e senhas em texto puro na pasta de IoT (repositório local, sem remoto): ficam para o Pedro.
-`.gitignore`: `docs/execucao/v2/` (o agente apontou que um `git add .` publicaria o trabalho local).
-Screenshots: `D:/apps/.playwright-mcp/auditoria/f5/` (índice, teares com painel aberto, LINA; 360 e 1440; 2 temas).
-
 ### V01 — Decisões (ADRs 005–008) — 2026-11-20 — Claude Opus 5.5 (orquestrador)
 Leu: Contrato, linha V01, Estado de retomada, última entrada; brainstorm §1–§6, §8–§11; transcrição de 19/11 (trechos de YouTube e do feed); ADR 002/003; `claims.csv` (C04, C11, C16); CSP do nginx.
 Feito: ADR 005 (teaser ≤ 60 s/8 MB auto-hospedado; longo no YouTube só por fachada, iframe `youtube-nocookie` criado no toque, `frame-src` só nas rotas com fachada); ADR 006 (site mestre, `status_fato` nas entradas de vitrine, coluna `fato_site` no CSV, script de conciliação local, CI nunca lê a bancada); ADR 007 (duas portas iguais + "Conhecer a história" abaixo, escada, feed = "Diário de obra" secundário com `/pedro` mantido, rotas novas por sessão, stories para o backlog); ADR 008 (pacote `final/site/<slug>/` com `site.json` Zod, tetos, importador local, bancada sem git, tokens com teste de deriva, interface I-13 na V05). CLAUDE.md: regra "zero terceiros antes do toque".
@@ -32,3 +23,13 @@ Falhas no caminho: (1) o minificador fundiu `.app` e `.batida` numa regra só e 
 Canários (L-0006): fonte diferente numa porta → "mesmo peso" vermelho; +2rem acima da história → 607,9 > 584; sem reduced-motion da `.batida` → vermelho; `/consultoria` indexável → vermelho; JS da home 0,5 KiB → `peso` estourou. Revertidos e conferidos.
 Números: Vitest 363 → 367; E2E 558 → 608 passed; peso `/` 12,5/60 KiB (JS 0,67/10), `/consultoria` e `/educacao` 11,8/150 (JS 0,70).
 Screenshots: `D:/apps/.playwright-mcp/auditoria/v02/`.
+
+### V03 — `/consultoria` — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
+Leu: Contrato, linha V03, retomada, V02; ADR 007; brainstorm §1 e §5.4; colheita de IoT §6–§7 (só a #081).
+Feito: método em 4 etapas com "Na Copel" e as entradas que provam; escada (Aprender → `/educacao`); casos Copel e Cloud "com a loja piloto"; raio-x de 5 perguntas em forma de OS (`mensagemRaioX`/`linkRaioX` em `contato.ts`, prévia da mensagem, envio abre o `wa.me`). Textos em `src/data/consultoria.ts`; teste exige entrada confirmada por bloco e todo número presente numa delas. Rota indexável, no sitemap. Versão 1.6.0.
+Decisões (delegação): sem nome do cliente do Cloud (o feed #070 e o `/cloud` já citam: fica para o Pedro); "todas as máquinas" da #081 não é repetido (contradição em aberto na colheita); sem foto/clipe por etapa e sem slot de vídeo até a V05/V06; botão de enviar desligado sem JS (o form não manda nada ao servidor nem sem JS).
+Testes antigos alterados (comentário "V03 · 2026-11-20 · ADR 007 item 5"): `indexacao.test.ts` (lista ganha `/consultoria/`) e o placeholder do `v02-home.e2e.ts` (fica só `/educacao`).
+Falhas no caminho: (1) o rádio invisível sobre o chip intercepta o clique no texto (o teste passou a tocar o rádio); (2) o `astro preview` de screenshot na 4330 impediu o webServer do Playwright na 4329 ("another preview running"): parado e porta conferida (L-0012); (3) a escada do desktop não subia (`align-items: end`): virou teste.
+Canários (L-0006): "em 30 dias" no texto, `/consultoria/` fora da lista, `sessionStorage` no script (Vitest vermelho); pixel `/px` ao digitar, `turnos` trocado no envio, escada com `end` (E2E vermelho). Revertidos.
+Números: Vitest 367 → 402; E2E 608 → 648 passed; `/consultoria` JS 1,63/10 KiB, peso 16,3/150.
+Screenshots: `D:/apps/.playwright-mcp/auditoria/v03/` (360 e 1440, 2 temas, página inteira).

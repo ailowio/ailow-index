@@ -21,5 +21,51 @@ const MENSAGENS: Record<Origem, string> = {
 
 export const mensagemContato = (origem: Origem): string => MENSAGENS[origem];
 
-export const linkContato = (origem: Origem): string =>
-  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensagemContato(origem))}`;
+const linkWhatsapp = (texto: string): string => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(texto)}`;
+
+export const linkContato = (origem: Origem): string => linkWhatsapp(mensagemContato(origem));
+
+/**
+ * V03 (2026-11-20): raio-x de 5 perguntas da /consultoria. A mensagem é montada no aparelho de quem responde
+ * e só sai pelo WhatsApp, que a pessoa confere antes de enviar: nada vai a servidor, nada fica guardado.
+ */
+export const PERGUNTAS_RAIO_X = [
+  { id: "processo", rotulo: "Processo que dói", pergunta: "Que processo mais dói hoje?", opcoes: null },
+  {
+    id: "medicao",
+    rotulo: "Como mede hoje",
+    pergunta: "Como vocês medem isso hoje?",
+    opcoes: ["Caderno", "Planilha", "Sistema", "Não mede"],
+  },
+  {
+    id: "pessoas",
+    rotulo: "Pessoas",
+    pergunta: "Quantas pessoas trabalham nesse processo?",
+    opcoes: ["Até 5", "6 a 20", "21 a 50", "Mais de 50"],
+  },
+  { id: "turnos", rotulo: "Turnos", pergunta: "Quantos turnos por dia?", opcoes: ["1", "2", "3"] },
+  { id: "sistema", rotulo: "Sistema atual", pergunta: "Que sistema usam hoje?", opcoes: null },
+] as const;
+
+export type PerguntaRaioX = (typeof PERGUNTAS_RAIO_X)[number];
+export type RespostasRaioX = Partial<Record<PerguntaRaioX["id"], string>>;
+
+/** Teto de cada resposta livre, em caracteres (contados por ponto de código: o corte não parte emoji). */
+export const MAX_RESPOSTA_RAIO_X = 200;
+
+function limpar(p: PerguntaRaioX, valor: string | undefined): string {
+  const v = (valor ?? "").replace(/\s+/g, " ").trim();
+  if (!v) return "";
+  if (p.opcoes) return (p.opcoes as readonly string[]).includes(v) ? v : "";
+  return Array.from(v).slice(0, MAX_RESPOSTA_RAIO_X).join("").trim();
+}
+
+export function mensagemRaioX(respostas: RespostasRaioX): string {
+  const linhas = PERGUNTAS_RAIO_X.map((p) => [p.rotulo, limpar(p, respostas[p.id])] as const)
+    .filter(([, v]) => v)
+    .map(([rotulo, v]) => `${rotulo}: ${v}`);
+  if (linhas.length === 0) return mensagemContato("consultoria");
+  return ["Oi, Pedro! Fiz o raio-x da consultoria no site.", ...linhas, "[consultoria]"].join("\n");
+}
+
+export const linkRaioX = (respostas: RespostasRaioX): string => linkWhatsapp(mensagemRaioX(respostas));

@@ -224,10 +224,9 @@ test.describe("home v2: fundo de pulso", () => {
   });
 });
 
-const PLACEHOLDERS = [
-  { rota: "/consultoria", titulo: "Consultoria", origem: "consultoria" as const },
-  { rota: "/educacao", titulo: "Educação", origem: "educacao" as const },
-];
+// V03 · 2026-11-20 · ADR 007 item 5: /consultoria deixou de ser placeholder (conteúdo e indexação provados em
+// e2e/v03-consultoria.e2e.ts); só /educacao segue como placeholder até a V04.
+const PLACEHOLDERS = [{ rota: "/educacao", titulo: "Educação", origem: "educacao" as const }];
 
 for (const p of PLACEHOLDERS) {
   test.describe(`${p.rota} (placeholder honesto da V02)`, () => {
