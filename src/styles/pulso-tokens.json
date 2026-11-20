@@ -1,0 +1,208 @@
+{
+  "fonte": "design-system-pulso/tokens.json (bancada)",
+  "version": 1,
+  "color": {
+    "tokens": [
+      {
+        "name": "grafite",
+        "value": "#111214"
+      },
+      {
+        "name": "grafite-800",
+        "value": "#1c1e21"
+      },
+      {
+        "name": "linha",
+        "value": "#4a5057"
+      },
+      {
+        "name": "aco",
+        "value": "#9aa1a8"
+      },
+      {
+        "name": "branco",
+        "value": "#ffffff"
+      },
+      {
+        "name": "estudio",
+        "value": "#eeeeeb"
+      },
+      {
+        "name": "tinta",
+        "value": "{grafite}"
+      },
+      {
+        "name": "tinta-2",
+        "value": "#5b6168"
+      },
+      {
+        "name": "amarelo",
+        "value": "#ffc400"
+      },
+      {
+        "name": "sinal",
+        "value": "#3aa6ff"
+      },
+      {
+        "name": "sinal-fraco",
+        "value": "#2a6fae"
+      },
+      {
+        "name": "veu",
+        "value": "#111214c7"
+      },
+      {
+        "name": "veu-forte",
+        "value": "#111214e6"
+      }
+    ]
+  },
+  "type": {
+    "families": {
+      "titulo": "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
+      "corpo": "\"Barlow\", \"Helvetica Neue\", Arial, sans-serif",
+      "mono": "\"JetBrains Mono\", \"IBM Plex Mono\", ui-monospace, monospace"
+    }
+  },
+  "spacing": {
+    "tokens": [
+      {
+        "name": "space-1",
+        "value": "8px"
+      },
+      {
+        "name": "space-2",
+        "value": "16px"
+      },
+      {
+        "name": "space-3",
+        "value": "24px"
+      },
+      {
+        "name": "space-4",
+        "value": "32px"
+      },
+      {
+        "name": "space-6",
+        "value": "48px"
+      },
+      {
+        "name": "space-8",
+        "value": "64px"
+      },
+      {
+        "name": "space-12",
+        "value": "96px"
+      }
+    ]
+  },
+  "radius": {
+    "tokens": [
+      {
+        "name": "raio-0",
+        "value": "0px"
+      },
+      {
+        "name": "raio-selo",
+        "value": "4px"
+      },
+      {
+        "name": "raio-card",
+        "value": "8px"
+      },
+      {
+        "name": "raio-curva",
+        "value": "24px"
+      },
+      {
+        "name": "raio-moldura",
+        "value": "28px"
+      }
+    ]
+  },
+  "duracao": {
+    "tokens": [
+      {
+        "name": "dur-tique",
+        "value": "100ms"
+      },
+      {
+        "name": "dur-curta",
+        "value": "200ms"
+      },
+      {
+        "name": "dur-media",
+        "value": "333ms"
+      },
+      {
+        "name": "dur-pulso",
+        "value": "400ms"
+      },
+      {
+        "name": "dur-longa",
+        "value": "600ms"
+      },
+      {
+        "name": "dur-contador",
+        "value": "1000ms"
+      },
+      {
+        "name": "dur-loop-dado",
+        "value": "1500ms"
+      },
+      {
+        "name": "dur-cta",
+        "value": "2500ms"
+      },
+      {
+        "name": "dur-gancho",
+        "value": "3000ms"
+      },
+      {
+        "name": "dur-prova",
+        "value": "5000ms"
+      }
+    ]
+  },
+  "easing": {
+    "tokens": [
+      {
+        "name": "ease-entra",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)"
+      },
+      {
+        "name": "ease-sai",
+        "value": "cubic-bezier(0.7, 0, 0.84, 0)"
+      },
+      {
+        "name": "ease-move",
+        "value": "cubic-bezier(0.65, 0, 0.35, 1)"
+      },
+      {
+        "name": "ease-pulso",
+        "value": "linear"
+      }
+    ]
+  },
+  "traco": {
+    "tokens": [
+      {
+        "name": "traco-fino",
+        "value": "2px"
+      },
+      {
+        "name": "traco-cabo",
+        "value": "3px"
+      },
+      {
+        "name": "traco-borda",
+        "value": "4px"
+      },
+      {
+        "name": "traco-sublinhado",
+        "value": "6px"
+      }
+    ]
+  },
+  "sincronizado_em": "2026-11-20"
+}

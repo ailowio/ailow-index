@@ -1,6 +1,6 @@
 # Inventário de interfaces e integrações — ailow-index   (AUD-60..69)
 
-*Última atualização: 2026-11-18. O site em produção não tem integração (sem API, formulário, pagamento nem script de terceiro). As interfaces abaixo são de build e CI; as de produção estão planejadas.*
+*Última atualização: 2026-11-20 (I-13, V05). O site em produção não tem integração (sem API, formulário, pagamento nem script de terceiro). As interfaces abaixo são de build e CI; as de produção estão planejadas.*
 
 | ID | Interface | Origem → Destino | Dados trafegados (e classificação) | Método/protocolo | Frequência | Autenticação · escopo · rotação | Contrato/mapeamento | Dono | Criticidade |
 |----|-----------|------------------|------------------------------------|------------------|-----------|---------------------------------|---------------------|------|-------------|
@@ -16,6 +16,8 @@
 | I-11 | Let's Encrypt via Traefik do host (S12) | Traefik do host → ACME | domínios `ailow.com.br` e `www` | HTTPS (ACME) | emissão e renovação | gerida pelo Traefik do host · **renovação não verificada** | labels em `ops/stack/index.yaml` | Pedro (host: quem administra o servidor) | Alta |
 | I-08 | `wa.me` (cartão `/cartao/`, em produção quando houver deploy) | navegador do visitante → `https://wa.me/<número>?text=<saudação>` | número digitado pelo próprio visitante (dado pessoal): vai só na URL do clique, nunca é gravado (storage, cookie, IndexedDB, cache) nem enviado ao site | navegação do navegador | por clique em Enviar | n/a | `src/data/cartao.ts`; testes `test/cartao.test.ts` e `e2e/cartao.e2e.ts` | Pedro | Baixa |
 
+| I-13 | Bancada → site (pacote de publicação, V05) | pasta `final/site/<slug>/` da bancada (`D:/videos`, fora do git) → máquina do Pedro → `public/midia/<slug>/` do repositório | vídeo ≤ 60 s, pôster, legendas `.vtt`, `site.json` (título, data, fatos `#NNN`, aprovação); dado de negócio só se estiver em tela (limite declarado: o linter não vê a imagem) | cópia local de arquivos por `npm run importar-midia`; o CI nunca vê a bancada | por peça publicada | sem conta nem token: acesso ao disco da máquina do Pedro; `aprovado_por`/`aprovado_em` no `site.json` | ADR 008, `docs/contratos/bancada-site.md`, `src/midia/pacote.ts` (schema Zod); testes `test/midia/` e `test/pulso-tokens.test.ts` | Pedro | Média |
+
 ## Controles de integridade por interface (AUD-62/63/65/66/67)
 | ID | Completude/exatidão | Idempotência | Validação na entrada | Tratamento de erro | Conciliação | Log de execução |
 |----|---------------------|--------------|----------------------|--------------------|-------------|-----------------|
@@ -26,9 +28,10 @@
 | I-05 | PRs revisados por humano | n/a | checks obrigatórios | PR aberto até decisão | n/a | histórico de PRs |
 | I-06 | comando forçado aceita só `deploy vX.Y.Z`; tag precisa estar na `main` | sim (reimplantar a mesma tag converge) | regex ancorada, `flock`, `merge-base` | códigos 2/3/4/5/10/11/20/21 (runbook) | `web=<imagem@digest>` no resumo | log do run + log JSON do `deploy.sh` no servidor |
 | I-07, I-10, I-11 | verificação de fora no `deploy.yml` (health, `/`, HSTS, redirect do `www`) | sim | n/a | run vermelho | n/a | log do run |
+| I-13 | tetos de peso, cabeçalho do arquivo, `.vtt` obrigatório com vídeo, pôster obrigatório | sim com `--substituir` (sem ele, slug existente é recusado) | schema Zod estrito, lista de extensões, linter de conteúdo (`site.json` e legendas) | pacote recusado inteiro, nada copiado, exit 1 com a lista de erros | o PR de importação mostra os arquivos que entraram | **PR de importação** (evidência, AUD-20) + saída do comando |
 
 ## Transformações e mapeamento de campos (AUD-61)
-Não se aplica: nenhuma interface transforma dados de negócio. O build gera `dist/` e `/pedro/feed.json` a partir dos `.md` de `src/content/prs/`.
+I-13 não transforma o conteúdo: copia byte a byte os arquivos aprovados (o teste compara os bytes). Os tokens do Pulso têm mapeamento próprio (`src/styles/pulso-deriva.ts`, `MAPA`). Nenhuma outra interface transforma dados de negócio. O build gera `dist/` e `/pedro/feed.json` a partir dos `.md` de `src/content/prs/`.
 
 ## Fornecedor / terceiro (AUD-68)
 | Terceiro | Contrato/SLA | Onde ficam os dados | Atestado de segurança · validade | Plano de saída | Última reavaliação |

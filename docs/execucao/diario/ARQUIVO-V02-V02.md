@@ -1,0 +1,9 @@
+### V02 — Home v2 — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
+Leu: Contrato, linha V02, retomada, V01; ADR 007; ADR 003 (home).
+Feito: home com a frase da F0 + duas portas de mesmo peso (`PORTAS` em `src/config/apps.ts`: "Fazer na minha empresa" → `/consultoria`, "Levar para minha instituição" → `/educacao`), WhatsApp, "Conhecer a história" (`/apresentacao`, menor) e "Diário de obra" (`/pedro`); grade de apps abaixo, sob a linha de pulso (saiu do fundo: cruzava os links). Pulso no toque (`.batida`, anel + onda no ponto tocado, atrás do conteúdo). Placeholders `/consultoria` e `/educacao` (App + "Em construção" + oferta + WhatsApp `[consultoria]`/`[educação]`). Versão 1.5.0.
+Decisões (delegação): placeholders com noindex até a V03/V04; frase da F0 mantida inteira (o teste da F0 exige "cursos de IA"); margem lateral da home 24 → 16 px; em 360x640 a grade não aparece sem rolar (só o conteúdo rola).
+Testes antigos alterados (comentário "V02 · 2026-11-20 · ADR 007"): home-app "360x640 não rola e os 6 ícones…" e "estado de toque" (rolar até a grade antes); f0 "360x640" e "1280x800" dos ícones (idem). Critérios iguais.
+Falhas no caminho: (1) o minificador fundiu `.app` e `.batida` numa regra só e o teste antigo do movimento reduzido (regex do `cssText`) ficou vermelho: bloco próprio para a `.batida`; (2) no desktop o pulso nascia 8 px fora (borda da moldura): `clientLeft/Top`; (3) dois canários de CSS juntos se anularam (título menor encolheu as portas): refeitos um a um.
+Canários (L-0006): fonte diferente numa porta → "mesmo peso" vermelho; +2rem acima da história → 607,9 > 584; sem reduced-motion da `.batida` → vermelho; `/consultoria` indexável → vermelho; JS da home 0,5 KiB → `peso` estourou. Revertidos e conferidos.
+Números: Vitest 363 → 367; E2E 558 → 608 passed; peso `/` 12,5/60 KiB (JS 0,67/10), `/consultoria` e `/educacao` 11,8/150 (JS 0,70).
+Screenshots: `D:/apps/.playwright-mcp/auditoria/v02/`.
