@@ -10,9 +10,11 @@ interface Props {
   /** id -> nome da ferramenta e da soft skill (catálogos). */
   nomesFerramentas: Record<string, string>;
   nomesSkills: Record<string, string>;
+  /** F5: slug do fluxo do n8n desta entrada, se existir no Explorador. */
+  explorar?: string;
 }
 
-const { pr, Conteudo, nomesFerramentas, nomesSkills } = Astro.props;
+const { pr, Conteudo, nomesFerramentas, nomesSkills, explorar } = Astro.props;
 const titulo = lerTitulo(pr.titulo);
 const rotulo = rotuloNumero(pr.numero);
 const novas = new Set(pr.novas);
@@ -80,4 +82,5 @@ const host = publica?.startsWith("https://") ? new URL(publica).hostname.replace
       )
     }
   </p>
+  {explorar && <p class="pr-explorar"><a href={`/explorar/${explorar}/`}>Explorar o fluxo, passo a passo</a></p>}
 </article>

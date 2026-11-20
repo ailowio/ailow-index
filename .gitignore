@@ -11,6 +11,10 @@ dist/
 # Lista local de termos bloqueados (nomes que não podem ir para o repositório público)
 *.local.txt
 
+# Trabalho do v2 do portfólio (brainstorm, colheita, transcrições, IoT): estratégia comercial e notas sobre clientes.
+# Fica local até o Pedro decidir o que pode ser público (repositório público; um `git add .` publicaria).
+docs/execucao/v2/
+
 # Testes e relatórios
 test/.tmp-build/
 test/.tmp-build-csp-*/

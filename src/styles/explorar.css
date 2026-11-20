@@ -1,0 +1,311 @@
+/*
+ * Explorador dos fluxos do n8n (F5). Linguagem visual do editor (fundo de pontos, cartões, curvas), com tokens do Pulso.
+ * O canvas rola dentro da própria área (.tela); a página não rola na horizontal.
+ */
+
+.explorar {
+  display: grid;
+  gap: var(--espaco-3);
+  padding: var(--espaco-3) var(--espaco-2) var(--espaco-8);
+  min-inline-size: 0;
+}
+
+.explorar .cabeca {
+  display: grid;
+  gap: var(--espaco-1);
+}
+
+.explorar .cabeca h2 {
+  font-size: var(--texto-subtitulo);
+}
+
+.explorar .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1) var(--espaco-2);
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}
+
+.explorar .estado-fluxo {
+  color: var(--texto);
+  border-inline-start: var(--traco-borda) solid var(--acento);
+  padding-inline-start: var(--espaco-1);
+}
+
+.explorar .resumo {
+  font-size: var(--texto-base);
+  line-height: 1.5;
+}
+
+.explorar .historia {
+  color: var(--texto-2);
+  line-height: 1.5;
+}
+
+.explorador {
+  display: grid;
+  gap: var(--espaco-1);
+  min-inline-size: 0;
+}
+
+.explorador .ferramentas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1);
+}
+
+.explorador .ferramentas button {
+  min-inline-size: var(--alvo);
+  min-block-size: var(--alvo);
+  padding-inline: var(--espaco-2);
+  background: var(--superficie);
+  color: var(--texto);
+  border: var(--traco-fino) solid var(--borda-ui);
+  font: inherit;
+  cursor: pointer;
+}
+
+.explorador .ferramentas button[aria-pressed="true"] {
+  background: var(--acento);
+  color: var(--sobre-acento);
+  border-color: var(--acento);
+}
+
+.explorador .tela {
+  overflow: auto;
+  max-block-size: min(70dvh, 40rem);
+  inline-size: 100%;
+  border: var(--traco-fino) solid var(--borda);
+  background: var(--fundo);
+  touch-action: pan-x pan-y pinch-zoom;
+  cursor: grab;
+}
+
+.explorador .tela.arrastando {
+  cursor: grabbing;
+}
+
+.explorador svg.canvas {
+  display: block;
+  max-inline-size: none;
+}
+
+.canvas .ponto {
+  fill: var(--borda);
+}
+
+.canvas .ligacao {
+  fill: none;
+  stroke: var(--borda-ui);
+  stroke-width: 2;
+}
+
+.canvas .ligacao.ia {
+  stroke: var(--dado);
+  stroke-dasharray: 5 5;
+}
+
+.canvas .no {
+  cursor: pointer;
+  outline: none;
+}
+
+.canvas .no .caixa {
+  fill: var(--superficie);
+  stroke: var(--borda-ui);
+  stroke-width: 2;
+}
+
+.canvas .no.cat-gatilho .caixa,
+.canvas .no.cat-ia .caixa {
+  stroke: var(--acento);
+  stroke-width: 3;
+}
+
+.canvas .no.cat-modelo .caixa,
+.canvas .no.cat-memoria .caixa,
+.canvas .no.cat-ferramenta .caixa {
+  stroke: var(--dado);
+}
+
+.canvas .no .icone {
+  fill: none;
+  stroke: var(--texto);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.canvas .no.cat-gatilho .icone,
+.canvas .no.cat-ia .icone {
+  stroke: var(--acento);
+}
+
+.canvas .no .rotulo {
+  fill: var(--texto);
+  font-family: var(--fonte-corpo);
+  font-size: 13px;
+}
+
+.canvas .no:hover .caixa,
+.canvas .no.ativo .caixa {
+  fill: var(--fundo);
+  stroke: var(--foco);
+  stroke-width: 4;
+}
+
+.canvas .no:focus-visible .caixa {
+  stroke: var(--foco);
+  stroke-width: 5;
+}
+
+/* "Ver rodando": os pontos correm pelas ligações, como o destaque de execução do n8n. */
+.canvas.rodando .ligacao {
+  stroke: var(--acento);
+  stroke-dasharray: 8 8;
+  animation: correr 0.8s linear infinite;
+}
+
+@keyframes correr {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .canvas.rodando .ligacao {
+    animation: none;
+  }
+}
+
+.painel-no {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 20;
+  display: grid;
+  gap: var(--espaco-1);
+  max-block-size: 50dvh;
+  overflow-y: auto;
+  padding: var(--espaco-3) var(--espaco-3) var(--espaco-4);
+  background: var(--superficie);
+  color: var(--texto);
+  border-block-start: var(--traco-borda) solid var(--acento);
+  box-shadow: 0 -0.5rem 2rem rgb(0 0 0 / 0.35);
+}
+
+.painel-no[hidden] {
+  display: none;
+}
+
+.painel-no h3 {
+  font-size: var(--texto-subtitulo);
+  padding-inline-end: var(--espaco-6);
+}
+
+.painel-no p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.painel-no .tec {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}
+
+.painel-no .fechar {
+  position: absolute;
+  inset-block-start: var(--espaco-1);
+  inset-inline-end: var(--espaco-1);
+  inline-size: var(--alvo);
+  block-size: var(--alvo);
+  display: grid;
+  place-items: center;
+  background: var(--fundo);
+  color: var(--texto);
+  border: var(--traco-fino) solid var(--borda-ui);
+  cursor: pointer;
+}
+
+.painel-no .fechar svg {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+@media (min-width: 64rem) {
+  .painel-no {
+    inset-inline: auto var(--espaco-4);
+    inset-block-end: var(--espaco-4);
+    inline-size: 24rem;
+    border: var(--traco-fino) solid var(--borda-ui);
+    border-block-start: var(--traco-borda) solid var(--acento);
+  }
+}
+
+.lista-nos summary {
+  min-block-size: var(--alvo);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.lista-nos ol {
+  display: grid;
+  gap: var(--espaco-1);
+  padding-inline-start: var(--espaco-3);
+  line-height: 1.5;
+}
+
+.lista-nos .cat {
+  color: var(--texto-2);
+}
+
+/* Índice /explorar */
+.lista-fluxos {
+  display: grid;
+  gap: var(--espaco-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 48rem) {
+  .lista-fluxos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.cartao-fluxo {
+  display: grid;
+  gap: var(--espaco-1);
+  min-block-size: 100%;
+  padding: var(--espaco-2) var(--espaco-3);
+  background: var(--superficie);
+  color: var(--texto);
+  border: var(--traco-fino) solid var(--borda);
+  border-inline-start: var(--traco-borda) solid var(--acento);
+  text-decoration: none;
+}
+
+.cartao-fluxo strong {
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-subtitulo);
+}
+
+.cartao-fluxo .meta {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}
+
+.explorar .credito {
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}

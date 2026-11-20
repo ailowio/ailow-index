@@ -1,0 +1,43 @@
+---
+import App from "../../layouts/App.astro";
+import { carregarFluxos } from "../../fluxos/carregar";
+import "../../styles/explorar.css";
+
+const fluxos = carregarFluxos();
+---
+
+<App
+  id="pedro"
+  pai="/pedro"
+  paiNome="o portfólio"
+  tituloPagina="Fluxos do n8n"
+  descricao="Cinco fluxos reais do n8n de Pedro Fernandes, para explorar nó por nó: do transcritor de áudio à agente de atendimento no WhatsApp."
+>
+  <div class="explorar">
+    <section class="cabeca" aria-labelledby="explorar-titulo">
+      <h2 id="explorar-titulo">Fluxos do n8n</h2>
+      <p class="resumo">
+        Comecei a automatizar a fábrica no n8n antes de escrever código, e ele continua no dia a dia. Aqui estão cinco
+        desses fluxos, reproduzidos a partir dos originais: toque em cada passo para ver o que ele faz.
+      </p>
+    </section>
+    <ul class="lista-fluxos">
+      {
+        fluxos.map((f) => (
+          <li>
+            <a class="cartao-fluxo" href={`/explorar/${f.slug}/`}>
+              <strong>{f.titulo}</strong>
+              <span class="meta">
+                {f.nos.length} passos · {f.estado === "ativo" ? "em uso" : "desligado"} · desde {f.criado}
+              </span>
+              <span>{f.resumo}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="credito">
+      Feito no n8n. Rótulos revisados; nenhum dado, credencial ou endereço dos fluxos originais aparece aqui.
+    </p>
+  </div>
+</App>

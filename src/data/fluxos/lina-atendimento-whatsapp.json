@@ -1,0 +1,1028 @@
+{
+  "slug": "lina-atendimento-whatsapp",
+  "titulo": "LINA, atendimento no WhatsApp com IA",
+  "pr": 7,
+  "estado": "desligado",
+  "criado": "2025-05",
+  "resumo": "Uma agente de atendimento no WhatsApp: junta as mensagens que o cliente manda em sequência, entende texto, áudio, imagem e PDF, consulta a base de produtos e de perguntas frequentes e responde. Quando precisa, passa a conversa para uma pessoa.",
+  "historia": "Foi o meu primeiro projeto grande no n8n, entre maio e junho de 2025: dois modelos de IA, ferramentas separadas e prompts enormes, montados na intuição, sem método. Testei com clientes de verdade por poucos minutos de cada vez e ela não deu conta; eu voltava para o atendimento normal. Foi com ela que eu aprendi o n8n a fundo.",
+  "nos": [
+    {
+      "id": "n1",
+      "categoria": "decisao",
+      "rotulo": "Tipo da mensagem",
+      "oQueFaz": "Separa texto, áudio, imagem e PDF: cada um tem um tratamento.",
+      "tecnico": "Switch",
+      "x": 2420,
+      "y": 340
+    },
+    {
+      "id": "n2",
+      "categoria": "ia",
+      "rotulo": "Transcreve o áudio",
+      "oQueFaz": "Usa IA da OpenAI neste passo.",
+      "tecnico": "OpenAI",
+      "x": 3120,
+      "y": 320
+    },
+    {
+      "id": "n3",
+      "categoria": "ia",
+      "rotulo": "IA da OpenAI",
+      "oQueFaz": "Usa IA da OpenAI neste passo.",
+      "tecnico": "OpenAI",
+      "x": 3120,
+      "y": 480
+    },
+    {
+      "id": "n4",
+      "categoria": "espera",
+      "rotulo": "Espera",
+      "oQueFaz": "Espera alguns segundos para ver se o cliente ainda está digitando.",
+      "tecnico": "Wait",
+      "x": 3920,
+      "y": 400
+    },
+    {
+      "id": "n5",
+      "categoria": "decisao",
+      "rotulo": "Chegou mensagem nova?",
+      "oQueFaz": "Compara o buffer antes e depois da espera: se chegou mais coisa, espera de novo.",
+      "tecnico": "If",
+      "x": 4380,
+      "y": 400
+    },
+    {
+      "id": "n6",
+      "categoria": "codigo",
+      "rotulo": "Mensagem pronta",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 4940,
+      "y": 0
+    },
+    {
+      "id": "n7",
+      "categoria": "banco",
+      "rotulo": "Buffer de mensagens",
+      "oQueFaz": "Junta as mensagens que o cliente manda em sequência, para responder uma vez só.",
+      "tecnico": "Redis",
+      "x": 3700,
+      "y": 400
+    },
+    {
+      "id": "n8",
+      "categoria": "banco",
+      "rotulo": "Buffer de mensagens",
+      "oQueFaz": "Junta as mensagens que o cliente manda em sequência, para responder uma vez só.",
+      "tecnico": "Redis",
+      "x": 4140,
+      "y": 400
+    },
+    {
+      "id": "n9",
+      "categoria": "banco",
+      "rotulo": "Junta o texto no buffer",
+      "oQueFaz": "Guarda dados temporários num cache rápido.",
+      "tecnico": "Redis",
+      "x": 3420,
+      "y": 0
+    },
+    {
+      "id": "n10",
+      "categoria": "banco",
+      "rotulo": "Limpa o buffer",
+      "oQueFaz": "Guarda dados temporários num cache rápido.",
+      "tecnico": "Redis",
+      "x": 4600,
+      "y": 300
+    },
+    {
+      "id": "n11",
+      "categoria": "decisao",
+      "rotulo": "Filtro inicial",
+      "oQueFaz": "Deixa passar só os itens que atendem à regra.",
+      "tecnico": "Filter",
+      "x": 720,
+      "y": 380
+    },
+    {
+      "id": "n12",
+      "categoria": "codigo",
+      "rotulo": "Mensagem de texto",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 2640,
+      "y": 0
+    },
+    {
+      "id": "n13",
+      "categoria": "codigo",
+      "rotulo": "Mensagem de áudio",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 2640,
+      "y": 320
+    },
+    {
+      "id": "n14",
+      "categoria": "codigo",
+      "rotulo": "Mensagem de imagem",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 2640,
+      "y": 480
+    },
+    {
+      "id": "n15",
+      "categoria": "banco",
+      "rotulo": "Junta o áudio no buffer",
+      "oQueFaz": "Guarda dados temporários num cache rápido.",
+      "tecnico": "Redis",
+      "x": 3420,
+      "y": 320
+    },
+    {
+      "id": "n16",
+      "categoria": "banco",
+      "rotulo": "Junta o erro no buffer",
+      "oQueFaz": "Guarda dados temporários num cache rápido.",
+      "tecnico": "Redis",
+      "x": 3420,
+      "y": 820
+    },
+    {
+      "id": "n17",
+      "categoria": "codigo",
+      "rotulo": "Extract from File",
+      "oQueFaz": "Extrai o conteúdo de um arquivo (PDF, planilha).",
+      "tecnico": "Extract from File",
+      "x": 3120,
+      "y": 640
+    },
+    {
+      "id": "n18",
+      "categoria": "codigo",
+      "rotulo": "Mensagem com erro",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 2640,
+      "y": 820
+    },
+    {
+      "id": "n19",
+      "categoria": "banco",
+      "rotulo": "Junta o PDF no buffer",
+      "oQueFaz": "Guarda dados temporários num cache rápido.",
+      "tecnico": "Redis",
+      "x": 3420,
+      "y": 640
+    },
+    {
+      "id": "n20",
+      "categoria": "banco",
+      "rotulo": "Junta a imagem no buffer",
+      "oQueFaz": "Guarda dados temporários num cache rápido.",
+      "tecnico": "Redis",
+      "x": 3420,
+      "y": 480
+    },
+    {
+      "id": "n21",
+      "categoria": "codigo",
+      "rotulo": "Separa as partes da resposta",
+      "oQueFaz": "Separa uma lista em itens, um de cada vez.",
+      "tecnico": "Split Out",
+      "x": 7260,
+      "y": 300
+    },
+    {
+      "id": "n22",
+      "categoria": "decisao",
+      "rotulo": "Para cada parte da resposta",
+      "oQueFaz": "Repete os passos seguintes para cada item (laço).",
+      "tecnico": "Loop Over Items",
+      "x": 7580,
+      "y": 300
+    },
+    {
+      "id": "n23",
+      "categoria": "espera",
+      "rotulo": "Espera",
+      "oQueFaz": "Espera alguns segundos para ver se o cliente ainda está digitando.",
+      "tecnico": "Wait",
+      "x": 8380,
+      "y": 580
+    },
+    {
+      "id": "n24",
+      "categoria": "espera",
+      "rotulo": "Fim",
+      "oQueFaz": "Fim deste caminho: não faz mais nada.",
+      "tecnico": "No Operation",
+      "x": 8100,
+      "y": 120
+    },
+    {
+      "id": "n25",
+      "categoria": "codigo",
+      "rotulo": "Corrige o formato",
+      "oQueFaz": "Se a IA responder fora do formato, pede para ela corrigir.",
+      "tecnico": "Auto-fixing Output Parser",
+      "x": 7040,
+      "y": 520
+    },
+    {
+      "id": "n26",
+      "categoria": "banco",
+      "rotulo": "Cache",
+      "oQueFaz": "Guarda dados temporários num cache rápido.",
+      "tecnico": "Redis",
+      "x": 1620,
+      "y": 380
+    },
+    {
+      "id": "n27",
+      "categoria": "espera",
+      "rotulo": "Fim",
+      "oQueFaz": "Fim deste caminho: não faz mais nada.",
+      "tecnico": "No Operation",
+      "x": 4600,
+      "y": 500
+    },
+    {
+      "id": "n28",
+      "categoria": "codigo",
+      "rotulo": "Dados do contato",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 1080,
+      "y": 380
+    },
+    {
+      "id": "n29",
+      "categoria": "espera",
+      "rotulo": "Fim",
+      "oQueFaz": "Fim deste caminho: não faz mais nada.",
+      "tecnico": "No Operation",
+      "x": 2020,
+      "y": 240
+    },
+    {
+      "id": "n30",
+      "categoria": "codigo",
+      "rotulo": "Mensagem com PDF",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 2640,
+      "y": 640
+    },
+    {
+      "id": "n31",
+      "categoria": "codigo",
+      "rotulo": "Parâmetros do fluxo",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 360,
+      "y": 380
+    },
+    {
+      "id": "n32",
+      "categoria": "codigo",
+      "rotulo": "Convert to File",
+      "oQueFaz": "Transforma os dados num arquivo.",
+      "tecnico": "Convert to File",
+      "x": 2900,
+      "y": 480
+    },
+    {
+      "id": "n33",
+      "categoria": "codigo",
+      "rotulo": "Convert to File",
+      "oQueFaz": "Transforma os dados num arquivo.",
+      "tecnico": "Convert to File",
+      "x": 2900,
+      "y": 320
+    },
+    {
+      "id": "n34",
+      "categoria": "codigo",
+      "rotulo": "Convert to File",
+      "oQueFaz": "Transforma os dados num arquivo.",
+      "tecnico": "Convert to File",
+      "x": 2900,
+      "y": 640
+    },
+    {
+      "id": "n35",
+      "categoria": "codigo",
+      "rotulo": "Mensagem de texto",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 2640,
+      "y": 160
+    },
+    {
+      "id": "n36",
+      "categoria": "codigo",
+      "rotulo": "Formato da resposta",
+      "oQueFaz": "Obriga a IA a responder num formato fixo, que o sistema consegue ler.",
+      "tecnico": "Structured Output Parser",
+      "x": 7280,
+      "y": 640
+    },
+    {
+      "id": "n37",
+      "categoria": "gatilho",
+      "rotulo": "Mensagem chega pelo WhatsApp",
+      "oQueFaz": "Começa quando o cliente manda mensagem no WhatsApp (via Evolution API).",
+      "tecnico": "Webhook",
+      "x": 0,
+      "y": 380
+    },
+    {
+      "id": "n38",
+      "categoria": "banco",
+      "rotulo": "Cadastra o cliente",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 5780,
+      "y": 140
+    },
+    {
+      "id": "n39",
+      "categoria": "banco",
+      "rotulo": "Procura o cliente",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 5320,
+      "y": 0
+    },
+    {
+      "id": "n40",
+      "categoria": "decisao",
+      "rotulo": "Cliente já existe?",
+      "oQueFaz": "Decide o caminho: se a condição vale, vai por um lado; se não, pelo outro.",
+      "tecnico": "If",
+      "x": 5560,
+      "y": 0
+    },
+    {
+      "id": "n41",
+      "categoria": "decisao",
+      "rotulo": "Merge",
+      "oQueFaz": "Junta os dados que chegaram por caminhos diferentes.",
+      "tecnico": "Merge",
+      "x": 5980,
+      "y": 0
+    },
+    {
+      "id": "n42",
+      "categoria": "modelo",
+      "rotulo": "Modelo da OpenAI",
+      "oQueFaz": "O modelo de linguagem que a IA usa para pensar e escrever.",
+      "tecnico": "OpenAI Chat Model",
+      "x": 6940,
+      "y": 640
+    },
+    {
+      "id": "n43",
+      "categoria": "ia",
+      "rotulo": "Divide a resposta em mensagens",
+      "oQueFaz": "Quebra uma resposta longa em mensagens curtas, como uma pessoa faria no WhatsApp.",
+      "tecnico": "Basic LLM Chain",
+      "x": 6920,
+      "y": 300
+    },
+    {
+      "id": "n44",
+      "categoria": "mensagem",
+      "rotulo": "Envia a resposta no WhatsApp",
+      "oQueFaz": "Envia a mensagem pelo WhatsApp (Evolution API).",
+      "tecnico": "Evolution API",
+      "x": 8100,
+      "y": 480
+    },
+    {
+      "id": "n45",
+      "categoria": "mensagem",
+      "rotulo": "Mostra que está digitando",
+      "oQueFaz": "Mostra para o cliente que a resposta está sendo escrita.",
+      "tecnico": "Evolution API",
+      "x": 7800,
+      "y": 400
+    },
+    {
+      "id": "n46",
+      "categoria": "decisao",
+      "rotulo": "Agente desligado nesta conversa?",
+      "oQueFaz": "Decide o caminho: se a condição vale, vai por um lado; se não, pelo outro.",
+      "tecnico": "If",
+      "x": 1860,
+      "y": 380
+    },
+    {
+      "id": "n47",
+      "categoria": "banco",
+      "rotulo": "Marca resposta de uma pessoa",
+      "oQueFaz": "Guarda que um humano assumiu a conversa.",
+      "tecnico": "Redis",
+      "x": 1740,
+      "y": 240
+    },
+    {
+      "id": "n48",
+      "categoria": "decisao",
+      "rotulo": "Quem respondeu fui eu?",
+      "oQueFaz": "Se uma pessoa da equipe respondeu pelo celular, a agente sai de cena nessa conversa.",
+      "tecnico": "If",
+      "x": 1380,
+      "y": 380
+    },
+    {
+      "id": "n49",
+      "categoria": "modelo",
+      "rotulo": "Modelo da OpenAI",
+      "oQueFaz": "O modelo de linguagem que a IA usa para pensar e escrever.",
+      "tecnico": "OpenAI Chat Model",
+      "x": 6140,
+      "y": 400
+    },
+    {
+      "id": "n50",
+      "categoria": "memoria",
+      "rotulo": "Memória da conversa",
+      "oQueFaz": "Memória da conversa: guarda as mensagens anteriores para o agente lembrar do contexto.",
+      "tecnico": "Postgres Chat Memory",
+      "x": 6520,
+      "y": 400
+    },
+    {
+      "id": "n51",
+      "categoria": "modelo",
+      "rotulo": "Embeddings",
+      "oQueFaz": "Transforma o texto em números para comparar significados.",
+      "tecnico": "Embeddings OpenAI",
+      "x": 4940,
+      "y": 860
+    },
+    {
+      "id": "n52",
+      "categoria": "ferramenta",
+      "rotulo": "Base de conhecimento",
+      "oQueFaz": "Base com produtos, perguntas frequentes e exemplos de conversa, buscada por significado (RAG).",
+      "tecnico": "Supabase Vector Store",
+      "x": 4860,
+      "y": 700
+    },
+    {
+      "id": "n53",
+      "categoria": "modelo",
+      "rotulo": "Modelo da OpenAI",
+      "oQueFaz": "O modelo de linguagem que a IA usa para pensar e escrever.",
+      "tecnico": "OpenAI Chat Model",
+      "x": 5000,
+      "y": 580
+    },
+    {
+      "id": "n54",
+      "categoria": "ferramenta",
+      "rotulo": "Consulta produtos",
+      "oQueFaz": "Ferramenta: o agente consulta uma base de conhecimento.",
+      "tecnico": "Vector Store Tool",
+      "x": 4860,
+      "y": 460
+    },
+    {
+      "id": "n55",
+      "categoria": "ferramenta",
+      "rotulo": "Data e hora",
+      "oQueFaz": "Ferramenta: o agente consulta a data e a hora atuais.",
+      "tecnico": "Date & Time Tool",
+      "x": 6700,
+      "y": 560
+    },
+    {
+      "id": "n56",
+      "categoria": "modelo",
+      "rotulo": "Embeddings",
+      "oQueFaz": "Transforma o texto em números para comparar significados.",
+      "tecnico": "Embeddings OpenAI",
+      "x": 5280,
+      "y": 860
+    },
+    {
+      "id": "n57",
+      "categoria": "ferramenta",
+      "rotulo": "Base de conhecimento",
+      "oQueFaz": "Base com produtos, perguntas frequentes e exemplos de conversa, buscada por significado (RAG).",
+      "tecnico": "Supabase Vector Store",
+      "x": 5200,
+      "y": 700
+    },
+    {
+      "id": "n58",
+      "categoria": "modelo",
+      "rotulo": "Modelo da OpenAI",
+      "oQueFaz": "O modelo de linguagem que a IA usa para pensar e escrever.",
+      "tecnico": "OpenAI Chat Model",
+      "x": 5340,
+      "y": 580
+    },
+    {
+      "id": "n59",
+      "categoria": "ferramenta",
+      "rotulo": "Consulta perguntas frequentes",
+      "oQueFaz": "Ferramenta: o agente consulta uma base de conhecimento.",
+      "tecnico": "Vector Store Tool",
+      "x": 5200,
+      "y": 460
+    },
+    {
+      "id": "n60",
+      "categoria": "modelo",
+      "rotulo": "Embeddings",
+      "oQueFaz": "Transforma o texto em números para comparar significados.",
+      "tecnico": "Embeddings OpenAI",
+      "x": 5600,
+      "y": 860
+    },
+    {
+      "id": "n61",
+      "categoria": "ferramenta",
+      "rotulo": "Base de conhecimento",
+      "oQueFaz": "Base com produtos, perguntas frequentes e exemplos de conversa, buscada por significado (RAG).",
+      "tecnico": "Supabase Vector Store",
+      "x": 5520,
+      "y": 700
+    },
+    {
+      "id": "n62",
+      "categoria": "modelo",
+      "rotulo": "Modelo da OpenAI",
+      "oQueFaz": "O modelo de linguagem que a IA usa para pensar e escrever.",
+      "tecnico": "OpenAI Chat Model",
+      "x": 5660,
+      "y": 580
+    },
+    {
+      "id": "n63",
+      "categoria": "ferramenta",
+      "rotulo": "Consulta exemplos de conversa",
+      "oQueFaz": "Ferramenta: busca conversas de exemplo para a agente responder no tom certo.",
+      "tecnico": "Vector Store Tool",
+      "x": 5520,
+      "y": 460
+    },
+    {
+      "id": "n64",
+      "categoria": "ferramenta",
+      "rotulo": "Calculadora",
+      "oQueFaz": "Ferramenta de cálculo: o agente não faz conta de cabeça, usa a calculadora.",
+      "tecnico": "Calculator",
+      "x": 6320,
+      "y": 560
+    },
+    {
+      "id": "n65",
+      "categoria": "ia",
+      "rotulo": "LINA (agente de atendimento)",
+      "oQueFaz": "A agente lê a conversa, consulta as bases de produtos, de perguntas frequentes e de exemplos, e responde. Para cotação, usa a calculadora.",
+      "tecnico": "AI Agent",
+      "x": 6440,
+      "y": 80
+    },
+    {
+      "id": "n66",
+      "categoria": "modelo",
+      "rotulo": "Modelo do Google (Gemini)",
+      "oQueFaz": "O modelo de linguagem do Google que a IA usa neste ponto.",
+      "tecnico": "Google Gemini Chat Model",
+      "x": 6320,
+      "y": 420
+    },
+    {
+      "id": "n67",
+      "categoria": "ferramenta",
+      "rotulo": "Desligar o agente",
+      "oQueFaz": "Ferramenta: a própria agente se desliga quando a conversa precisa de uma pessoa.",
+      "tecnico": "Redis Tool",
+      "x": 6700,
+      "y": 400
+    },
+    {
+      "id": "n68",
+      "categoria": "ferramenta",
+      "rotulo": "Enviar tabela de preços",
+      "oQueFaz": "Ferramenta: chama o fluxo que manda a tabela de preços.",
+      "tecnico": "Call Workflow Tool",
+      "x": 6520,
+      "y": 560
+    },
+    {
+      "id": "n69",
+      "categoria": "ferramenta",
+      "rotulo": "Transferir para uma pessoa",
+      "oQueFaz": "Ferramenta: chama o fluxo que passa o atendimento para a equipe.",
+      "tecnico": "Call Workflow Tool",
+      "x": 6520,
+      "y": 720
+    },
+    {
+      "id": "n70",
+      "categoria": "ferramenta",
+      "rotulo": "Avisar venda",
+      "oQueFaz": "Ferramenta: chama o fluxo que avisa a equipe de uma venda.",
+      "tecnico": "Call Workflow Tool",
+      "x": 6320,
+      "y": 720
+    }
+  ],
+  "ligacoes": [
+    {
+      "de": "n1",
+      "para": "n12",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n1",
+      "para": "n35",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n1",
+      "para": "n13",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n1",
+      "para": "n14",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n1",
+      "para": "n30",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n1",
+      "para": "n18",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n2",
+      "para": "n15",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n3",
+      "para": "n20",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n4",
+      "para": "n8",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n5",
+      "para": "n10",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n5",
+      "para": "n27",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n6",
+      "para": "n39",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n7",
+      "para": "n4",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n8",
+      "para": "n5",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n9",
+      "para": "n7",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n10",
+      "para": "n6",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n11",
+      "para": "n28",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n12",
+      "para": "n9",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n13",
+      "para": "n33",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n14",
+      "para": "n32",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n15",
+      "para": "n7",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n16",
+      "para": "n7",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n17",
+      "para": "n19",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n18",
+      "para": "n16",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n19",
+      "para": "n7",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n20",
+      "para": "n7",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n21",
+      "para": "n22",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n22",
+      "para": "n24",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n22",
+      "para": "n45",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n23",
+      "para": "n22",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n26",
+      "para": "n46",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n28",
+      "para": "n48",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n30",
+      "para": "n34",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n31",
+      "para": "n11",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n32",
+      "para": "n3",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n33",
+      "para": "n2",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n34",
+      "para": "n17",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n35",
+      "para": "n9",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n36",
+      "para": "n25",
+      "tipo": "ia"
+    },
+    {
+      "de": "n37",
+      "para": "n31",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n38",
+      "para": "n41",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n39",
+      "para": "n40",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n40",
+      "para": "n41",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n40",
+      "para": "n38",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n41",
+      "para": "n65",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n25",
+      "para": "n43",
+      "tipo": "ia"
+    },
+    {
+      "de": "n42",
+      "para": "n25",
+      "tipo": "ia"
+    },
+    {
+      "de": "n42",
+      "para": "n43",
+      "tipo": "ia"
+    },
+    {
+      "de": "n43",
+      "para": "n21",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n44",
+      "para": "n23",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n45",
+      "para": "n44",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n46",
+      "para": "n29",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n46",
+      "para": "n1",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n47",
+      "para": "n29",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n48",
+      "para": "n47",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n48",
+      "para": "n26",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n50",
+      "para": "n65",
+      "tipo": "ia"
+    },
+    {
+      "de": "n51",
+      "para": "n52",
+      "tipo": "ia"
+    },
+    {
+      "de": "n52",
+      "para": "n54",
+      "tipo": "ia"
+    },
+    {
+      "de": "n53",
+      "para": "n54",
+      "tipo": "ia"
+    },
+    {
+      "de": "n54",
+      "para": "n65",
+      "tipo": "ia"
+    },
+    {
+      "de": "n55",
+      "para": "n65",
+      "tipo": "ia"
+    },
+    {
+      "de": "n56",
+      "para": "n57",
+      "tipo": "ia"
+    },
+    {
+      "de": "n57",
+      "para": "n59",
+      "tipo": "ia"
+    },
+    {
+      "de": "n58",
+      "para": "n59",
+      "tipo": "ia"
+    },
+    {
+      "de": "n59",
+      "para": "n65",
+      "tipo": "ia"
+    },
+    {
+      "de": "n60",
+      "para": "n61",
+      "tipo": "ia"
+    },
+    {
+      "de": "n61",
+      "para": "n63",
+      "tipo": "ia"
+    },
+    {
+      "de": "n62",
+      "para": "n63",
+      "tipo": "ia"
+    },
+    {
+      "de": "n63",
+      "para": "n65",
+      "tipo": "ia"
+    },
+    {
+      "de": "n64",
+      "para": "n65",
+      "tipo": "ia"
+    },
+    {
+      "de": "n65",
+      "para": "n43",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n66",
+      "para": "n65",
+      "tipo": "ia"
+    },
+    {
+      "de": "n67",
+      "para": "n65",
+      "tipo": "ia"
+    },
+    {
+      "de": "n68",
+      "para": "n65",
+      "tipo": "ia"
+    },
+    {
+      "de": "n69",
+      "para": "n65",
+      "tipo": "ia"
+    },
+    {
+      "de": "n70",
+      "para": "n65",
+      "tipo": "ia"
+    }
+  ]
+}

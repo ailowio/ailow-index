@@ -3,8 +3,11 @@ import type { GetStaticPaths } from "astro";
 import CartaoPR from "../../../components/CartaoPR.astro";
 import { carregarFeed } from "../../../changelog/carregar";
 import { rotuloNumero } from "../../../changelog/labels";
+import { fluxoPorPr } from "../../../fluxos/carregar";
 import App from "../../../layouts/App.astro";
 import "../../../styles/feed.css";
+
+const explorar = fluxoPorPr();
 
 export const getStaticPaths = (async () => {
   const { labels } = await carregarFeed();
@@ -42,7 +45,13 @@ const tipoRotulo = label.tipo === "ferramenta" ? "Ferramenta" : "Frente";
       <div class="cartoes">
         {
           label.prs.map((pr) => (
-            <CartaoPR pr={pr} Conteudo={conteudos.get(pr.id)} nomesFerramentas={nomesFerramentas} nomesSkills={nomesSkills} />
+            <CartaoPR
+              pr={pr}
+              Conteudo={conteudos.get(pr.id)}
+              nomesFerramentas={nomesFerramentas}
+              nomesSkills={nomesSkills}
+              explorar={explorar.get(pr.numero)}
+            />
           ))
         }
       </div>

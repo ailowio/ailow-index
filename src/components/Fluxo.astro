@@ -1,0 +1,113 @@
+---
+/**
+ * Explorador de um fluxo do n8n (F5). O desenho é SVG estático gerado no build (0 JS para ver).
+ * JS pequeno só para: tocar/Enter num nó abre o painel; Esc fecha; zoom; arrastar para navegar; "Ver rodando".
+ * Sem JS: a lista "Ver como lista" tem todos os passos (também é a alternativa para leitor de tela).
+ */
+import type { Fluxo } from "../fluxos/esquema";
+import { ICONES, NOMES_CATEGORIA } from "../fluxos/icones";
+import { ALTURA_ROTULO, LADO, MARGEM, caixaDoCanvas, caminhoLigacao, linhasDoRotulo } from "../fluxos/geometria";
+import "../styles/explorar.css";
+
+interface Props {
+  fluxo: Fluxo;
+}
+
+const { fluxo } = Astro.props;
+const caixa = caixaDoCanvas(fluxo.nos);
+const porId = new Map(fluxo.nos.map((n) => [n.id, n]));
+// Ordem de leitura: de cima para baixo e da esquerda para a direita (como se lê o canvas).
+const ordem = [...fluxo.nos].sort((a, b) => a.x - b.x || a.y - b.y);
+
+const script = `(function(){var r=document.querySelector("[data-explorador]");if(!r)return;var t=r.querySelector(".tela"),s=r.querySelector("svg.canvas"),p=r.querySelector(".painel-no"),z=1,W=+s.getAttribute("width"),H=+s.getAttribute("height"),a=null;function Z(v){z=Math.min(2.5,Math.max(.4,v));s.style.width=W*z+"px";s.style.height=H*z+"px"}function F(){if(a){a.classList.remove("ativo");a.setAttribute("aria-pressed","false")}a=null;p.hidden=true}function A(n){if(a)a.classList.remove("ativo");a=n;n.classList.add("ativo");n.setAttribute("aria-pressed","true");p.querySelector("h3").textContent=n.dataset.rotulo;p.querySelector(".oqf").textContent=n.dataset.oqf;p.querySelector(".tec").textContent=n.dataset.cat+" · n8n: "+n.dataset.tec;p.hidden=false}s.addEventListener("click",function(e){var n=e.target.closest(".no");if(n)A(n)});s.addEventListener("keydown",function(e){var n=e.target.closest(".no");if(n&&(e.key==="Enter"||e.key===" ")){e.preventDefault();A(n)}});addEventListener("keydown",function(e){if(e.key==="Escape"&&!p.hidden){var n=a;F();if(n)n.focus()}});p.querySelector("[data-fechar]").addEventListener("click",F);r.querySelector("[data-mais]").addEventListener("click",function(){Z(z*1.25)});r.querySelector("[data-menos]").addEventListener("click",function(){Z(z/1.25)});r.querySelector("[data-ajustar]").addEventListener("click",function(){Z(t.clientWidth/W)});var b=r.querySelector("[data-rodar]");b.addEventListener("click",function(){var on=s.classList.toggle("rodando");b.setAttribute("aria-pressed",on?"true":"false")});var d=null;t.addEventListener("pointerdown",function(e){if(e.pointerType!=="mouse"||e.target.closest(".no"))return;d={x:e.clientX,y:e.clientY,l:t.scrollLeft,u:t.scrollTop};t.classList.add("arrastando")});addEventListener("pointermove",function(e){if(!d)return;t.scrollLeft=d.l-(e.clientX-d.x);t.scrollTop=d.u-(e.clientY-d.y)});addEventListener("pointerup",function(){d=null;t.classList.remove("arrastando")})})()`;
+---
+
+<div class="explorador" data-explorador>
+  <div class="ferramentas" role="toolbar" aria-label="Controles do fluxo">
+    <button type="button" data-menos aria-label="Afastar">−</button>
+    <button type="button" data-mais aria-label="Aproximar">+</button>
+    <button type="button" data-ajustar>Ajustar à tela</button>
+    <button type="button" data-rodar aria-pressed="false">Ver rodando</button>
+  </div>
+
+  <div class="tela" tabindex="0" aria-label={`Desenho do fluxo ${fluxo.titulo}: arraste ou role para navegar`}>
+    <svg
+      class="canvas"
+      width={caixa.largura}
+      height={caixa.altura}
+      viewBox={`0 0 ${caixa.largura} ${caixa.altura}`}
+      role="group"
+      aria-label={`${fluxo.nos.length} passos, toque em um para ver o que faz`}
+    >
+      <defs>
+        <pattern id="pontos" width="20" height="20" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1" class="ponto"></circle>
+        </pattern>
+      </defs>
+      <rect class="fundo-pontos" width={caixa.largura} height={caixa.altura} fill="url(#pontos)"></rect>
+      <g class="ligacoes" aria-hidden="true">
+        {
+          fluxo.ligacoes.map((l) => {
+            const de = porId.get(l.de);
+            const para = porId.get(l.para);
+            return de && para ? <path class={`ligacao ${l.tipo}`} d={caminhoLigacao(de, para, l.tipo)}></path> : null;
+          })
+        }
+      </g>
+      <g class="nos">
+        {
+          fluxo.nos.map((n) => (
+            <g
+              class={`no cat-${n.categoria}`}
+              data-id={n.id}
+              data-rotulo={n.rotulo}
+              data-oqf={n.oQueFaz}
+              data-tec={n.tecnico}
+              data-cat={NOMES_CATEGORIA[n.categoria]}
+              transform={`translate(${n.x + MARGEM} ${n.y + MARGEM})`}
+              tabindex="0"
+              role="button"
+              aria-pressed="false"
+              aria-label={`${n.rotulo} (${NOMES_CATEGORIA[n.categoria]})`}
+            >
+              <rect class="caixa" width={LADO} height={LADO} rx="12"></rect>
+              <svg class="icone" x={LADO / 2 - 16} y={LADO / 2 - 16} width="32" height="32" viewBox="0 0 24 24" set:html={ICONES[n.categoria]} />
+              <text class="rotulo" x={LADO / 2} y={LADO + 18} text-anchor="middle">
+                {linhasDoRotulo(n.rotulo)
+                  .slice(0, Math.floor(ALTURA_ROTULO / 17))
+                  .map((linha, i, todas) => (
+                    // Espaço no fim de cada linha (menos a última): sem ele o texto lido vira "Chega umáudio" e o
+                    // nome acessível deixa de começar pelo texto visível (axe label-content-name-mismatch).
+                    <tspan x={LADO / 2} dy={i === 0 ? 0 : 16}>{i < todas.length - 1 ? `${linha} ` : linha}</tspan>
+                  ))}
+              </text>
+            </g>
+          ))
+        }
+      </g>
+    </svg>
+  </div>
+
+  <aside class="painel-no" hidden aria-live="polite">
+    <h3></h3>
+    <p class="oqf"></p>
+    <p class="tec"></p>
+    <button type="button" class="fechar" data-fechar aria-label="Fechar">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </button>
+  </aside>
+
+  <details class="lista-nos">
+    <summary>Ver como lista ({fluxo.nos.length} passos)</summary>
+    <ol>
+      {
+        ordem.map((n) => (
+          <li>
+            <strong>{n.rotulo}</strong> <span class="cat">({NOMES_CATEGORIA[n.categoria]})</span>: {n.oQueFaz}
+          </li>
+        ))
+      }
+    </ol>
+  </details>
+</div>
+<script is:inline set:html={script} />

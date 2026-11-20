@@ -1,0 +1,78 @@
+{
+  "slug": "transcritor-de-audio",
+  "titulo": "Transcritor de áudio",
+  "pr": 18,
+  "estado": "ativo",
+  "criado": "2025-10",
+  "resumo": "Mando um áudio no Telegram e recebo o texto de volta. São cinco blocos.",
+  "historia": "Um dos primeiros fluxos que ficaram em uso todo dia, criado em outubro de 2025. É o exemplo mais simples de IA útil na rotina.",
+  "nos": [
+    {
+      "id": "n1",
+      "categoria": "mensagem",
+      "rotulo": "Devolve o texto no Telegram",
+      "oQueFaz": "Responde na mesma conversa com o texto pronto para copiar.",
+      "tecnico": "Telegram",
+      "x": 672,
+      "y": 0
+    },
+    {
+      "id": "n2",
+      "categoria": "mensagem",
+      "rotulo": "Baixa o áudio",
+      "oQueFaz": "Pega o arquivo de áudio da mensagem.",
+      "tecnico": "Telegram",
+      "x": 160,
+      "y": 0
+    },
+    {
+      "id": "n3",
+      "categoria": "ia",
+      "rotulo": "Transcreve com IA",
+      "oQueFaz": "Manda o áudio para a IA da OpenAI, que devolve o texto.",
+      "tecnico": "OpenAI",
+      "x": 320,
+      "y": 0
+    },
+    {
+      "id": "n4",
+      "categoria": "codigo",
+      "rotulo": "Arruma o texto",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 496,
+      "y": 0
+    },
+    {
+      "id": "n5",
+      "categoria": "gatilho",
+      "rotulo": "Chega um áudio no Telegram",
+      "oQueFaz": "Começa quando eu mando um áudio para o robô no Telegram.",
+      "tecnico": "Telegram Trigger",
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "ligacoes": [
+    {
+      "de": "n2",
+      "para": "n3",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n3",
+      "para": "n4",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n4",
+      "para": "n1",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n5",
+      "para": "n2",
+      "tipo": "fluxo"
+    }
+  ]
+}
