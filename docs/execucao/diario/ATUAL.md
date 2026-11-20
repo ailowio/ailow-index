@@ -7,16 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### V05 — Ponte bancada → site — 2026-11-20 — Claude Sonnet 5.5 (subagente)
-Leu: Contrato, linha V05, retomada, V04; ADR 008, ADR 005 itens 1–2; `tokens.json` da bancada.
-Feito: schema Zod estrito (`src/midia/pacote.ts`, via `astro/zod`, sem dependência nova); `validarPacote`/`importarPacote` (`src/midia/validar.ts`): inventário por lista de permissões, tetos, cabeçalho de mp4/webp/png/vtt, `.vtt` obrigatório com vídeo, linter no `site.json` e nas legendas, tudo ou nada (copia para pasta temporária e renomeia); `npm run importar-midia -- <pasta>`; cópia `src/styles/pulso-tokens.json` + `pulso-deriva.ts` (MAPA de 31 tokens) + teste de deriva; `npm run tokens:sincronizar`; `docs/contratos/bancada-site.md`; I-13 no inventário; fixtures sintéticos em `test/fixtures/midia/`.
-Decisões (delegação): sem bump de versão nem CHANGELOG (ferramenta interna; entrada em [Unreleased] apareceria em `/versoes`); MB/KB decimais (mais estrito); a cópia dos tokens leva só nome e valor (as notas de uso citam o clone, ainda não público); `sinal-fraco` (#1b6fb0 no site, #2a6fae na bancada) e `fonte-mono` (sem IBM Plex) ficam como divergência declarada com teste que reprova exceção obsoleta; CLI roda TS por `--experimental-strip-types` (Node 22 do `.nvmrc`).
-Limites declarados: duração real do mp4, proporção do pôster, dado em tela e existência dos `#NNN` no feed não são conferidos.
-Canários (L-0006): mutação (teto ×1000, `.vtt` não exigido) deixou 4 testes vermelhos; revertida. Casos: vídeo > 8 MB, pôster/og acima do teto, > 60 s, sem `.vtt`, `.exe/.mov/.html`, subpasta, IP e `ilo.com.br`, termo local, cabeçalho falso; tokens: cor, duração, raio, espaço, traço, easing, token removido.
-Falhas no caminho: `astro check` rejeitou `groups` extra no tipo de `reduzirTokens`: tipo afrouxado.
-Números: Vitest 462 → 498; E2E 684 passed (sem mudança de rota).
-Pendências do Pedro: alinhar ou documentar `sinal-fraco`; V06 precisa dos derivados em `final/site/`.
-
 ### V06 — Pacotes de vídeo — 2026-11-20 — Claude Sonnet 5.5 (subagente)
 Leu: Contrato, linha V06, retomada, V05; ADR 005/008; STATUS e PUBLICAR da bancada.
 Feito: 5 pacotes importados (6 prontos na bancada; P3 retirado, ver abaixo) em `final/site/<slug>/` da bancada (só essa pasta), importados com `npm run importar-midia`: `teaser-p1-improvisar-sob-pressao`, `teaser-p2-teoria-na-pratica`, `fixado-00-o-que-eu-faco`, `chao-1-dois-quadros`, `chao-2-sinal-chegou`. 720x1280, 5,2–6,9 MB; pôster 15–67 KB; `.vtt` pela AssemblyAI (chave lida dentro do script, nunca impressa). `/apresentacao` e `/bio` ganham o Fixado 00 no slot (`preload="none"`, aviso "parte da imagem e da voz é gerada por IA"). Versão 1.8.0.
@@ -37,3 +27,13 @@ Canários (L-0006): chip fora do cue, iframe no HTML, iframe no carregamento, 30
 Falhas no caminho: preview na 4330 esquecido travou o `webServer` do Playwright (L-0012); estilo computado de `<source>`/`<track>` vem vazio.
 Números: Vitest 504 → 529; E2E 686 → 734 passed; `/na-tv` JS 1,09/10 KiB, peso 60,7/150; `/apresentacao` e `/bio` 28,65 → 50,2 (pôster passou a contar).
 Screenshots: `D:/apps/.playwright-mcp/auditoria/v07/`.
+
+### V08 — Chão de Fábrica — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
+Leu: Contrato, V08, retomada, V07; ADR 006, 007 item 5; brainstorm §5.6; colheita de IoT §5 e §7; #080, #081 e vizinhas; READMEs dos episódios na bancada (só leitura).
+Feito: `/chao-de-fabrica` com a série presa a um "cabo" (borne amarelo por episódio); #1 (10/11) e #2 (11/11) com os pacotes da V06 (`preload="none"`, pôster, `.vtt`, "Narração com voz gerada por IA"), reaproveitando CSS e script da `/na-tv`; #3 "Firmware v1.9" como relatório de campo (sintoma → hipótese → o que era → decisão → estado) só com o texto da #080. Provas: #081, #062, #076, #080. Fita "em validação" no sensor em cada máquina (#081) e na v1.9 (#080). Links no `/pedro` e na `/na-tv`; sitemap; selo em `SECOES` (home intacta). Caixa de legenda: antes do play só a dica (68 → ~36 px), 2 linhas no primeiro play. Versão 1.10.0.
+Decisões (delegação): datas = pastas da bancada (10/11 está na prova da #081; #2 = "ontem" no vídeo); `fatos` dos `site.json` seguem `[]` (ligação no `src/data`, sem mexer no pacote); sem link na home (grade de 6 e 360×640 da V02); "#3" sem vídeo e sem "em breve" (brief da bancada: "estou validando").
+Testes antigos alterados (comentário "V08 · 2026-11-20 · ADR 007 item 5"): `indexacao.test.ts` (ganha `/chao-de-fabrica/`).
+Canários (L-0006): "todas as máquinas, rodando" e "30 máquinas" (Vitest vermelho); `preload="auto"` (2 E2E vermelhos); caixa de legenda com 68 px (4 E2E vermelhos antes do CSS). Revertidos.
+Falhas no caminho: o teste de números passou com "30" (os tempos do `.vtt` contavam): passou a ler só a fala e o número inteiro; título do cabeçalho com reticências em 360 px (visto no screenshot): fonte reduzida só nesta página + E2E.
+Números: Vitest 529 → 544; E2E 734 → 776 passed; `/chao-de-fabrica` JS 1,16/10 KiB, peso 111,4/150.
+Screenshots: `D:/apps/.playwright-mcp/auditoria/v08/`.

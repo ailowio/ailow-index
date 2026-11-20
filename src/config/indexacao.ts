@@ -21,6 +21,8 @@ const ROTAS_FIXAS = [
   "/educacao/",
   // V07 (ADR 007 item 5): /na-tv substitui /pedro/entrevistas, que responde 301 e sai do sitemap.
   "/na-tv/",
+  // V08 (ADR 007 item 5): a série Chão de Fábrica, episódio por episódio.
+  "/chao-de-fabrica/",
 ] as const;
 
 /** F5: o Explorador (índice + uma página por fluxo) também é público e indexável. */

@@ -1,0 +1,129 @@
+---
+import App from "../layouts/App.astro";
+import { ancoraPR, rotuloPR } from "../data/consultoria";
+import { arquivosEpisodio, dataCurta, EPISODIOS, TOPO } from "../data/chao-de-fabrica";
+import "../styles/na-tv.css";
+import "../styles/chao-de-fabrica.css";
+
+// V08 (2026-11-20, ADR 007 item 5; ADR 005, ADR 006): a série Chão de Fábrica, episódio por episódio, presa a um
+// "cabo" vertical. #1 e #2 com os vídeos dos pacotes da bancada (preload="none", pôster, .vtt, selo de voz gerada
+// por IA); #3 como relatório de campo em texto. O player e a caixa de legenda grande são os da /na-tv (mesmo CSS e
+// mesmo script): os episódios já trazem legenda queimada, então a nativa fica escondida e a fala vai para a caixa.
+// O que ainda não fechou leva a fita de "em validação". Textos em src/data/chao-de-fabrica.ts.
+---
+
+<App
+  id="chao-de-fabrica"
+  tituloPagina="Chão de Fábrica: a implantação dos sensores, episódio por episódio"
+  descricao="A série Chão de Fábrica: os quadros de sensores na parede, o sinal chegando e o relatório de campo do firmware v1.9, cada episódio com a prova no Diário de obra."
+>
+  <div class="chao">
+    <section class="chao-topo" aria-labelledby="chao-titulo">
+      <p class="sobretitulo">{TOPO.sobretitulo}</p>
+      <h2 id="chao-titulo">{TOPO.titulo}</h2>
+      <p class="tese">{TOPO.tese}</p>
+    </section>
+
+    <nav class="sumario" aria-label="Episódios da série">
+      <ol>
+        {
+          EPISODIOS.map((e) => (
+            <li>
+              <a href={`#ep-${e.numero}`}>
+                <span class="sumario-num">#{e.numero}</span>
+                <span class="sumario-titulo">{e.titulo}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <ol class="serie" aria-label="Episódios, do mais antigo ao mais recente">
+      {
+        EPISODIOS.map((e) => {
+          const id = `player-ep-${e.numero}`;
+          const a = e.video ? arquivosEpisodio(e.video.pacote) : null;
+          return (
+            <li class="episodio" id={`ep-${e.numero}`}>
+              <article class="ep" aria-labelledby={`ep-${e.numero}-titulo`}>
+                <header class="ep-cabeca">
+                  <p class="ep-numero">
+                    <span class="ep-borne">#{e.numero}</span>
+                    <span class="ep-formato">{e.formato}</span>
+                  </p>
+                  <h3 class="ep-titulo" id={`ep-${e.numero}-titulo`}>
+                    {e.titulo}
+                  </h3>
+                  <p class="ep-data">
+                    <time datetime={e.data}>{dataCurta(e.data)}</time>
+                  </p>
+                </header>
+
+                <div class={e.video ? "ep-corpo com-video" : "ep-corpo"}>
+                  {e.video && a && (
+                    <figure class="ep-video">
+                      <div class="teaser-tela">
+                        <video
+                          id={id}
+                          data-player
+                          preload="none"
+                          poster={a.poster}
+                          controls
+                          playsinline
+                          width="720"
+                          height="1280"
+                        >
+                          <source src={a.mp4} type="video/mp4" />
+                          <track kind="captions" src={a.vtt} srclang="pt-BR" label="Português" default />
+                        </video>
+                      </div>
+                      <p class="legenda-tv" data-legenda={id} aria-hidden="true" />
+                      {e.video.seloIa && <figcaption class="selo-ia">Narração com voz gerada por IA.</figcaption>}
+                    </figure>
+                  )}
+
+                  <div class="ep-texto">
+                    <p class="ep-resumo">{e.resumo}</p>
+
+                    {e.relatorio ? (
+                      <dl class="relatorio">
+                        {e.relatorio.map((r) => (
+                          <div class={r.etapa === "Estado" ? "etapa estado-em-validacao" : "etapa"}>
+                            <dt>{r.etapa}</dt>
+                            <dd>{r.texto}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    ) : (
+                      <ul class="estado" aria-label="Estado">
+                        {e.estado.map((s) => (
+                          <li class={s.tipo === "feito" ? "estado-feito" : "estado-em-validacao"}>
+                            <span class="tag-estado">{s.tipo === "feito" ? "Feito" : "Em validação"}</span>
+                            <span class="estado-texto">{s.texto}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    <p class="provas">
+                      <span class="provas-rotulo">Prova no Diário de obra</span>
+                      {e.fatos.map((n) => (
+                        <a href={`/pedro/#${ancoraPR(n)}`}>{rotuloPR(n)}</a>
+                      ))}
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</App>
+
+<script>
+  // Mesmo comportamento da /na-tv: um vídeo por vez e a fala na caixa grande abaixo do quadro.
+  import "../scripts/na-tv";
+</script>
