@@ -296,9 +296,18 @@ test.describe("/consultoria: layout, acessibilidade e movimento", () => {
         const dur = (v: string) => v.split(",").some((x) => Number.parseFloat(x) > 0.001);
         return (s.animationName !== "none" && dur(s.animationDuration)) || dur(s.transitionDuration);
       });
-      return { animados: animados.map((el) => el.className), rodando: document.getAnimations().length };
+      // Conta só o que se move de verdade: as transições de 0,01 ms do global.css podem estar "rodando" no
+      // instante da medida (o CI pegou 7) sem mover nada na tela.
+      const rodando = document
+        .getAnimations()
+        .filter((a) => Number(a.effect?.getComputedTiming().duration ?? 0) > 1)
+        .map((a) => {
+          const alvo = (a.effect as KeyframeEffect | null)?.target as HTMLElement | null;
+          return `${alvo?.tagName ?? "?"}.${alvo?.className ?? ""} ${a.effect?.getComputedTiming().duration} ms`;
+        });
+      return { animados: animados.map((el) => el.className), rodando: rodando.length, quais: rodando };
     });
-    expect(m).toEqual({ animados: [], rodando: 0 });
+    expect(m).toEqual({ animados: [], rodando: 0, quais: [] });
   });
 });
 
