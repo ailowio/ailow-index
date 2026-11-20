@@ -18,6 +18,9 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 - F0: a trava do Voltar sai da home e fica só no cartão instalado (ADR 003 item 4 revisto; exceção EX-03 à UXM-03). Quem chega por link volta à origem.
 - F0: títulos das abas sem repetição ("Sobre a empresa", "Versões do site", "Stack de ferramentas", "Apresentação de Pedro Fernandes").
 
+### Segurança
+- Imagem base do nginx de `1.30.6` para `1.31.7` (mainline, Alpine 3.24): o Trivy do job `imagem` passou a barrar 4 CVEs CRITICAL e 2 HIGH do nginx 1.30.6-r1 (corrigidas no 1.30.7-r0), e a imagem `nginx-unprivileged` 1.30.7 não foi publicada. A v1.2.0 em produção tem a mesma base; este deploy a corrige.
+
 ### Corrigido
 - F0: sócio da Copel desde **mai/2015** (o `/pedro` dizia jan/2015; confirmado pelo Pedro em 2026-11-20).
 - F0: `/sobre` não promete mais "alertas e dashboards" (o Pulse ainda não tem painel); `/pulse` diz o estado real: sensores em todas as máquinas, dois gateways, firmware v1.9 em validação em campo desde 19/11/2026.
