@@ -25,7 +25,7 @@ Números: Vitest 363 → 367; E2E 558 → 608 passed; peso `/` 12,5/60 KiB (JS 0
 Screenshots: `D:/apps/.playwright-mcp/auditoria/v02/`.
 
 ### V03 — `/consultoria` — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
-Leu: Contrato, linha V03, retomada, V02; ADR 007; brainstorm §1 e §5.4; colheita de IoT §6–§7 (só a #081).
+Leu: Contrato, linha V03, retomada, V02; ADR 007; brainstorm §1/§5.4; colheita de IoT §7 (#081).
 Feito: método em 4 etapas com "Na Copel" e as entradas que provam; escada (Aprender → `/educacao`); casos Copel e Cloud "com a loja piloto"; raio-x de 5 perguntas em forma de OS (`mensagemRaioX`/`linkRaioX` em `contato.ts`, prévia da mensagem, envio abre o `wa.me`). Textos em `src/data/consultoria.ts`; teste exige entrada confirmada por bloco e todo número presente numa delas. Rota indexável, no sitemap. Versão 1.6.0.
 Decisões (delegação): sem nome do cliente do Cloud (o feed #070 e o `/cloud` já citam: fica para o Pedro); "todas as máquinas" da #081 não é repetido (contradição em aberto na colheita); sem foto/clipe por etapa e sem slot de vídeo até a V05/V06; botão de enviar desligado sem JS (o form não manda nada ao servidor nem sem JS).
 Testes antigos alterados (comentário "V03 · 2026-11-20 · ADR 007 item 5"): `indexacao.test.ts` (lista ganha `/consultoria/`) e o placeholder do `v02-home.e2e.ts` (fica só `/educacao`).
