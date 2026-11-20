@@ -1,0 +1,22 @@
+---
+import App from "../layouts/App.astro";
+import BotaoWhatsapp from "../components/BotaoWhatsapp.astro";
+
+// V02 (ADR 007): placeholder honesto, para a porta da home não dar 404. O conteúdo é da V03.
+// Fora do Google enquanto é placeholder (decisão do orquestrador por delegação, 2026-11-20).
+---
+
+<App
+  id="consultoria"
+  tituloPagina="Consultoria para empresas"
+  descricao="Consultoria sob medida: levar para a sua empresa o que eu fiz na minha fábrica."
+  indexar={false}
+>
+  <section class="construcao">
+    <div class="faixa" aria-hidden="true"></div>
+    <h2>Em construção</h2>
+    <p class="oferta">Consultoria sob medida: levar para a sua empresa o que eu fiz na minha fábrica.</p>
+    <p>Esta página está sendo montada. Enquanto isso, fale comigo direto.</p>
+    <BotaoWhatsapp origem="consultoria" />
+  </section>
+</App>

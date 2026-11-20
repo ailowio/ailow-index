@@ -76,20 +76,19 @@
   view-transition-name: tema;
 }
 
-.fundo-pulso {
-  position: absolute;
-  inset-inline: 0;
-  inset-block-end: 3.5rem;
+/* V02: a linha de pulso deixa o fundo (cruzava os links de baixo) e vira o divisor da seção de apps;
+   o "fundo de pulso" passa a ser o batimento no ponto do toque (.batida). */
+.linha-pulso {
+  display: block;
   inline-size: 100%;
-  block-size: 6rem;
+  block-size: 2rem;
   fill: none;
   stroke: var(--borda);
   stroke-width: 2;
   stroke-linejoin: miter;
-  pointer-events: none;
 }
 
-.fundo-pulso .destaque {
+.linha-pulso .destaque {
   stroke: var(--acento);
   stroke-dasharray: 0.5rem 0.5rem;
   opacity: 0.55;
@@ -101,7 +100,8 @@
   display: grid;
   align-content: start;
   gap: var(--espaco-4);
-  padding: var(--espaco-2) var(--espaco-3) var(--espaco-6);
+  /* V02: margem lateral de 16 px, alinhada à logo do cabeçalho (sobra largura para as portas). */
+  padding: var(--espaco-2) var(--espaco-2) var(--espaco-6);
 }
 
 .widget {
@@ -128,15 +128,224 @@
   color: var(--texto-2);
 }
 
-.widget .botao-acao {
-  margin-block-start: var(--espaco-1);
+/* ---------- V02 (ADR 007): as duas portas, o contato e os links secundários ---------- */
+
+/* Mesmo peso: a grade dá a mesma altura às duas (1fr) e a mesma largura (coluna única, empilhadas: L-0015). */
+.portas {
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: var(--espaco-1);
+}
+
+.porta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-block-size: 4.5rem;
+  padding: 0.75rem;
+  background: var(--superficie);
+  color: var(--texto);
+  text-decoration: none;
+  border: var(--traco-fino) solid var(--borda);
+  border-inline-start: var(--traco-borda) solid var(--acento);
+  border-radius: var(--raio-card);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--dur-tique) var(--ease-entra),
+    border-color var(--dur-tique) linear;
+}
+
+.porta:active {
+  transform: scale(0.98);
+  border-color: var(--acento);
+}
+
+.porta-selo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  background: var(--icone-fundo);
+  color: var(--icone-traco);
+  border: var(--traco-fino) solid var(--linha);
+  border-radius: var(--raio-card);
+}
+
+.porta-texto {
+  display: grid;
+  flex: 1;
+  min-inline-size: 0;
+  gap: 0.125rem;
+}
+
+.porta-titulo {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: var(--texto-subtitulo);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.porta-oferta {
+  font-size: var(--texto-pequeno);
+  line-height: 1.3;
+  color: var(--texto-2);
+}
+
+.porta-seta {
+  flex: none;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  fill: none;
+  stroke: var(--texto);
+  stroke-width: 2.5;
+  stroke-linecap: square;
+}
+
+.contato-home {
+  inline-size: 100%;
+}
+
+/* "Conhecer a história" (abaixo e menor que as portas) e o Diário de obra (secundário). */
+.secundarios {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 var(--espaco-2);
+  max-width: none;
+}
+
+.secundarios a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--alvo);
+  font-size: var(--texto-pequeno);
+  touch-action: manipulation;
+}
+
+.historia {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.diario {
+  font-family: var(--fonte-mono);
+  color: var(--texto-2);
+}
+
+.apps {
+  display: grid;
+  gap: var(--espaco-1);
+}
+
+.apps-titulo {
+  font-family: var(--fonte-mono);
+  font-weight: 500;
+  font-size: var(--texto-pequeno);
+  letter-spacing: 0.04em;
+  color: var(--texto-2);
+}
+
+/* ---------- V02: o pulso bate onde o dedo tocou ----------
+ * Um único elemento em movimento (ADR 007 item 7): o anel abre e a onda de um batimento é desenhada,
+ * centrados no ponto do toque (--x, --y vêm do script da home). Fica no fundo (abaixo de .home, z-index 1):
+ * nunca cobre texto; sobre uma porta, o anel aparece em volta dela. Parado, fica invisível. */
+.batida {
+  position: absolute;
+  inset-inline-start: var(--x, 50%);
+  inset-block-start: var(--y, 50%);
+  z-index: 0;
+  inline-size: 8rem;
+  block-size: 8rem;
+  margin: -4rem 0 0 -4rem;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.batida-anel {
+  position: absolute;
+  inset: 0;
+  border: var(--traco-fino) solid var(--acento);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.batida-onda {
+  position: absolute;
+  inset: 25% 0;
+  inline-size: 100%;
+  block-size: 50%;
+  fill: none;
+  stroke: var(--acento);
+  stroke-width: 2.5;
+  stroke-linejoin: miter;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+.batida.bate {
+  animation: batida-some 600ms linear both;
+}
+
+.batida.bate .batida-anel {
+  animation: batida-anel 600ms var(--ease-entra) both;
+}
+
+.batida.bate .batida-onda {
+  animation: batida-onda 450ms var(--ease-move) both;
+}
+
+@keyframes batida-some {
+  0%,
+  60% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes batida-anel {
+  from {
+    opacity: 0.8;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+@keyframes batida-onda {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Movimento reduzido: o pulso do toque fica parado e invisível (opacidade 0 do estado de repouso).
+   Bloco próprio, longe do bloco das transições: o minificador funde regras vizinhas de mesma declaração. */
+@media (prefers-reduced-motion: reduce) {
+  .batida,
+  .batida.bate,
+  .batida.bate .batida-anel,
+  .batida.bate .batida-onda {
+    animation: none;
+  }
 }
 
 /* F0: em telas baixas (360x640) a frase + o botão precisam caber com as 2 fileiras de ícones acima do rodapé.
-   Só espaçamento encolhe; alvos de toque (48 px) e tamanhos de texto ficam iguais. */
+   Só espaçamento encolhe; alvos de toque (48 px) e tamanhos de texto ficam iguais.
+   V02 (ADR 007): agora o que cabe sem rolar são a frase, as 2 portas, o contato e "Conhecer a história";
+   a grade de apps fica logo abaixo (rolagem só do conteúdo). */
 @media (max-height: 740px) {
   .home {
-    gap: var(--espaco-2);
+    gap: 0.75rem;
     padding-block-start: var(--espaco-1);
   }
 
@@ -145,8 +354,13 @@
     padding-block: 0.75rem;
   }
 
-  .widget .botao-acao {
-    margin-block-start: 0.25rem;
+  .porta {
+    min-block-size: 4rem;
+    padding-block: 0.5rem;
+  }
+
+  .porta-titulo {
+    font-size: 1.25rem;
   }
 
   .grade-apps {
@@ -333,7 +547,8 @@
 }
 
 .app-badge .glifo,
-.app-badge .glifo-logo {
+.app-badge .glifo-logo,
+.porta-selo .glifo {
   inline-size: 1.5rem;
   block-size: 1.5rem;
 }
