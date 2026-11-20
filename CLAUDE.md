@@ -7,7 +7,7 @@ Este app herda `D:\apps\harness`. Antes de qualquer trabalho:
 1. Leia `D:\apps\harness\PROTOCOLO.md` (gate de leitura, tiers, ciclo de vida, DoD).
 2. Declare tarefa → tipo → tier → IDs de regra aplicáveis → critérios de aceite mensuráveis.
 3. Siga `D:\apps\harness\checklists\` correspondente.
-4. Plano de execução: `docs/execucao/plano.md`; diário: `docs/execucao/diario/ATUAL.md`.
+4. Plano de execução: **`docs/execucao/plano-v2.md`** (v2, sessões V01–V17; o anterior, S01–S13, é `docs/execucao/plano.md`); diário: `docs/execucao/diario/ATUAL.md`.
    **Abra em camadas:** Contrato + linha da sessão + Estado de retomada + última entrada do diário.
 
 ## Regras do projeto (verificáveis)
