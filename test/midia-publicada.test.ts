@@ -48,7 +48,7 @@ describe("public/midia (V06)", () => {
 
   it("cada pasta continua sendo um pacote válido do contrato (schema, tetos, cabeçalhos, linter)", () => {
     const pastas = readdirSync(base).filter((p) => statSync(join(base, p)).isDirectory());
-    expect(pastas.length).toBeGreaterThanOrEqual(6);
+    expect(pastas.length).toBeGreaterThanOrEqual(5);
     for (const p of pastas) {
       const r = validarPacote(join(base, p));
       expect(r.erros, p).toEqual([]);
@@ -56,6 +56,7 @@ describe("public/midia (V06)", () => {
     }
   });
 
+  // V06 · 2026-11-20 · P3 retirado pelo orquestrador: valor/lista de pedidos em tela (o pacote segue na bancada, em final/site/).
   it("os slugs importados são os da V06 e o vídeo da bancada longo (E6, 76 s) não entrou", () => {
     const pastas = readdirSync(base).sort();
     expect(pastas).toEqual([
@@ -64,7 +65,6 @@ describe("public/midia (V06)", () => {
       "fixado-00-o-que-eu-faco",
       "teaser-p1-improvisar-sob-pressao",
       "teaser-p2-teoria-na-pratica",
-      "teaser-p3-da-dor-ao-sistema",
     ]);
   });
 
