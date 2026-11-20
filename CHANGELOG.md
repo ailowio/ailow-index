@@ -4,6 +4,16 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-11-20
+
+### Adicionado
+- F5: **Explorador dos fluxos do n8n** (`/explorar` e uma página por fluxo). Cinco fluxos reais, do mais simples ao mais complexo: transcritor de áudio (5 passos), agente de produção dos teares (14), do gateway ao banco (22), lançamento do PCP no Asana (45) e LINA, atendimento no WhatsApp (70). O desenho reproduz a posição e as ligações do editor do n8n (ligações de IA tracejadas); tocar ou dar Enter num passo abre o painel com o que ele faz; zoom, arrastar, "Ver rodando" (desligado com movimento reduzido) e a alternativa "Ver como lista" para teclado e leitor de tela. SVG gerado no build; 1,4 KiB de JS.
+- Os dados (`src/data/fluxos/*.json`) são uma versão **derivada e saneada**, gerada fora do repositório a partir do export do n8n (lista de permissões: posição, categoria, rótulo revisado, ligações). Notas adesivas, parâmetros, credenciais, IDs e URLs não entram; nomes de pessoas viraram papéis. `test/fluxos.test.ts` valida o esquema e reprova URL, e-mail, IP, id do n8n, número longo e campos do n8n (canário com um nó sujo).
+- Cards do diário com fluxo ganham "Explorar o fluxo, passo a passo"; o perfil do `/pedro` ganha "Fluxos do n8n (5)". As 6 rotas novas entram no sitemap.
+
+### Segurança
+- `docs/execucao/v2/` no `.gitignore`: o trabalho do v2 (estratégia, colheita, transcrições) fica local até o Pedro decidir.
+
 ## [1.3.0] - 2026-11-20
 
 ### Adicionado

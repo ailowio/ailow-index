@@ -1,0 +1,204 @@
+{
+  "slug": "agente-producao-teares",
+  "titulo": "Agente de Produção dos teares",
+  "pr": 33,
+  "estado": "ativo",
+  "criado": "2026-01",
+  "resumo": "Pergunto em português, pelo Telegram ou pelo painel, e uma IA consulta o banco de produção dos teares e responde.",
+  "historia": "Criado em janeiro de 2026, quando os primeiros sensores dos teares começaram a mandar dados. Continua ativo. Mostrei essa consulta na palestra para os associados do Sindigráfica, em abril de 2026.",
+  "nos": [
+    {
+      "id": "n1",
+      "categoria": "ia",
+      "rotulo": "Agente de Produção",
+      "oQueFaz": "Lê a pergunta (por exemplo, quanto um tear produziu hoje), consulta a produção e responde em português.",
+      "tecnico": "AI Agent",
+      "x": 592,
+      "y": 64
+    },
+    {
+      "id": "n2",
+      "categoria": "modelo",
+      "rotulo": "Modelo da OpenAI",
+      "oQueFaz": "O modelo de linguagem que a IA usa para pensar e escrever.",
+      "tecnico": "OpenAI Chat Model",
+      "x": 448,
+      "y": 272
+    },
+    {
+      "id": "n3",
+      "categoria": "ferramenta",
+      "rotulo": "Calculadora",
+      "oQueFaz": "Ferramenta de cálculo: o agente não faz conta de cabeça, usa a calculadora.",
+      "tecnico": "Calculator",
+      "x": 944,
+      "y": 272
+    },
+    {
+      "id": "n4",
+      "categoria": "gatilho",
+      "rotulo": "Pergunta pelo painel",
+      "oQueFaz": "Começa quando alguém pergunta pelo chat do painel do sistema da fábrica.",
+      "tecnico": "Webhook",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "id": "n5",
+      "categoria": "memoria",
+      "rotulo": "Memória da conversa",
+      "oQueFaz": "Memória da conversa: guarda as mensagens anteriores para o agente lembrar do contexto.",
+      "tecnico": "Postgres Chat Memory",
+      "x": 608,
+      "y": 272
+    },
+    {
+      "id": "n6",
+      "categoria": "ferramenta",
+      "rotulo": "Consulta a produção dos teares",
+      "oQueFaz": "Ferramenta: chama o fluxo que busca no banco a produção e o estado de cada tear.",
+      "tecnico": "Call Workflow Tool",
+      "x": 768,
+      "y": 272
+    },
+    {
+      "id": "n7",
+      "categoria": "gatilho",
+      "rotulo": "Pergunta pelo Telegram",
+      "oQueFaz": "Começa o fluxo quando chega uma mensagem no Telegram.",
+      "tecnico": "Telegram Trigger",
+      "x": 0,
+      "y": 144
+    },
+    {
+      "id": "n8",
+      "categoria": "decisao",
+      "rotulo": "Merge",
+      "oQueFaz": "Junta os dados que chegaram por caminhos diferentes.",
+      "tecnico": "Merge",
+      "x": 400,
+      "y": 64
+    },
+    {
+      "id": "n9",
+      "categoria": "decisao",
+      "rotulo": "Veio do Telegram?",
+      "oQueFaz": "Decide por onde devolver a resposta: Telegram ou painel.",
+      "tecnico": "If",
+      "x": 896,
+      "y": 64
+    },
+    {
+      "id": "n10",
+      "categoria": "codigo",
+      "rotulo": "Arruma a pergunta do painel",
+      "oQueFaz": "Deixa a pergunta no mesmo formato, venha de onde vier.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 192,
+      "y": 0
+    },
+    {
+      "id": "n11",
+      "categoria": "codigo",
+      "rotulo": "Arruma a pergunta do Telegram",
+      "oQueFaz": "Deixa a pergunta no mesmo formato, venha de onde vier.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 192,
+      "y": 144
+    },
+    {
+      "id": "n12",
+      "categoria": "mensagem",
+      "rotulo": "Responde no Telegram",
+      "oQueFaz": "Manda a resposta na conversa do Telegram.",
+      "tecnico": "Telegram",
+      "x": 1136,
+      "y": 0
+    },
+    {
+      "id": "n13",
+      "categoria": "codigo",
+      "rotulo": "Arruma a resposta do painel",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 1136,
+      "y": 160
+    },
+    {
+      "id": "n14",
+      "categoria": "mensagem",
+      "rotulo": "Responde no painel",
+      "oQueFaz": "Devolve a resposta para o chat do painel.",
+      "tecnico": "Respond to Webhook",
+      "x": 1344,
+      "y": 160
+    }
+  ],
+  "ligacoes": [
+    {
+      "de": "n2",
+      "para": "n1",
+      "tipo": "ia"
+    },
+    {
+      "de": "n3",
+      "para": "n1",
+      "tipo": "ia"
+    },
+    {
+      "de": "n4",
+      "para": "n10",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n5",
+      "para": "n1",
+      "tipo": "ia"
+    },
+    {
+      "de": "n6",
+      "para": "n1",
+      "tipo": "ia"
+    },
+    {
+      "de": "n1",
+      "para": "n9",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n7",
+      "para": "n11",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n8",
+      "para": "n1",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n9",
+      "para": "n12",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n9",
+      "para": "n13",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n10",
+      "para": "n8",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n11",
+      "para": "n8",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n13",
+      "para": "n14",
+      "tipo": "fluxo"
+    }
+  ]
+}

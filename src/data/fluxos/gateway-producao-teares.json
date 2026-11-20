@@ -1,0 +1,321 @@
+{
+  "slug": "gateway-producao-teares",
+  "titulo": "Do gateway ao banco: produção e paradas dos teares",
+  "pr": 32,
+  "estado": "ativo",
+  "criado": "2026-01",
+  "resumo": "O gateway da fábrica avisa cada contagem e o fluxo grava a produção de cada máquina. A cada minuto, ele confere o último sinal de cada tear para marcar quem está ativo, inativo ou parado e registrar as paradas.",
+  "historia": "Nasceu para os testes de bancada do gateway USR-EG118, em janeiro de 2026: o gateway mandava a contagem por HTTP para este webhook. Continua ativo.",
+  "nos": [
+    {
+      "id": "n1",
+      "categoria": "gatilho",
+      "rotulo": "Contagem chega do gateway",
+      "oQueFaz": "Começa quando o gateway da fábrica manda uma contagem de pulsos.",
+      "tecnico": "Webhook",
+      "x": 0,
+      "y": 576
+    },
+    {
+      "id": "n2",
+      "categoria": "codigo",
+      "rotulo": "Confere a chamada",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 592,
+      "y": 576
+    },
+    {
+      "id": "n3",
+      "categoria": "banco",
+      "rotulo": "Liga cada entrada a uma máquina",
+      "oQueFaz": "Lê qual entrada do gateway corresponde a qual máquina.",
+      "tecnico": "Supabase",
+      "x": 1264,
+      "y": 576
+    },
+    {
+      "id": "n4",
+      "categoria": "banco",
+      "rotulo": "Registra a produção",
+      "oQueFaz": "Grava no banco a contagem de cada máquina, com data e hora.",
+      "tecnico": "Supabase",
+      "x": 1632,
+      "y": 576
+    },
+    {
+      "id": "n5",
+      "categoria": "codigo",
+      "rotulo": "Separa por máquina",
+      "oQueFaz": "Separa uma lista em itens, um de cada vez.",
+      "tecnico": "Split Out",
+      "x": 192,
+      "y": 576
+    },
+    {
+      "id": "n6",
+      "categoria": "banco",
+      "rotulo": "Lista as máquinas",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 800,
+      "y": 576
+    },
+    {
+      "id": "n7",
+      "categoria": "gatilho",
+      "rotulo": "A cada 1 minuto",
+      "oQueFaz": "Roda sozinho a cada minuto para conferir o estado dos teares.",
+      "tecnico": "Schedule Trigger",
+      "x": 0,
+      "y": 144
+    },
+    {
+      "id": "n8",
+      "categoria": "codigo",
+      "rotulo": "Confere a produção",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 1456,
+      "y": 576
+    },
+    {
+      "id": "n9",
+      "categoria": "banco",
+      "rotulo": "Último sinal de cada tear",
+      "oQueFaz": "Busca quando cada tear mandou sinal pela última vez.",
+      "tecnico": "Supabase",
+      "x": 400,
+      "y": 144
+    },
+    {
+      "id": "n10",
+      "categoria": "banco",
+      "rotulo": "Configuração dos teares",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 192,
+      "y": 144
+    },
+    {
+      "id": "n11",
+      "categoria": "codigo",
+      "rotulo": "Calcula o estado de cada tear",
+      "oQueFaz": "Compara o último sinal com o tempo limite e decide se o tear está ativo, inativo ou parado.",
+      "tecnico": "Code",
+      "x": 608,
+      "y": 144
+    },
+    {
+      "id": "n12",
+      "categoria": "espera",
+      "rotulo": "Fim",
+      "oQueFaz": "Fim deste caminho: não faz mais nada.",
+      "tecnico": "No Operation",
+      "x": 2320,
+      "y": 464
+    },
+    {
+      "id": "n13",
+      "categoria": "banco",
+      "rotulo": "Fecha a parada",
+      "oQueFaz": "Quando o tear volta a contar, fecha o evento de parada.",
+      "tecnico": "Supabase",
+      "x": 1728,
+      "y": 160
+    },
+    {
+      "id": "n14",
+      "categoria": "banco",
+      "rotulo": "Registra a parada",
+      "oQueFaz": "Quando o tear para, abre um evento de parada com o horário.",
+      "tecnico": "Supabase",
+      "x": 1888,
+      "y": 160
+    },
+    {
+      "id": "n15",
+      "categoria": "banco",
+      "rotulo": "Marca como ativo",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 1024,
+      "y": 576
+    },
+    {
+      "id": "n16",
+      "categoria": "decisao",
+      "rotulo": "Merge",
+      "oQueFaz": "Junta os dados que chegaram por caminhos diferentes.",
+      "tecnico": "Merge",
+      "x": 1536,
+      "y": 160
+    },
+    {
+      "id": "n17",
+      "categoria": "banco",
+      "rotulo": "Marca como inativo",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 1376,
+      "y": 16
+    },
+    {
+      "id": "n18",
+      "categoria": "decisao",
+      "rotulo": "Switch",
+      "oQueFaz": "Escolhe entre vários caminhos conforme o tipo do dado.",
+      "tecnico": "Switch",
+      "x": 1072,
+      "y": 160
+    },
+    {
+      "id": "n19",
+      "categoria": "decisao",
+      "rotulo": "If",
+      "oQueFaz": "Decide o caminho: se a condição vale, vai por um lado; se não, pelo outro.",
+      "tecnico": "If",
+      "x": 816,
+      "y": 144
+    },
+    {
+      "id": "n20",
+      "categoria": "espera",
+      "rotulo": "Fim",
+      "oQueFaz": "Fim deste caminho: não faz mais nada.",
+      "tecnico": "No Operation",
+      "x": 1072,
+      "y": 0
+    },
+    {
+      "id": "n21",
+      "categoria": "decisao",
+      "rotulo": "Filter",
+      "oQueFaz": "Deixa passar só os itens que atendem à regra.",
+      "tecnico": "Filter",
+      "x": 416,
+      "y": 576
+    },
+    {
+      "id": "n22",
+      "categoria": "banco",
+      "rotulo": "Marca como parado",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 1424,
+      "y": 320
+    }
+  ],
+  "ligacoes": [
+    {
+      "de": "n1",
+      "para": "n5",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n2",
+      "para": "n6",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n3",
+      "para": "n8",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n4",
+      "para": "n12",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n5",
+      "para": "n21",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n6",
+      "para": "n15",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n7",
+      "para": "n10",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n8",
+      "para": "n4",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n9",
+      "para": "n11",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n10",
+      "para": "n9",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n11",
+      "para": "n19",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n13",
+      "para": "n14",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n14",
+      "para": "n12",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n15",
+      "para": "n3",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n16",
+      "para": "n13",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n18",
+      "para": "n17",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n18",
+      "para": "n16",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n18",
+      "para": "n16",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n18",
+      "para": "n22",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n19",
+      "para": "n20",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n19",
+      "para": "n18",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n21",
+      "para": "n2",
+      "tipo": "fluxo"
+    }
+  ]
+}

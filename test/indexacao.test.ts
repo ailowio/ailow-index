@@ -5,6 +5,7 @@ import { SITE } from "../src/config/site";
 // F0 (2026-11-20): o site sai do noindex global. Indexa as rotas públicas; ficam fora o cartão,
 // as versões, o /bio (página de campanha) e as 87 labels (páginas finas).
 describe("indexação (F0)", () => {
+  // F5 (2026-11-20): o Explorador entra como rota pública (índice + 5 fluxos), em ordem do mais simples ao mais complexo.
   it("as rotas indexáveis são as públicas, com barra final e sem rota escondida ou fina", () => {
     expect([...ROTAS_INDEXAVEIS]).toEqual([
       "/",
@@ -15,6 +16,12 @@ describe("indexação (F0)", () => {
       "/pedro/entrevistas/",
       "/pedro/stack/",
       "/apresentacao/",
+      "/explorar/",
+      "/explorar/transcritor-de-audio/",
+      "/explorar/agente-producao-teares/",
+      "/explorar/gateway-producao-teares/",
+      "/explorar/pcp-no-asana/",
+      "/explorar/lina-atendimento-whatsapp/",
     ]);
     for (const r of ROTAS_INDEXAVEIS) {
       expect(r).not.toMatch(/versoes|label|bio|cart/);

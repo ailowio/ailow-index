@@ -2,8 +2,11 @@
 import CartaoPR from "../../components/CartaoPR.astro";
 import { carregarFeed } from "../../changelog/carregar";
 import { stackCompleta } from "../../changelog/labels";
+import { fluxoPorPr } from "../../fluxos/carregar";
 import App from "../../layouts/App.astro";
 import "../../styles/feed.css";
+
+const explorar = fluxoPorPr();
 
 const { prs, grupos, labels, conteudos, catalogos } = await carregarFeed();
 const nomesFerramentas = Object.fromEntries(catalogos.ferramentas.map((f) => [f.id, f.nome]));
@@ -28,6 +31,7 @@ const frentes = labels.filter((l) => l.tipo === "escopo").sort((a, b) => b.total
         <li><a href="https://www.instagram.com/pedro_fernand/" rel="me noopener noreferrer">Instagram</a></li>
         <li><a href="/pedro/entrevistas">Entrevistas</a></li>
         <li><a href="/pedro/stack">Stack (<span data-total-stack>{stack.total}</span>)</a></li>
+        <li><a href="/explorar">Fluxos do n8n ({explorar.size})</a></li>
       </ul>
     </section>
 
@@ -88,7 +92,13 @@ const frentes = labels.filter((l) => l.tipo === "escopo").sort((a, b) => b.total
       <div class="cartoes">
         {
           feed.map((pr) => (
-            <CartaoPR pr={pr} Conteudo={conteudos.get(pr.id)} nomesFerramentas={nomesFerramentas} nomesSkills={nomesSkills} />
+            <CartaoPR
+              pr={pr}
+              Conteudo={conteudos.get(pr.id)}
+              nomesFerramentas={nomesFerramentas}
+              nomesSkills={nomesSkills}
+              explorar={explorar.get(pr.numero)}
+            />
           ))
         }
       </div>

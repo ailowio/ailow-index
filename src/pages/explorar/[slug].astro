@@ -1,0 +1,39 @@
+---
+import Fluxo from "../../components/Fluxo.astro";
+import App from "../../layouts/App.astro";
+import { carregarFluxos } from "../../fluxos/carregar";
+import type { Fluxo as TipoFluxo } from "../../fluxos/esquema";
+import "../../styles/explorar.css";
+
+export function getStaticPaths() {
+  return carregarFluxos().map((fluxo) => ({ params: { slug: fluxo.slug }, props: { fluxo } }));
+}
+
+const { fluxo } = Astro.props as { fluxo: TipoFluxo };
+const numero = String(fluxo.pr).padStart(3, "0");
+const ligacoesIa = fluxo.ligacoes.filter((l) => l.tipo === "ia").length;
+---
+
+<App id="pedro" pai="/explorar" paiNome="os fluxos" tituloPagina={fluxo.titulo} descricao={fluxo.resumo}>
+  <div class="explorar">
+    <section class="cabeca" aria-labelledby="fluxo-titulo">
+      <h2 id="fluxo-titulo">{fluxo.titulo}</h2>
+      <p class="meta">
+        <span class="estado-fluxo">{fluxo.estado === "ativo" ? "em uso" : "desligado"}</span>
+        <span>desde {fluxo.criado}</span>
+        <span>{fluxo.nos.length} passos</span>
+        {ligacoesIa > 0 && <span>{ligacoesIa} ligações de IA</span>}
+      </p>
+      <p class="resumo">{fluxo.resumo}</p>
+      <p class="historia">{fluxo.historia}</p>
+      <p><a href={`/pedro#pr-${numero}`}>Entrada #{numero} no diário de obra</a></p>
+    </section>
+
+    <Fluxo fluxo={fluxo} />
+
+    <p class="credito">
+      Reproduzido do fluxo original no n8n: a posição e as ligações de cada passo são as do editor. Rótulos revisados;
+      nenhum dado, credencial ou endereço do fluxo aparece aqui.
+    </p>
+  </div>
+</App>

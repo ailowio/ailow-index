@@ -4,9 +4,10 @@
  * as labels do feed (páginas finas) e a rota escondida do cartão.
  * Um E2E confere que as páginas sem noindex do dist são exatamente esta lista.
  */
+import { carregarFluxos } from "../fluxos/carregar";
 import { SITE } from "./site";
 
-export const ROTAS_INDEXAVEIS = [
+const ROTAS_FIXAS = [
   "/",
   "/sobre/",
   "/pulse/",
@@ -16,6 +17,13 @@ export const ROTAS_INDEXAVEIS = [
   "/pedro/stack/",
   "/apresentacao/",
 ] as const;
+
+/** F5: o Explorador (índice + uma página por fluxo) também é público e indexável. */
+export const ROTAS_INDEXAVEIS: readonly string[] = [
+  ...ROTAS_FIXAS,
+  "/explorar/",
+  ...carregarFluxos().map((f) => `/explorar/${f.slug}/`),
+];
 
 /** URL absoluta no domínio do site, sempre com barra final (o build gera diretórios). */
 export function urlCanonica(caminho: string): string {

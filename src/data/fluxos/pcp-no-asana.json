@@ -1,0 +1,638 @@
+{
+  "slug": "pcp-no-asana",
+  "titulo": "Lançamento do PCP no Asana",
+  "pr": 29,
+  "estado": "desligado",
+  "criado": "2026-01",
+  "resumo": "O pedido confirmado vira uma tarefa no Asana, cada item vira uma subtarefa e a equipe é avisada. No fim do dia sai um relatório dos pedidos.",
+  "historia": "Foi a ponte entre o papel e o sistema. O planejamento da produção era no papel; depois passou por uma impressora térmica com um GPT próprio e então por este fluxo, em que uma IA lia o pedido e devolvia os campos certos. Depois o sistema de gestão da fábrica assumiu essa parte.",
+  "nos": [
+    {
+      "id": "n1",
+      "categoria": "gatilho",
+      "rotulo": "Recebe o pedido",
+      "oQueFaz": "Começa quando o fluxo que lê o pedido confirmado entrega os dados.",
+      "tecnico": "Execute Workflow Trigger",
+      "x": 0,
+      "y": 336
+    },
+    {
+      "id": "n2",
+      "categoria": "decisao",
+      "rotulo": "Merge",
+      "oQueFaz": "Junta os dados que chegaram por caminhos diferentes.",
+      "tecnico": "Merge",
+      "x": 1792,
+      "y": 528
+    },
+    {
+      "id": "n3",
+      "categoria": "codigo",
+      "rotulo": "Formato da resposta",
+      "oQueFaz": "Obriga a IA a responder num formato fixo, que o sistema consegue ler.",
+      "tecnico": "Structured Output Parser",
+      "x": 896,
+      "y": 736
+    },
+    {
+      "id": "n4",
+      "categoria": "modelo",
+      "rotulo": "Modelo da OpenAI",
+      "oQueFaz": "O modelo de linguagem que a IA usa para pensar e escrever.",
+      "tecnico": "OpenAI Chat Model",
+      "x": 688,
+      "y": 736
+    },
+    {
+      "id": "n5",
+      "categoria": "codigo",
+      "rotulo": "Ponto de controle",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 1168,
+      "y": 528
+    },
+    {
+      "id": "n6",
+      "categoria": "banco",
+      "rotulo": "Busca o cliente",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 3792,
+      "y": 448
+    },
+    {
+      "id": "n7",
+      "categoria": "codigo",
+      "rotulo": "Formata os dados",
+      "oQueFaz": "Código em JavaScript para um ajuste que os blocos prontos não fazem.",
+      "tecnico": "Code",
+      "x": 480,
+      "y": 640
+    },
+    {
+      "id": "n8",
+      "categoria": "codigo",
+      "rotulo": "Formata os dados (alteração)",
+      "oQueFaz": "Código em JavaScript para um ajuste que os blocos prontos não fazem.",
+      "tecnico": "Code",
+      "x": 1008,
+      "y": 528
+    },
+    {
+      "id": "n9",
+      "categoria": "banco",
+      "rotulo": "Procura o usuário",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 1328,
+      "y": 528
+    },
+    {
+      "id": "n10",
+      "categoria": "decisao",
+      "rotulo": "Usuário existe?",
+      "oQueFaz": "Decide o caminho: se a condição vale, vai por um lado; se não, pelo outro.",
+      "tecnico": "If",
+      "x": 1488,
+      "y": 528
+    },
+    {
+      "id": "n11",
+      "categoria": "banco",
+      "rotulo": "Cria o usuário",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 1648,
+      "y": 624
+    },
+    {
+      "id": "n12",
+      "categoria": "banco",
+      "rotulo": "Busca o pedido",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 1968,
+      "y": 528
+    },
+    {
+      "id": "n13",
+      "categoria": "decisao",
+      "rotulo": "Pedido já existe?",
+      "oQueFaz": "Se o pedido já foi lançado, segue pelo caminho da alteração.",
+      "tecnico": "If",
+      "x": 2112,
+      "y": 528
+    },
+    {
+      "id": "n14",
+      "categoria": "http",
+      "rotulo": "Apaga a versão antiga no Asana",
+      "oQueFaz": "Na alteração, remove a tarefa antiga antes de lançar a nova.",
+      "tecnico": "Asana",
+      "x": 2336,
+      "y": 48
+    },
+    {
+      "id": "n15",
+      "categoria": "banco",
+      "rotulo": "Apaga a versão antiga no banco",
+      "oQueFaz": "Na alteração, remove o registro antigo antes de gravar o novo.",
+      "tecnico": "Supabase",
+      "x": 2496,
+      "y": 48
+    },
+    {
+      "id": "n16",
+      "categoria": "http",
+      "rotulo": "Recria o pedido no Asana",
+      "oQueFaz": "Cria ou atualiza tarefas no Asana.",
+      "tecnico": "Asana",
+      "x": 2656,
+      "y": 48
+    },
+    {
+      "id": "n17",
+      "categoria": "banco",
+      "rotulo": "Recria o pedido no banco",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 2816,
+      "y": 48
+    },
+    {
+      "id": "n18",
+      "categoria": "http",
+      "rotulo": "Cria a tarefa do pedido",
+      "oQueFaz": "Cada pedido vira uma tarefa no Asana.",
+      "tecnico": "Asana",
+      "x": 2320,
+      "y": 448
+    },
+    {
+      "id": "n19",
+      "categoria": "banco",
+      "rotulo": "Grava o pedido no banco",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 2480,
+      "y": 448
+    },
+    {
+      "id": "n20",
+      "categoria": "codigo",
+      "rotulo": "Itens do pedido (alteração)",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 2640,
+      "y": 448
+    },
+    {
+      "id": "n21",
+      "categoria": "codigo",
+      "rotulo": "Itens do pedido",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 2976,
+      "y": 48
+    },
+    {
+      "id": "n22",
+      "categoria": "codigo",
+      "rotulo": "Estrutura a saída",
+      "oQueFaz": "Código em JavaScript para um ajuste que os blocos prontos não fazem.",
+      "tecnico": "Code",
+      "x": 3456,
+      "y": 16
+    },
+    {
+      "id": "n23",
+      "categoria": "codigo",
+      "rotulo": "Estrutura a saída (alteração)",
+      "oQueFaz": "Código em JavaScript para um ajuste que os blocos prontos não fazem.",
+      "tecnico": "Code",
+      "x": 3152,
+      "y": 448
+    },
+    {
+      "id": "n24",
+      "categoria": "decisao",
+      "rotulo": "Para cada item (alteração)",
+      "oQueFaz": "Repete os passos seguintes para cada item (laço).",
+      "tecnico": "Loop Over Items",
+      "x": 3296,
+      "y": 16
+    },
+    {
+      "id": "n25",
+      "categoria": "decisao",
+      "rotulo": "Para cada item",
+      "oQueFaz": "Repete os passos seguintes para cada item (laço).",
+      "tecnico": "Loop Over Items",
+      "x": 2976,
+      "y": 448
+    },
+    {
+      "id": "n26",
+      "categoria": "codigo",
+      "rotulo": "Separa os itens (alteração)",
+      "oQueFaz": "Separa uma lista em itens, um de cada vez.",
+      "tecnico": "Split Out",
+      "x": 2800,
+      "y": 448
+    },
+    {
+      "id": "n27",
+      "categoria": "codigo",
+      "rotulo": "Separa os itens",
+      "oQueFaz": "Separa uma lista em itens, um de cada vez.",
+      "tecnico": "Split Out",
+      "x": 3136,
+      "y": 48
+    },
+    {
+      "id": "n28",
+      "categoria": "http",
+      "rotulo": "Cria a subtarefa do item",
+      "oQueFaz": "Cada item do pedido vira uma subtarefa da tarefa do pedido.",
+      "tecnico": "Asana",
+      "x": 3616,
+      "y": 176
+    },
+    {
+      "id": "n29",
+      "categoria": "http",
+      "rotulo": "Cria a subtarefa do item (alteração)",
+      "oQueFaz": "Na alteração, recria as subtarefas dos itens.",
+      "tecnico": "Asana",
+      "x": 3296,
+      "y": 608
+    },
+    {
+      "id": "n30",
+      "categoria": "banco",
+      "rotulo": "Grava o item no banco",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 3776,
+      "y": 176
+    },
+    {
+      "id": "n31",
+      "categoria": "banco",
+      "rotulo": "Grava o item no banco (alteração)",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 3440,
+      "y": 608
+    },
+    {
+      "id": "n32",
+      "categoria": "banco",
+      "rotulo": "Pedidos do dia",
+      "oQueFaz": "Lê ou grava no banco de dados.",
+      "tecnico": "Supabase",
+      "x": 3648,
+      "y": 448
+    },
+    {
+      "id": "n33",
+      "categoria": "codigo",
+      "rotulo": "Monta o relatório",
+      "oQueFaz": "Código em JavaScript para um ajuste que os blocos prontos não fazem.",
+      "tecnico": "Code",
+      "x": 3984,
+      "y": 448
+    },
+    {
+      "id": "n34",
+      "categoria": "codigo",
+      "rotulo": "Formata o relatório",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 3648,
+      "y": 608
+    },
+    {
+      "id": "n35",
+      "categoria": "http",
+      "rotulo": "Envia o relatório do dia",
+      "oQueFaz": "Manda o resumo dos pedidos lançados no dia.",
+      "tecnico": "HTTP Request",
+      "x": 3792,
+      "y": 608
+    },
+    {
+      "id": "n36",
+      "categoria": "codigo",
+      "rotulo": "Converte a unidade de medida",
+      "oQueFaz": "Padroniza a unidade (metro, quilo, peça) antes de gravar.",
+      "tecnico": "Code",
+      "x": 3136,
+      "y": 608
+    },
+    {
+      "id": "n37",
+      "categoria": "codigo",
+      "rotulo": "Converte a unidade de medida",
+      "oQueFaz": "Padroniza a unidade (metro, quilo, peça) antes de gravar.",
+      "tecnico": "Code",
+      "x": 3456,
+      "y": 176
+    },
+    {
+      "id": "n38",
+      "categoria": "http",
+      "rotulo": "Avisa o PCP",
+      "oQueFaz": "Manda a notificação para quem planeja a produção.",
+      "tecnico": "HTTP Request",
+      "x": 3328,
+      "y": 448
+    },
+    {
+      "id": "n39",
+      "categoria": "codigo",
+      "rotulo": "Monta a mensagem",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 3968,
+      "y": 16
+    },
+    {
+      "id": "n40",
+      "categoria": "codigo",
+      "rotulo": "Monta a mensagem",
+      "oQueFaz": "Arruma os campos: deixa os dados no formato que o próximo passo espera.",
+      "tecnico": "Edit Fields (Set)",
+      "x": 3936,
+      "y": 608
+    },
+    {
+      "id": "n41",
+      "categoria": "ia",
+      "rotulo": "Estruturador de dados (IA)",
+      "oQueFaz": "A IA lê o pedido e devolve os campos certos: cliente, itens, quantidades e unidades.",
+      "tecnico": "AI Agent",
+      "x": 720,
+      "y": 528
+    },
+    {
+      "id": "n42",
+      "categoria": "http",
+      "rotulo": "Avisa a equipe têxtil",
+      "oQueFaz": "Manda a notificação para a equipe da produção têxtil.",
+      "tecnico": "HTTP Request",
+      "x": 4176,
+      "y": 480
+    },
+    {
+      "id": "n43",
+      "categoria": "http",
+      "rotulo": "Avisa o comercial",
+      "oQueFaz": "Manda a notificação para quem atende o cliente.",
+      "tecnico": "HTTP Request",
+      "x": 3792,
+      "y": 0
+    },
+    {
+      "id": "n44",
+      "categoria": "codigo",
+      "rotulo": "Ajuste em código",
+      "oQueFaz": "Código em JavaScript para um ajuste que os blocos prontos não fazem.",
+      "tecnico": "Code",
+      "x": 208,
+      "y": 336
+    },
+    {
+      "id": "n45",
+      "categoria": "http",
+      "rotulo": "Avisa o PCP",
+      "oQueFaz": "Manda a notificação para quem planeja a produção.",
+      "tecnico": "HTTP Request",
+      "x": 3616,
+      "y": 16
+    }
+  ],
+  "ligacoes": [
+    {
+      "de": "n1",
+      "para": "n44",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n2",
+      "para": "n12",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n3",
+      "para": "n41",
+      "tipo": "ia"
+    },
+    {
+      "de": "n4",
+      "para": "n41",
+      "tipo": "ia"
+    },
+    {
+      "de": "n5",
+      "para": "n9",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n7",
+      "para": "n41",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n8",
+      "para": "n5",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n9",
+      "para": "n10",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n10",
+      "para": "n2",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n10",
+      "para": "n11",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n11",
+      "para": "n2",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n12",
+      "para": "n13",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n13",
+      "para": "n14",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n13",
+      "para": "n18",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n14",
+      "para": "n15",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n15",
+      "para": "n16",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n16",
+      "para": "n17",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n17",
+      "para": "n21",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n18",
+      "para": "n19",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n19",
+      "para": "n20",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n20",
+      "para": "n26",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n21",
+      "para": "n27",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n22",
+      "para": "n45",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n23",
+      "para": "n38",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n24",
+      "para": "n22",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n24",
+      "para": "n37",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n25",
+      "para": "n23",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n25",
+      "para": "n36",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n26",
+      "para": "n25",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n27",
+      "para": "n24",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n28",
+      "para": "n30",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n29",
+      "para": "n31",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n30",
+      "para": "n24",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n31",
+      "para": "n25",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n32",
+      "para": "n6",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n33",
+      "para": "n34",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n34",
+      "para": "n35",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n35",
+      "para": "n40",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n36",
+      "para": "n29",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n37",
+      "para": "n28",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n38",
+      "para": "n32",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n41",
+      "para": "n8",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n43",
+      "para": "n39",
+      "tipo": "fluxo"
+    },
+    {
+      "de": "n44",
+      "para": "n41",
+      "tipo": "fluxo"
+    }
+  ]
+}
