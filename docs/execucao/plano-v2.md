@@ -57,8 +57,9 @@ Ao terminar: diário curto + poda + Estado de retomada; entregue o prompt da VNN
 
 ### Estado de retomada
 
-- **Data:** 2026-11-20 · **Última sessão:** F5 (v1.4.0 no ar: Explorador do n8n). Plano v2 criado; nenhuma sessão V executada. **Próxima: V01.**
-- **Git:** `main` em `4fc7e9b` (PR #27); tags `v1.3.0` e `v1.4.0` publicadas; nenhuma branch aberta.
+- **Data:** 2026-11-20 · **Última sessão:** V01 (ADRs 005–008 aceitos; regra "0 terceiros antes do toque" no CLAUDE.md). **Próxima: V02.**
+- **Modo de execução (Pedro, 2026-11-20):** o orquestrador dispara uma sessão por subagente, em sequência, e resolve os portões; subagente em **Sonnet**, **Opus só nas sessões de UI**. O subagente abre o PR; o orquestrador confere o diff e faz o merge (delegado). Deploy em lote nos marcos (depois da V04, da V09 e da V16), aprovado sob a EX-04.
+- **Git:** `main` em `cfde3d9` (PR #28) + PR da V01 (`docs/v01-adrs-005-008`); tags `v1.3.0` e `v1.4.0` publicadas.
 - **Produção:** v1.4.0 (deploy run 44675383796, aprovado sob EX-04). EX-04 vale até 2026-11-27.
 - **Material:** vídeos finais e teasers em `D:/videos/_projetos/marca-pedro/` (`serie-entrevistas/final/publicar/`, `serie-o-que-eu-faco/`, `chao-de-fabrica/`, `ailow-projeto-final/final/publicar/`); catálogo de b-roll em `D:/videos/_catalogo/catalogo_mestre.csv` (só leitura); export do n8n em `D:/apps/_scratch/n8n/` (privado).
 - **Pendências do Pedro:** bio do Instagram → `ailow.com.br/bio`; conferir o preview no WhatsApp; e-mail sem MX; ok das correções X7–X10 (V11); senhas em texto puro na pasta de IoT (S1 da colheita); gravações da lista de takes (brainstorm §7) quando der.

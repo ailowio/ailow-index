@@ -25,3 +25,10 @@ Canários (L-0006): nó sujo reprova o saneamento (9 achados); sem o "o que faz"
 Paralelo: um agente documentou a pasta de IoT e 11 sessões (6 Cursor, 5 Claude Code) em `docs/execucao/v2/IOT-COLHEITA.md` (local). Achou contradições no feed (#056, #063, #081) e senhas em texto puro na pasta de IoT (repositório local, sem remoto): ficam para o Pedro.
 `.gitignore`: `docs/execucao/v2/` (o agente apontou que um `git add .` publicaria o trabalho local).
 Screenshots: `D:/apps/.playwright-mcp/auditoria/f5/` (índice, teares com painel aberto, LINA; 360 e 1440; 2 temas).
+
+### V01 — Decisões (ADRs 005–008) — 2026-11-20 — Claude Opus 5.5 (orquestrador)
+Leu: Contrato, linha V01, Estado de retomada, última entrada; brainstorm §1–§6, §8–§11; transcrição de 19/11 (trechos de YouTube e do feed); ADR 002/003; `claims.csv` (C04, C11, C16); CSP do nginx.
+Feito: ADR 005 (teaser ≤ 60 s/8 MB auto-hospedado; longo no YouTube só por fachada, iframe `youtube-nocookie` criado no toque, `frame-src` só nas rotas com fachada); ADR 006 (site mestre, `status_fato` nas entradas de vitrine, coluna `fato_site` no CSV, script de conciliação local, CI nunca lê a bancada); ADR 007 (duas portas iguais + "Conhecer a história" abaixo, escada, feed = "Diário de obra" secundário com `/pedro` mantido, rotas novas por sessão, stories para o backlog); ADR 008 (pacote `final/site/<slug>/` com `site.json` Zod, tetos, importador local, bancada sem git, tokens com teste de deriva, interface I-13 na V05). CLAUDE.md: regra "zero terceiros antes do toque".
+Decisões: as de mérito são do Pedro (19/11: YouTube aceito, duas portas + escada, fonte = site, feed secundário). Nome "Diário de obra", URL `/pedro` mantida, bancada sem git, `/historia` fora do v2 e os tetos foram decididos pelo orquestrador por delegação (18/11 e 20/11), registrados nos ADRs.
+Pendências: o Pedro sobe as entrevistas longas no YouTube (não listado) e passa os ids; até lá a V07 usa só teasers.
+Verificação: `npm run verify` exit 0 (só docs mudaram).
