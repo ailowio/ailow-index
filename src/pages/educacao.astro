@@ -1,22 +1,207 @@
 ---
 import App from "../layouts/App.astro";
 import BotaoWhatsapp from "../components/BotaoWhatsapp.astro";
+import { ancoraPR, rotuloPR } from "../data/consultoria";
+import {
+  AVISO_PROPOSTA,
+  CREDENCIAMENTO,
+  ESCADA_EDUCACAO,
+  FORMACAO,
+  FORMATOS,
+  KIT,
+  PALCOS,
+  SISTEMA_S,
+  TEMAS,
+  TOPO,
+} from "../data/educacao";
+import "../styles/educacao.css";
 
-// V02 (ADR 007): placeholder honesto, para a porta da home não dar 404. O conteúdo é da V04.
-// Fora do Google enquanto é placeholder (decisão do orquestrador por delegação, 2026-11-20).
+// V04 (2026-11-20, ADR 007 itens 2, 5 e 7): "Levar para minha instituição". IA para empresários e Sistema S,
+// em linguagem de analista: formatos como PROPOSTA, áreas temáticas, palco e mídia confirmados, a escada com
+// o Aprender em destaque e o kit do analista. Textos em src/data/educacao.ts, travados por
+// test/v04-educacao.test.ts (fato só com entrada confirmada; proposta sem número). Página sem script.
 ---
 
 <App
   id="educacao"
-  tituloPagina="Cursos de IA para instituições"
-  descricao="Cursos de IA para empresários, para levar à sua instituição."
-  indexar={false}
+  tituloPagina="IA para empresários: palestra e oficina para instituições"
+  descricao="Palestra, oficina e trilha de IA para empresários e equipes, para instituições do Sistema S, sindicatos e associações. Formatos, áreas temáticas, palco e mídia, e o kit do analista."
 >
-  <section class="construcao">
-    <div class="faixa" aria-hidden="true"></div>
-    <h2>Em construção</h2>
-    <p class="oferta">Cursos de IA para empresários, para levar à sua instituição.</p>
-    <p>Esta página está sendo montada. Enquanto isso, fale comigo direto.</p>
-    <BotaoWhatsapp origem="educacao" />
-  </section>
+  <div class="educacao">
+    <section class="educacao-topo" aria-labelledby="edu-topo-titulo">
+      <p class="sobretitulo">{TOPO.sobretitulo}</p>
+      <h2 id="edu-topo-titulo">{TOPO.titulo}</h2>
+      <p class="tese">{TOPO.tese}</p>
+      <BotaoWhatsapp origem="educacao" />
+      <a class="ir-kit" href="#kit">Ver o kit do analista</a>
+    </section>
+
+    <section id="formatos" aria-labelledby="formatos-titulo">
+      <h2 id="formatos-titulo">Formatos</h2>
+      <p class="aviso-proposta">{AVISO_PROPOSTA}</p>
+      <ol class="formatos">
+        {
+          FORMATOS.map((f) => (
+            <li>
+              <p class="selo-proposta">Proposta</p>
+              <h3>{f.nome}</h3>
+              <p>{f.oQue}</p>
+              <dl class="formato-ficha">
+                <div>
+                  <dt>Para quem</dt>
+                  <dd>{f.paraQuem}</dd>
+                </div>
+                <div>
+                  <dt>Sai com</dt>
+                  <dd>{f.saiCom}</dd>
+                </div>
+              </dl>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section id="temas" aria-labelledby="temas-titulo">
+      <h2 id="temas-titulo">Áreas temáticas</h2>
+      <p class="apoio">Só o que uso na Copel, com a entrada do Diário de obra que mostra.</p>
+      <ul class="temas">
+        {
+          TEMAS.map((t) => (
+            <li>
+              <h3>{t.nome}</h3>
+              <p>{t.texto}</p>
+              <p class="provas-pr">
+                {t.prs.map((n) => (
+                  <a href={`/pedro/#${ancoraPR(n)}`} aria-label={`Entrada ${rotuloPR(n)} do Diário de obra`}>
+                    {rotuloPR(n)}
+                  </a>
+                ))}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="palcos" aria-labelledby="palcos-titulo">
+      <h2 id="palcos-titulo">Palco e mídia</h2>
+      <ol class="palcos">
+        {
+          PALCOS.map((p) => (
+            <li>
+              <p class="palco-tipo">{p.tipo}</p>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+              <p class="provas-pr">
+                {p.prs.map((n) => (
+                  <a href={`/pedro/#${ancoraPR(n)}`} aria-label={`Entrada ${rotuloPR(n)} do Diário de obra`}>
+                    {rotuloPR(n)}
+                  </a>
+                ))}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="outro-lado">
+        <p>
+          <strong>Do outro lado da mesa:</strong> {SISTEMA_S.texto}
+        </p>
+        <p class="provas-pr">
+          {
+            SISTEMA_S.prs.map((n) => (
+              <a href={`/pedro/#${ancoraPR(n)}`} aria-label={`Entrada ${rotuloPR(n)} do Diário de obra`}>
+                {rotuloPR(n)}
+              </a>
+            ))
+          }
+        </p>
+      </div>
+    </section>
+
+    <section aria-labelledby="edu-escada-titulo">
+      <h2 id="edu-escada-titulo">Do curso ao sistema</h2>
+      <p class="apoio">O curso é o primeiro degrau. Quem quiser subir encontra a consultoria no degrau seguinte.</p>
+      <ol class="escada">
+        {
+          ESCADA_EDUCACAO.map((d) => (
+            <li class:list={["degrau", `degrau-${d.id}`, { "degrau-destaque": d.destaque }]}>
+              {d.destaque && <p class="aqui">Você está aqui</p>}
+              <p class="degrau-oferta">{d.oferta}</p>
+              <h3>{d.nome}</h3>
+              <p>{d.oQue}</p>
+              <a class="degrau-link" href={d.href}>
+                {d.rotuloLink}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section id="kit" class="kit" aria-labelledby="kit-titulo">
+      <h2 id="kit-titulo">Kit do analista</h2>
+      <p class="apoio">O que quem precisa justificar a contratação dentro da instituição costuma pedir primeiro.</p>
+      <dl class="ficha">
+        <div>
+          <dt>Quem</dt>
+          <dd>
+            <p>{KIT.quem.texto}</p>
+            <p class="provas-pr">
+              {
+                KIT.quem.prs.map((n) => (
+                  <a href={`/pedro/#${ancoraPR(n)}`} aria-label={`Entrada ${rotuloPR(n)} do Diário de obra`}>
+                    {rotuloPR(n)}
+                  </a>
+                ))
+              }
+            </p>
+          </dd>
+        </div>
+        <div>
+          <dt>Formação</dt>
+          <dd>
+            <ul class="formacao">
+              {
+                FORMACAO.map((f) => (
+                  <li>
+                    <span class="formacao-nome">{f.nome}</span>
+                    <span class="formacao-onde">{f.onde}</span>
+                    <a
+                      class="formacao-prova"
+                      href={`/pedro/#${ancoraPR(f.prs[0])}`}
+                      aria-label={`Entrada ${rotuloPR(f.prs[0])} do Diário de obra`}
+                    >
+                      {rotuloPR(f.prs[0])}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </dd>
+        </div>
+        <div>
+          <dt>Palco e mídia</dt>
+          <dd><a class="ficha-link" href="#palcos">Palestra, gravação, reportagem e entrevista</a></dd>
+        </div>
+        <div>
+          <dt>Áreas temáticas</dt>
+          <dd><a class="ficha-link" href="#temas">{TEMAS.map((t) => t.nome).join(" · ")}</a></dd>
+        </div>
+        <div>
+          <dt>Duração e valores</dt>
+          <dd>{KIT.duracao}</dd>
+        </div>
+        <div>
+          <dt>Credenciamento</dt>
+          <dd>{CREDENCIAMENTO}</dd>
+        </div>
+        <div>
+          <dt>Contato</dt>
+          <dd><BotaoWhatsapp origem="educacao" /></dd>
+        </div>
+      </dl>
+    </section>
+  </div>
 </App>

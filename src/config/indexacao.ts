@@ -18,6 +18,8 @@ const ROTAS_FIXAS = [
   "/apresentacao/",
   // V03 (ADR 007 item 5): a página de oferta da consultoria, com conteúdo próprio.
   "/consultoria/",
+  // V04 (ADR 007 item 5): a página de oferta da educação, com conteúdo próprio.
+  "/educacao/",
 ] as const;
 
 /** F5: o Explorador (índice + uma página por fluxo) também é público e indexável. */
