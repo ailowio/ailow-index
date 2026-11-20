@@ -7,6 +7,7 @@ ferramentas: [esp32, littlefs, freertos, mqtt]
 soft_skills: [diagnostico-campo, honestidade-de-resultado]
 prova: { privada: "diagnóstico de 17/11/2026, sketch v1.9 do gateway, relato do Pedro de 18/11/2026 e gravação da v1.9 nos dois gateways" }
 verificacao: confirmado
+resumo_dono: "Depois de dias na fábrica, a contagem caiu e os aparelhos reiniciavam sem parar. Uma versão nova do programa deles foi gravada em 18 de novembro de 2026 e está em validação."
 ---
 
 O teste de bancada não pegou o problema. Só depois de dias com os gateways no chão de fábrica a contagem ficou abaixo da média que o MVP recebia.

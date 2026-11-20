@@ -7,6 +7,7 @@ ferramentas: []
 soft_skills: [discovery, diagnostico-campo]
 prova: { privada: "notas de discovery de 26 e 29/10/2026, fotos da visita à loja e roteiro do vídeo do Projeto Final, com a cronologia do discovery" }
 verificacao: confirmado
+resumo_dono: "Conversas e visita à loja piloto do Cloud, no fim de outubro de 2026. O primeiro desenho da tela de venda foi feito no papel, na loja, junto com o cliente."
 ---
 
 Discovery com a Marcant Moda Íntima, loja piloto do Cloud, de 26 a 29 de outubro de 2026, com visita à loja em 29/10 e cerca de 111 minutos de conversa gravada. Daí saíram a síntese, as jornadas e o PRD do Cloud. O primeiro rascunho da tela de venda foi feito no papel, na loja, junto com o cliente.

@@ -55,6 +55,30 @@ describe("frontmatter de um PR do feed", () => {
   });
 });
 
+// V09 (2026-11-20, ADR 007 item 4): a leitura "Para empresários" das entradas de vitrine.
+describe("resumo_dono (opcional)", () => {
+  it("entrada sem resumo_dono continua válida e não ganha o campo", () => {
+    const r = esquemaPR.safeParse(base);
+    expect(r.success).toBe(true);
+    expect(r.data && "resumo_dono" in r.data).toBe(false);
+  });
+
+  it("aceita e preserva um resumo curto", () => {
+    const resumo_dono = "Contratei um servidor próprio para os sistemas da fábrica.";
+    const r = esquemaPR.safeParse({ ...base, resumo_dono });
+    expect(r.success).toBe(true);
+    expect(r.data?.resumo_dono).toBe(resumo_dono);
+  });
+
+  it.each(["", "   ", "curto", "x".repeat(221)])("rejeita o resumo %j (vazio, vago ou longo demais)", (resumo_dono) => {
+    expect(esquemaPR.safeParse({ ...base, resumo_dono }).success).toBe(false);
+  });
+
+  it("rejeita resumo que não é texto", () => {
+    expect(esquemaPR.safeParse({ ...base, resumo_dono: 42 }).success).toBe(false);
+  });
+});
+
 describe("catálogos", () => {
   it("os catálogos reais são válidos e sem id repetido", () => {
     const r = esquemaCatalogos.safeParse({ ferramentas: ferramentasReais, softSkills: softSkillsReais });

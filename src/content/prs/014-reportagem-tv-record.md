@@ -7,6 +7,7 @@ ferramentas: []
 soft_skills: [comunicacao-executiva]
 prova: { privada: "gravação da reportagem, de 03/10/2025 (arquivo local)" }
 verificacao: confirmado
+resumo_dono: "Participei de uma reportagem da TV Record sobre a Feira do Empreendedor, do Sebrae, em outubro de 2025."
 ---
 
 Participação do Pedro em reportagem da TV Record sobre a Feira do Empreendedor, do Sebrae, em 3 de outubro de 2025.

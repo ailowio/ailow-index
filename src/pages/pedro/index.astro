@@ -1,10 +1,17 @@
 ---
 import CartaoPR from "../../components/CartaoPR.astro";
 import { carregarFeed } from "../../changelog/carregar";
-import { stackCompleta } from "../../changelog/labels";
+import { rotuloNumero, stackCompleta } from "../../changelog/labels";
+import { lerTitulo } from "../../changelog/regras";
+import { LENTE, TOPO, VISITA } from "../../data/diario";
 import { fluxoPorPr } from "../../fluxos/carregar";
 import App from "../../layouts/App.astro";
 import "../../styles/feed.css";
+
+// V09 (2026-11-20, ADR 007 itens 3 e 4): o feed vira "Diário de obra" (a URL /pedro e o /pedro/feed.json não
+// mudam), ganha a lente "Para empresários / Para técnicos" e "os 3 que eu mostraria numa visita" no topo.
+// Sem JS: o seletor fica escondido, a leitura técnica é a da página e o resumo para empresários aparece rotulado
+// em cada entrada de vitrine. Com JS: o seletor aparece e troca a leitura (src/scripts/lente.ts).
 
 const explorar = fluxoPorPr();
 
@@ -12,13 +19,63 @@ const { prs, grupos, labels, conteudos, catalogos } = await carregarFeed();
 const nomesFerramentas = Object.fromEntries(catalogos.ferramentas.map((f) => [f.id, f.nome]));
 const nomesSkills = Object.fromEntries(catalogos.softSkills.map((s) => [s.id, s.nome]));
 // Mais recente no topo.
-const feed = [...prs].sort((a, b) => b.numero - a.numero);
+const entregas = [...prs].sort((a, b) => b.numero - a.numero);
 const stack = stackCompleta(prs, catalogos);
 const frentes = labels.filter((l) => l.tipo === "escopo").sort((a, b) => b.total - a.total);
+const nomeFrente = new Map(frentes.map((l) => [l.slug, l.nome]));
+
+// Só entra na visita o que está publicado (os builds de teste usam feeds de fixture sem essas entradas); que as 3
+// existem, são confirmadas e têm resumo é garantido por test/v09-diario.test.ts e pelo E2E.
+const visita = VISITA.numeros.flatMap((n) => {
+  const pr = prs.find((p) => p.numero === n);
+  const titulo = pr && lerTitulo(pr.titulo);
+  if (!pr || !titulo) return [];
+  return [
+    {
+      pr,
+      titulo,
+      frente: nomeFrente.get(`escopo-${titulo.escopo}`) ?? titulo.escopo,
+      ferramentas: pr.ferramentas.map((f) => nomesFerramentas[f] ?? f),
+      ancora: `pr-${String(n).padStart(3, "0")}`,
+    },
+  ];
+});
 ---
 
-<App id="pedro" descricao="Pedro Fernandes, Produtos Digitais e Operações: portfólio em formato de changelog.">
-  <div class="pagina">
+<App id="pedro" descricao={TOPO.descricao}>
+  <div class="pagina" data-diario>
+    <section class="diario-topo" aria-label={TOPO.titulo}>
+      <p class="diario-subtitulo">{TOPO.subtitulo}</p>
+      <div class="lente" role="group" aria-label={LENTE.rotulo} data-lente-seletor hidden>
+        <button type="button" class="lente-botao" aria-pressed="false" data-lente-botao="dono">{LENTE.dono}</button>
+        <button type="button" class="lente-botao" aria-pressed="true" data-lente-botao="tecnico">{LENTE.tecnico}</button>
+      </div>
+    </section>
+
+    <section class="visita" aria-labelledby="visita-titulo" hidden={visita.length === 0}>
+      <h2 id="visita-titulo">{VISITA.titulo}</h2>
+      <p class="visita-criterio">{VISITA.criterio}</p>
+      <ol class="visita-lista">
+        {
+          visita.map((v) => (
+            <li class="visita-item" data-visita={v.pr.numero}>
+              <p class="visita-topo">
+                <span class="pr-numero">{rotuloNumero(v.pr.numero)}</span>
+                <span class="visita-frente">{v.frente}</span>
+                <time class="pr-data" datetime={v.pr.data}>{v.pr.data}</time>
+              </p>
+              <h3 class="visita-nome">{v.titulo.descricao}</h3>
+              <p class="visita-dono" data-leitura="dono">{v.pr.resumo_dono}</p>
+              <p class="visita-tecnico" data-leitura="tecnico">
+                {v.titulo.tipo}({v.titulo.escopo}){v.ferramentas.length > 0 ? ` · ${v.ferramentas.join(", ")}` : ""}
+              </p>
+              <a class="visita-link" href={`#${v.ancora}`}>Ver a entrada {rotuloNumero(v.pr.numero)}</a>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
     <section class="perfil" aria-labelledby="perfil-nome">
       <h2 id="perfil-nome">Pedro Fernandes</h2>
       <p class="cargo">Produtos Digitais e Operações</p>
@@ -89,10 +146,10 @@ const frentes = labels.filter((l) => l.tipo === "escopo").sort((a, b) => b.total
     </section>
 
     <section class="feed" aria-labelledby="feed-titulo">
-      <h2 id="feed-titulo">Feed <span class="conta" data-total-feed>{feed.length}</span></h2>
+      <h2 id="feed-titulo">Todas as entregas <span class="conta" data-total-feed>{entregas.length}</span></h2>
       <div class="cartoes">
         {
-          feed.map((pr) => (
+          entregas.map((pr) => (
             <CartaoPR
               pr={pr}
               Conteudo={conteudos.get(pr.id)}
@@ -106,3 +163,8 @@ const frentes = labels.filter((l) => l.tipo === "escopo").sort((a, b) => b.total
     </section>
   </div>
 </App>
+
+<script>
+  // V09: a lente "Para empresários / Para técnicos" (sessionStorage, sem cookie).
+  import "../../scripts/lente";
+</script>

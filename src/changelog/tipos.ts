@@ -46,6 +46,9 @@ export const CATEGORIAS = [
   "gestao",
 ] as const;
 
+/** V09: tamanho máximo do `resumo_dono` (uma ou duas frases curtas). */
+export const RESUMO_MAX = 220;
+
 export type Tipo = (typeof TIPOS)[number];
 export type Escopo = (typeof ESCOPOS)[number];
 export type Categoria = (typeof CATEGORIAS)[number];
@@ -66,6 +69,8 @@ export interface EntradaPR {
   verificacao: (typeof VERIFICACOES)[number];
   /** Texto Markdown da entrada (o "corpo do PR"). */
   corpo: string;
+  /** V09: leitura "Para empresários" (só nas entradas de vitrine). */
+  resumo_dono?: string;
 }
 
 export interface Ferramenta {

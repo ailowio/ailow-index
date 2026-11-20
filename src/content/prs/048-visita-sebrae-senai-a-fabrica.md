@@ -7,6 +7,7 @@ ferramentas: []
 soft_skills: [comunicacao-executiva, gestao-de-mudanca]
 prova: { privada: "registro da visita em foto e vídeo, de 01/06/2026, e publicações do perfil do LinkedIn sobre a visita" }
 verificacao: confirmado
+resumo_dono: "O Sebrae e o SENAI visitaram a fábrica para gravar o vídeo do Sebraetec, programa em que a empresa fez duas consultorias: layout industrial e gestão de processos."
 ---
 
 Visita do Sebrae e do SENAI à fábrica em 1º de junho de 2026, para a gravação do vídeo institucional do Sebraetec. No último ano, a empresa participou de duas consultorias do programa: layout industrial e gestão de processos. Segundo o Pedro, o mapeamento de processos ajudou a reorganizar a operação e a construir a base que hoje liga comercial, PCP, produção e dados.

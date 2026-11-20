@@ -28,7 +28,7 @@ const scriptSeta = `(function(){var a=document.querySelector("[data-voltar]");if
 ---
 
 <Base titulo={tituloPagina ?? app.titulo} descricao={descricao} indexar={indexar} classeCorpo="tela-app">
-  <header class="cabecalho" slot="cabecalho">
+  <header class="cabecalho" slot="cabecalho" data-app={id}>
     <a class="voltar" href={pai} data-voltar aria-label={`Voltar para ${paiNome}`}>
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M20 12H5M11 5l-7 7 7 7"></path>
