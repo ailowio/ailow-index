@@ -4,6 +4,17 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-11-20
+
+### Adicionado
+- V07 (ADR 007): **`/na-tv`, a história contada como escada**: a entrevista no programa Experiências Inspiradoras, da UFC (2025), a reportagem da TV Record (2025) e a entrevista na TV Verdes Mares, afiliada Globo (2026), em ordem, cada uma numa tarja de TV no Pulso (chapéu amarelo com o degrau, nome do veículo e data), só com o nome em texto, sem logo de emissora, e com a prova no Diário de obra (#012, #014, #037).
+- V07: **os teasers "Improvisar sob pressão" e "A teoria na prática" dentro do degrau da UFC** (as duas falas são dessa conversa). Cada um com **perguntas que levam o player ao segundo em que a resposta começa** (o tempo vem da legenda `.vtt`; funciona no teclado, com foco visível) e uma **legenda grande abaixo do vídeo**. O vídeo só baixa depois do toque (`preload="none"`, pôster próprio) e toca um de cada vez. A Record e a afiliada Globo aparecem sem vídeo.
+- V07 (ADR 005): componente próprio de **fachada do YouTube** (pôster, botão e aviso de privacidade; o iframe do `youtube-nocookie` só nasce no toque, até 1 KB de JS). Só aparece quando uma entrevista tiver o id do vídeo; hoje nenhuma tem, então nada aparece.
+
+### Alterado
+- V07: **`/pedro/entrevistas` responde 301 para `/na-tv`** (nginx) e sai do sitemap; `/na-tv` entra, indexável. O ícone de entrevista da home passa a se chamar "Na TV" e, como os links do `/pedro` e da `/apresentacao`, aponta para a rota nova.
+- V07: o orçamento de peso passa a contar o pôster do vídeo (o `.mp4` e a legenda continuam fora). `/na-tv`: JS 1,09 KiB gzip (orçamento 10), peso 60,7 KiB (orçamento 150).
+
 ## [1.8.0] - 2026-11-20
 
 ### Adicionado

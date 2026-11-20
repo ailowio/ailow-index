@@ -13,13 +13,14 @@ const ROTAS_FIXAS = [
   "/pulse/",
   "/cloud/",
   "/pedro/",
-  "/pedro/entrevistas/",
   "/pedro/stack/",
   "/apresentacao/",
   // V03 (ADR 007 item 5): a página de oferta da consultoria, com conteúdo próprio.
   "/consultoria/",
   // V04 (ADR 007 item 5): a página de oferta da educação, com conteúdo próprio.
   "/educacao/",
+  // V07 (ADR 007 item 5): /na-tv substitui /pedro/entrevistas, que responde 301 e sai do sitemap.
+  "/na-tv/",
 ] as const;
 
 /** F5: o Explorador (índice + uma página por fluxo) também é público e indexável. */

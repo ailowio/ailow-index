@@ -8,4 +8,9 @@ export default defineConfig({
   output: "static",
   trailingSlash: "ignore",
   build: { format: "directory" },
+  // V07 (ADR 007 item 5): em produção quem responde o 301 é o nginx (ops/web/nginx.conf); o build gera a
+  // página de meta refresh (noindex, canonical para /na-tv) para o preview e qualquer servidor sem a regra.
+  redirects: {
+    "/pedro/entrevistas": { status: 301, destination: "/na-tv" },
+  },
 });

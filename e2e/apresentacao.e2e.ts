@@ -20,7 +20,8 @@ for (const tema of TEMAS) {
 
     test("saudação visível, 5 links internos, sem scroll horizontal", async ({ page }) => {
       await expect(page.getByText(SAUDACAO, { exact: true })).toBeVisible();
-      for (const h of ["/pedro", "/pedro/entrevistas", "/sobre", "/pulse", "/cloud"]) {
+      // V07 · 2026-11-20 · ADR 007 item 5: entrevistas -> /na-tv.
+      for (const h of ["/pedro", "/na-tv", "/sobre", "/pulse", "/cloud"]) {
         await expect(page.locator(`.caminho a[href='${h}']`)).toHaveCount(1);
       }
       const m = await page.evaluate(() => {

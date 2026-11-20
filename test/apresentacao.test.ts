@@ -49,7 +49,8 @@ describe("/apresentacao: dados", () => {
   });
 
   it("os 5 links do caminho são internos", () => {
-    expect(apresentacao.caminho.map((c) => c.href)).toEqual(["/pedro", "/pedro/entrevistas", "/sobre", "/pulse", "/cloud"]);
+    // V07 · 2026-11-20 · ADR 007 item 5: o link de entrevistas aponta para /na-tv (a rota antiga responde 301).
+    expect(apresentacao.caminho.map((c) => c.href)).toEqual(["/pedro", "/na-tv", "/sobre", "/pulse", "/cloud"]);
   });
 
   it("vídeo configurado aponta para arquivos que existem em public/ (null = seção ausente)", () => {

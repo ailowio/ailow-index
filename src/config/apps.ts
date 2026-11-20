@@ -22,9 +22,10 @@ export const APPS: readonly AppDoSite[] = [
   },
   {
     id: "entrevistas",
-    rotulo: "Entrevistas",
-    rota: "/pedro/entrevistas",
-    titulo: "Entrevistas",
+    // V07 · 2026-11-20 · ADR 007 item 5: o ícone de entrevista abre /na-tv (a rota antiga responde 301).
+    rotulo: "Na TV",
+    rota: "/na-tv",
+    titulo: "Na TV",
     glifo:
       '<rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5 11.5a7 7 0 0 0 14 0M12 18.5V22M8.5 22h7"/>',
   },

@@ -55,7 +55,7 @@ export const apresentacao: {
   },
   caminho: [
     { rotulo: "Portfólio", href: "/pedro" },
-    { rotulo: "Entrevistas", href: "/pedro/entrevistas" },
+    { rotulo: "Entrevistas", href: "/na-tv" },
     { rotulo: "Ailow", href: "/sobre" },
     { rotulo: "Pulse", href: "/pulse" },
     { rotulo: "Cloud", href: "/cloud" },

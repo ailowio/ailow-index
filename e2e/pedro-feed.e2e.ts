@@ -139,7 +139,8 @@ test.describe("/pedro: conteúdo do feed", () => {
     await expect(page.getByText("Produtos Digitais e Operações", { exact: true })).toBeVisible();
     await expect(page.locator('.perfil a[href="https://www.linkedin.com/in/pedro-fernand/"]')).toHaveCount(1);
     await expect(page.locator('.perfil a[href="https://www.instagram.com/pedro_fernand/"]')).toHaveCount(1);
-    await expect(page.locator('.perfil a[href="/pedro/entrevistas"]')).toHaveCount(1);
+    // V07 · 2026-11-20 · ADR 007 item 5: o link de entrevistas aponta para /na-tv (a rota antiga responde 301).
+    await expect(page.locator('.perfil a[href="/na-tv"]')).toHaveCount(1);
     await expect(page.getByRole("heading", { name: "Antes do primeiro commit" })).toBeVisible();
     await expect(page.locator(".antes")).toContainText("UFC");
     await expect(page.locator(".antes")).toContainText("Sebrae");

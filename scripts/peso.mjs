@@ -88,8 +88,8 @@ export function medirPagina(dist, arquivoHtml) {
     if (/\bsrc\s*=/.test(attrs) || /type\s*=\s*["']?(?:application\/(?:ld\+)?json|importmap)/i.test(attrs)) continue;
     jsBytes += gz(Buffer.from(m[2], "utf8"));
   }
-  // Recursos locais referenciados no HTML.
-  for (const m of texto.matchAll(/\b(?:href|src)\s*=\s*["']([^"']+)["']/gi)) {
+  // Recursos locais referenciados no HTML (V07: o pôster do <video> também é imagem baixada pela página).
+  for (const m of texto.matchAll(/\b(?:href|src|poster)\s*=\s*["']([^"']+)["']/gi)) {
     const alvo = resolver(dist, arquivoHtml, m[1]);
     if (alvo && !alvo.endsWith(".html") && extname(alvo) !== "") contar(alvo);
   }

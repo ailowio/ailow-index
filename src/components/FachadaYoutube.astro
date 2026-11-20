@@ -1,0 +1,22 @@
+---
+// Fachada do YouTube (ADR 005, V07). Só renderizar quando houver youtubeId: a página decide
+// (`{id && <FachadaYoutube ... />}`), e então o script abaixo vai junto. Quem renderizar a fachada
+// também precisa do bloco `location` com `frame-src https://www.youtube-nocookie.com` no nginx
+// e da interface I-12 no inventário (ADR 005 item 4 e Consequências).
+import { marcaFachadaYoutube } from "./fachada-youtube";
+
+interface Props {
+  youtubeId: string | null;
+  titulo: string;
+  poster?: string | null;
+}
+
+const { youtubeId, titulo, poster = null } = Astro.props;
+const html = marcaFachadaYoutube({ youtubeId, titulo, poster });
+---
+
+<Fragment set:html={html} />
+
+<script>
+  import "./fachada-youtube.cliente.ts";
+</script>
