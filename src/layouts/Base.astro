@@ -9,11 +9,16 @@ import "../styles/telas.css";
 import BotaoTema from "../components/BotaoTema.astro";
 import Rodape from "../components/Rodape.astro";
 import { SITE } from "../config/site";
+import { urlCanonica } from "../config/indexacao";
+import { OG_IMAGEM } from "../config/og";
 
 interface Props {
   titulo?: string;
   descricao?: string;
-  /** Todas as rotas são noindex até o deploy decidir (S12). */
+  /**
+   * F0 (2026-11-20): as rotas públicas são indexáveis por padrão. Passam `false` o cartão, as versões,
+   * o /bio e as labels (lista conferida por E2E contra src/config/indexacao.ts).
+   */
   indexar?: boolean;
   /** Classe do <body>: `tela-home` ou `tela-app` (altura fixa, sem scroll de página). */
   classeCorpo?: string;
@@ -23,8 +28,11 @@ interface Props {
   rodape?: boolean;
 }
 
-const { titulo, descricao, indexar = false, classeCorpo, moldura = false, rodape = true } = Astro.props;
+const { titulo, descricao, indexar = true, classeCorpo, moldura = false, rodape = true } = Astro.props;
 const tituloPagina = titulo ? `${titulo} | ${SITE.nome}` : SITE.nome;
+const urlPagina = urlCanonica(Astro.url.pathname);
+const descricaoPreview = descricao ?? "Pedro Fernandes, da Ailow: sistemas, sensores e IA para empresas.";
+const imagemPreview = `${SITE.url}${OG_IMAGEM.caminho}`;
 
 // Tema sem flash (ADR 003, D6): roda antes da pintura. Padrão do sistema; a escolha do usuário vence.
 // localStorage pode lançar (janela privada, dados bloqueados): sempre em try/catch.
@@ -42,6 +50,18 @@ const scriptBotao = `(function(){var b=document.getElementById("botao-tema");if(
     {!indexar && <meta name="robots" content="noindex" />}
     {descricao && <meta name="description" content={descricao} />}
     <title>{tituloPagina}</title>
+    {indexar && <link rel="canonical" href={urlPagina} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.nome} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={tituloPagina} />
+    <meta property="og:description" content={descricaoPreview} />
+    <meta property="og:url" content={urlPagina} />
+    <meta property="og:image" content={imagemPreview} />
+    <meta property="og:image:width" content={String(OG_IMAGEM.largura)} />
+    <meta property="og:image:height" content={String(OG_IMAGEM.altura)} />
+    <meta property="og:image:alt" content={OG_IMAGEM.alt} />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

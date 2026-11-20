@@ -1,0 +1,18 @@
+---
+/**
+ * /bio (F0): destino do link da bio do Instagram (ESTRATEGIA D-M8 da bancada).
+ * Mesmo conteúdo da apresentação; a mensagem do WhatsApp sai marcada "[instagram]".
+ * Fora do Google (página de campanha, duplicaria a /apresentacao).
+ */
+import Apresentacao from "../components/Apresentacao.astro";
+import App from "../layouts/App.astro";
+---
+
+<App
+  id="contato"
+  descricao="Pedro Fernandes: digitalizei e sensorizei a minha fábrica; agora levo isso para outras empresas."
+  tituloPagina="Pedro Fernandes no Instagram"
+  indexar={false}
+>
+  <Apresentacao origem="instagram" />
+</App>

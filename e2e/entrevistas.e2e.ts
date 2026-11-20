@@ -50,9 +50,10 @@ for (const tema of TEMAS) {
       expect(r.violations.map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
     });
 
-    test("não está em construção, é noindex e não cita entrevistador", async ({ page }) => {
+    // F0 (2026-11-20, decisão do Pedro): indexável.
+    test("não está em construção, é indexável e não cita entrevistador", async ({ page }) => {
       await expect(page.locator("body")).not.toContainText("Em construção");
-      await expect(page.locator("meta[name=robots]")).toHaveAttribute("content", /noindex/);
+      await expect(page.locator("meta[name=robots]")).toHaveCount(0);
       const html = await page.content();
       expect(html).not.toMatch(BLOQUEADOS);
     });

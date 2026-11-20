@@ -20,7 +20,10 @@ RUN node scripts/csp.mjs dist /site/csp-hashes.conf
 
 # ---- runtime: nginx sem root, só o dist/ ----
 # Escuta na 8080 (não precisa de privilégio). Nada de Node, npm ou código-fonte aqui.
-FROM nginxinc/nginx-unprivileged:1.30.6-alpine3.24 AS runtime
+# 2026-11-20: linha mainline 1.31.7. A 1.30.6 tem 4 CVEs CRITICAL e 2 HIGH (corrigidas no nginx 1.30.7-r0),
+# e a imagem 1.30.7 não foi publicada (a "stable" do Docker Hub parou em 2026-10-19). O apk upgrade não troca
+# o nginx, que vem do repositório do próprio nginx. Voltar à linha estável quando sair uma 1.30.x corrigida.
+FROM nginxinc/nginx-unprivileged:1.31.7-alpine3.24 AS runtime
 # Patches de segurança do Alpine publicados depois da imagem base (gate SEC-12: o Trivy barra CRITICAL/HIGH com correção).
 # Root só neste passo; volta ao usuário nginx (uid 101) logo depois.
 USER root

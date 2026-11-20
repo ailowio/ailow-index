@@ -4,6 +4,27 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-20
+
+### Adicionado
+- F0 (trilha rápida): o site entra no Google. As rotas públicas ficam indexáveis, com `robots.txt`, `sitemap.xml` e `link rel="canonical"` (`src/config/indexacao.ts`). Ficam de fora (noindex) as versões, o `/bio`, as labels do feed e o cartão. E2E confere que as páginas sem noindex do `dist/` são exatamente as do sitemap.
+- F0: preview de links (Open Graph e Twitter card) em todas as páginas, com a imagem `public/og/ailow.png` (1200x630, 148 KB), gerada por `scripts/og.mjs` só com arquivos locais (fontes do site, foto e logo oficial recolorida).
+- F0: contato por WhatsApp autorizado pelo Pedro (`src/config/contato.ts`, fonte única). Botão "Falar no WhatsApp" na home, na `/apresentacao` e no `/bio`, com mensagem pronta que diz a origem (`[site]`, `[apresentação]`, `[instagram]`). O e-mail ainda não é publicado: o domínio não tinha registro MX em 2026-11-20.
+- F0: `/bio`, destino do link da bio do Instagram (mesmo conteúdo da apresentação, fora do Google).
+
+### Alterado
+- F0: a home diz o que o Pedro faz ("Digitalizei e sensorizei a minha fábrica." + consultoria e cursos de IA para empresários) no lugar do cartão "AILOW / ailow.com.br"; espaçamentos compactos em telas baixas e título de tamanho fixo dentro da moldura do desktop, com E2E de que os 6 ícones ficam acima do rodapé em 360x640 e 1280x800.
+- F0: a `/apresentacao` mostra quem é o Pedro sem precisar abrir a foto; a apresentação vira componente (`src/components/Apresentacao.astro`), usado também pelo `/bio`.
+- F0: a trava do Voltar sai da home e fica só no cartão instalado (ADR 003 item 4 revisto; exceção EX-03 à UXM-03). Quem chega por link volta à origem.
+- F0: títulos das abas sem repetição ("Sobre a empresa", "Versões do site", "Stack de ferramentas", "Apresentação de Pedro Fernandes").
+
+### Segurança
+- Imagem base do nginx de `1.30.6` para `1.31.7` (mainline, Alpine 3.24): o Trivy do job `imagem` passou a barrar 4 CVEs CRITICAL e 2 HIGH do nginx 1.30.6-r1 (corrigidas no 1.30.7-r0), e a imagem `nginx-unprivileged` 1.30.7 não foi publicada. A v1.2.0 em produção tem a mesma base; este deploy a corrige.
+
+### Corrigido
+- F0: sócio da Copel desde **mai/2015** (o `/pedro` dizia jan/2015; confirmado pelo Pedro em 2026-11-20).
+- F0: `/sobre` não promete mais "alertas e dashboards" (o Pulse ainda não tem painel); `/pulse` diz o estado real: sensores em todas as máquinas, dois gateways, firmware v1.9 em validação em campo desde 19/11/2026.
+
 ## [1.2.0] - 2026-11-19
 
 ### Adicionado

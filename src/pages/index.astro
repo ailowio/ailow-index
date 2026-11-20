@@ -1,14 +1,16 @@
 ---
 import Base from "../layouts/Base.astro";
+import BotaoWhatsapp from "../components/BotaoWhatsapp.astro";
 import IconeApp from "../components/IconeApp.astro";
 import { APPS } from "../config/apps";
-import { SITE } from "../config/site";
-import { scriptVoltar } from "../config/voltar";
+
+// F0 (2026-11-20): a home diz o que o Pedro faz (posicionamento da ESTRATEGIA §3.1 da bancada) e tem a ação
+// principal. A trava do Voltar saiu daqui (ADR 003 item 4 revisto; exceção EX-03): quem chega por link volta à origem.
 ---
 
 <Base
-  titulo="Início"
-  descricao="Ailow: portfólio, produtos e contato."
+  titulo="Pedro Fernandes"
+  descricao="Digitalizei e sensorizei a minha fábrica. Agora levo isso para outras empresas, com consultoria e cursos de IA para empresários."
   classeCorpo="tela-home"
   moldura
 >
@@ -18,8 +20,10 @@ import { scriptVoltar } from "../config/voltar";
   </svg>
   <div class="home">
     <section class="widget">
-      <h1>{SITE.nome}</h1>
-      <p class="dominio">ailow.com.br</p>
+      <p class="dominio">Pedro Fernandes · Ailow</p>
+      <h1>Digitalizei e sensorizei a minha fábrica.</h1>
+      <p class="proposta">Agora levo isso para outras empresas, com consultoria e cursos de IA para empresários.</p>
+      <BotaoWhatsapp origem="site" />
     </section>
     <ul class="grade-apps">
       {
@@ -37,5 +41,4 @@ import { scriptVoltar } from "../config/voltar";
     </ul>
   </div>
   <span class="gesto" aria-hidden="true"></span>
-  <script is:inline set:html={scriptVoltar} />
 </Base>

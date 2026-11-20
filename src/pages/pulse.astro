@@ -11,13 +11,16 @@ import "../styles/institucional.css";
         O Pulse leva o sinal da máquina até um banco de dados confiável: a máquina conta, o gateway envia, o coletor
         grava.
       </p>
-      <p class="estado">Estado: coletor publicado, ainda sem validação com os sensores em campo</p>
+      <p class="estado">
+        Estado: sensores instalados em todas as máquinas da fábrica; firmware v1.9 dos gateways em validação em campo
+        desde 19/11/2026
+      </p>
     </section>
 
     <section aria-labelledby="como-titulo">
       <h2 id="como-titulo">Como funciona hoje</h2>
       <ul class="pontos">
-        <li>Um gateway com módulos de entrada digital na fábrica registra os sinais das máquinas.</li>
+        <li>Na fábrica, dois gateways com módulos de entrada registram os sinais das máquinas.</li>
         <li>O gateway publica as leituras por MQTT, num broker no servidor próprio da Ailow.</li>
         <li>Um coletor grava essas mensagens em Postgres, em dois containers.</li>
       </ul>

@@ -57,10 +57,11 @@ for (const tema of TEMAS) {
       expect(m.conteudoW).toBeLessThanOrEqual(m.conteudoCW);
     });
 
-    test("axe sem violações e noindex", async ({ page }) => {
+    // F0 (2026-11-20, decisão do Pedro): indexável.
+    test("axe sem violações e indexável", async ({ page }) => {
       const r = await new AxeBuilder({ page }).analyze();
       expect(r.violations.map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
-      await expect(page.locator("meta[name=robots]")).toHaveAttribute("content", /noindex/);
+      await expect(page.locator("meta[name=robots]")).toHaveCount(0);
     });
 
     test("o link 'Stack' aparece no /pedro sem abrir nada e leva à página", async ({ page }) => {

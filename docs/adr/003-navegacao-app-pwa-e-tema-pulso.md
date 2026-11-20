@@ -109,6 +109,14 @@ Padrão por `prefers-color-scheme`, botão no topo (1 toque) com `localStorage` 
 - **UXM-03: removida.** Passa a valer integralmente (item 4).
 - **UXM-08:** a parte "derivada da cor do A da logo, dark em cinza chumbo" é substituída pela paleta do Pulso (D5).
 
+### Revisão em 2026-11-20 (F0, trilha rápida): item 4 alterado pelo Pedro
+
+- **O que mudou:** a trava do Voltar **sai da home** e fica **só no cartão** instalado (PWA). Na home, o Voltar do navegador volta para a página de onde a pessoa veio.
+- **Por quê:** o site passou a ser destino de link (bio do Instagram, WhatsApp, Google). Com a trava, quem chegava por link e tocava na home não conseguia voltar ao Instagram ou à conversa no WhatsApp, onde responderia ao Pedro. A auditoria de 19/11 apontou isso (relatório e brainstorm do v2, locais, fora do git até decisão do Pedro); o próprio brief do A1 (§4) já chamava a armadilha de histórico de anti-padrão.
+- **Decisão:** o Pedro escolheu a opção A da F0 ("aprovo tudo, inclusive tirar a trava do Voltar da home"), em 2026-11-20, no chat da sessão.
+- **Exceção:** UXM-03 deixa de valer na home: **EX-03** em `docs/excecoes.md` (protocolo §7). No cartão, a UXM-03 continua integral.
+- **Testes:** os E2E que conferiam a trava na home foram trocados pelo comportamento novo, com comentário "F0" em cada um (`home-app`, `voltar-regressao` H4, H4b e H5); o orçamento de 1 KB do script passou a ser medido no cartão.
+
 ## Consequências
 
 - **Positivas:** home com cara de app sem reabrir a stack; JS ≈ 0 na maior parte das rotas; zero terceiros; instalação do cartão no Android; Voltar coerente com o Cloud.

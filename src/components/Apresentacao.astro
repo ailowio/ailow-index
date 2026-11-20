@@ -1,0 +1,105 @@
+---
+/**
+ * Corpo da apresentação (S09), compartilhado por /apresentacao e /bio (F0).
+ * F0: a bio sai do pop-up da foto e fica visível; o botão do WhatsApp vem logo depois da saudação.
+ */
+import BotaoWhatsapp from "./BotaoWhatsapp.astro";
+import type { Origem } from "../config/contato";
+import { apresentacao, marcaVideo } from "../data/apresentacao";
+import "../styles/apresentacao.css";
+
+interface Props {
+  origem: Origem;
+}
+
+const { origem } = Astro.props;
+const { saudacao, pessoa, video, caminho, contatos } = apresentacao;
+const htmlVideo = marcaVideo(video);
+
+// Dialog nativo: showModal prende o foco e fecha com Esc; aqui só o botão, o clique no fundo e o retorno do foco.
+const scriptAvatar = `(function(){var g=document.getElementById("avatar-gatilho"),d=document.getElementById("avatar-dialogo");if(!g||!d||typeof d.showModal!=="function")return;g.addEventListener("click",function(){d.showModal();history.pushState({d:1},"")});addEventListener("popstate",function(){if(d.open)d.close()});d.querySelector("[data-fechar]").addEventListener("click",function(){d.close()});d.addEventListener("click",function(e){if(e.target===d)d.close()});d.addEventListener("keydown",function(e){if(e.key==="Tab"){e.preventDefault();d.querySelector("[data-fechar]").focus()}});d.addEventListener("close",function(){g.focus();if(history.state&&history.state.d)history.back()})})()`;
+---
+
+<div class="apresentacao">
+  <section class="saudacao" aria-labelledby="saudacao-titulo">
+    <button
+      type="button"
+      class="avatar-gatilho"
+      id="avatar-gatilho"
+      aria-label={`Ampliar a foto de ${pessoa.nome}`}
+      aria-haspopup="dialog"
+    >
+      <img
+        src={pessoa.fotoPequena.src}
+        width={pessoa.fotoPequena.largura}
+        height={pessoa.fotoPequena.altura}
+        alt=""
+        decoding="async"
+      />
+    </button>
+    <h2 id="saudacao-titulo" class="saudacao-texto">{saudacao}</h2>
+  </section>
+
+  <section class="quem-sou" aria-label={`Quem é ${pessoa.nome}`}>
+    <p class="cargo">{pessoa.nome} · {pessoa.cargo}</p>
+    <p>{pessoa.resumo}</p>
+    <BotaoWhatsapp origem={origem} />
+  </section>
+
+  <dialog class="avatar-dialogo" id="avatar-dialogo" aria-labelledby="avatar-nome">
+    <img
+      src={pessoa.fotoGrande.src}
+      width={pessoa.fotoGrande.largura}
+      height={pessoa.fotoGrande.altura}
+      alt={pessoa.alt}
+      loading="lazy"
+      decoding="async"
+    />
+    <h3 id="avatar-nome">{pessoa.nome}</h3>
+    <p class="cargo">{pessoa.cargo}</p>
+    <p>{pessoa.resumo}</p>
+    <button type="button" class="fechar" data-fechar aria-label="Fechar a foto">
+      <svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </button>
+  </dialog>
+
+  {htmlVideo && <section class="video" aria-label="Vídeo de apresentação" set:html={htmlVideo} />}
+
+  <nav class="caminho" aria-labelledby="caminho-titulo">
+    <h2 id="caminho-titulo">Meu trabalho</h2>
+    <ul>
+      {caminho.map((c) => <li><a href={c.href}>{c.rotulo}</a></li>)}
+    </ul>
+  </nav>
+
+  <section class="contatos" aria-labelledby="contatos-titulo">
+    <h2 id="contatos-titulo">Redes</h2>
+    <ul>
+      <li>
+        <a href={contatos[0].href} rel="me noopener noreferrer" aria-label={contatos[0].rotulo}>
+          <svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+            <path d="M8 10.5V16M8 7.5v.01M12 16v-5.5M12 13a2.5 2.5 0 0 1 5 0v3"></path>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href={contatos[1].href} rel="me noopener noreferrer" aria-label={contatos[1].rotulo}>
+          <svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M17 7.01v.01"></path>
+          </svg>
+        </a>
+      </li>
+      <li>
+        <a href={contatos[2].href} rel="me noopener noreferrer" aria-label={contatos[2].rotulo}>
+          <svg class="icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"></path>
+          </svg>
+        </a>
+      </li>
+    </ul>
+  </section>
+</div>
+<script is:inline set:html={scriptAvatar} />

@@ -49,8 +49,9 @@ for (const rota of ROTAS) {
         ).toEqual([]);
       });
 
-      test("a página é noindex (o deploy decide a indexação)", async ({ page }) => {
-        await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex");
+      // F0 (2026-11-20, decisão do Pedro): o deploy decidiu, as rotas públicas passam a ser indexáveis.
+      test("a página é indexável (F0)", async ({ page }) => {
+        await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
       });
     });
   }
@@ -169,20 +170,15 @@ test.describe("transição nativa entre home e app", () => {
   });
 });
 
-test.describe("Voltar nunca fecha o app (ADR 003, item 4)", () => {
-  test("(a) na home, depois de um gesto, o Voltar do navegador mantém a home", async ({ page }) => {
+// ADR 003 item 4, revisto na F0 (2026-11-20, decisão do Pedro): a trava saiu da home (quem chega por link
+// precisa conseguir voltar ao Instagram/WhatsApp) e ficou só no cartão instalado. Exceção EX-03 à UXM-03.
+test.describe("Voltar (ADR 003 item 4, revisto na F0)", () => {
+  test("(a) na home, depois de um gesto, o Voltar do navegador volta para a página anterior", async ({ page }) => {
+    await page.goto("/sobre");
     await page.goto("/");
-    // O pushState de reserva só vale depois de um gesto do usuário.
     await page.mouse.click(5, 5);
     await page.goBack();
-    await page.waitForTimeout(300);
-    expect(new URL(page.url()).pathname).toBe("/");
-    // E de novo: continua não saindo.
-    await page.mouse.click(5, 5);
-    await page.goBack();
-    await page.waitForTimeout(300);
-    expect(new URL(page.url()).pathname).toBe("/");
-    expect(page.url()).not.toContain("about:blank");
+    await expect(page).toHaveURL(/\/sobre\/?$/);
   });
 
   test("(b) home -> ícone -> página interna -> Voltar volta para a home", async ({ page }) => {
@@ -192,10 +188,6 @@ test.describe("Voltar nunca fecha o app (ADR 003, item 4)", () => {
     await page.goBack();
     await expect(page).toHaveURL(/\/$/);
     await expect(page.locator("a.app")).toHaveCount(6);
-    // E o Voltar seguinte ainda não sai.
-    await page.goBack();
-    await page.waitForTimeout(300);
-    expect(new URL(page.url()).pathname).toBe("/");
   });
 
   test("(b2) a seta da página volta à home quando veio dela", async ({ page }) => {
@@ -220,8 +212,9 @@ test.describe("Voltar nunca fecha o app (ADR 003, item 4)", () => {
     await expect(page).toHaveURL(/\/pedro\/?$/);
   });
 
+  // A trava continua no cartão instalado; o orçamento de 1 KB vale lá.
   test("o script do Voltar pesa até 1 KB gzip", async ({ page, request }) => {
-    const res = await request.get("/");
+    const res = await request.get(["", "cartao", ""].join("/"));
     const html = await res.text();
     const m = html.match(/<script>([^<]*popstate[^<]*)<\/script>/);
     expect(m, "script do Voltar não encontrado").not.toBeNull();

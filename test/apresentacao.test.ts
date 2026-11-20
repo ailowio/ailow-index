@@ -35,7 +35,9 @@ describe("/apresentacao: dados", () => {
     expect(pedro).toContain(apresentacao.pessoa.cargo);
   });
 
-  it("contatos: só os hosts permitidos e nenhum tel:, mailto: ou wa.me", () => {
+  // F0 (2026-11-20): o Pedro autorizou o WhatsApp. Ele vem só de src/config/contato.ts (fonte única);
+  // as redes continuam só nos hosts permitidos; telefone cru (tel:) e e-mail (mailto:, domínio sem MX) seguem fora.
+  it("contatos: redes só nos hosts permitidos; WhatsApp só pela fonte única; nenhum tel: ou mailto:", () => {
     expect(apresentacao.contatos.map((c) => c.id)).toEqual(["linkedin", "instagram", "github"]);
     for (const c of apresentacao.contatos) {
       const u = new URL(c.href);
@@ -43,7 +45,7 @@ describe("/apresentacao: dados", () => {
       expect(HOSTS.has(u.hostname), c.href).toBe(true);
     }
     const tudo = JSON.stringify(apresentacao) + readFileSync(join(raiz, "src", "pages", "apresentacao.astro"), "utf8");
-    expect(tudo).not.toMatch(/tel:|mailto:|wa\.me|whatsapp/i);
+    expect(tudo).not.toMatch(/tel:|mailto:|wa\.me|\d{10,}/i);
   });
 
   it("os 5 links do caminho são internos", () => {

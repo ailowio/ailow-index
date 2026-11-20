@@ -42,7 +42,8 @@ for (const rota of ROTAS) {
         const links = await page.locator(".institucional a[href^='/pedro']").count();
         expect(links).toBeGreaterThanOrEqual(1);
         await expect(page.locator("body")).not.toContainText("Em construção");
-        await expect(page.locator("meta[name=robots]")).toHaveAttribute("content", /noindex/);
+        // F0 (2026-11-20, decisão do Pedro): indexável.
+        await expect(page.locator("meta[name=robots]")).toHaveCount(0);
       });
 
       test("só o Cloud aponta para fora do site", async ({ page }) => {
