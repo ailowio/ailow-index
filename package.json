@@ -1,6 +1,6 @@
 {
   "name": "ailow-index",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "private": true,
   "type": "module",
   "description": "Site institucional da Ailow (ailow.com.br) com o portfólio do Pedro em formato de changelog.",
