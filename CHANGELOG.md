@@ -4,6 +4,16 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.11.0] - 2026-11-20
+
+### Adicionado
+- V09 (ADR 007 item 4): **lente "Para empresários / Para técnicos" no Diário de obra.** Dois botões no topo trocam a mesma entrada entre a leitura técnica (o changelog como sempre foi) e um resumo em frase simples, escrito só com o que a própria entrada diz. Entrada sem resumo mostra, na leitura para empresários, o título sem o prefixo técnico e a prova. A escolha vale só nesta sessão do navegador (sem cookie). Sem JavaScript, a página fica na leitura técnica e o resumo aparece rotulado "Para empresários:" em cada entrada de vitrine.
+- V09: **"Os 3 que eu mostraria numa visita"** no topo do Diário de obra: o quadro de comando adequado às NR-10 e NR-12 (#047), os sete módulos do SGI na versão nova (#069) e o Cloud em produção (#078), uma por frente, todas confirmadas e entregues, cada uma com o link para a entrada.
+- V09: campo opcional `resumo_dono` nas entradas, preenchido nas 26 entradas que a `/consultoria`, a `/educacao`, o Chão de Fábrica e a `/na-tv` citam. Ele passa pelo mesmo linter de conteúdo do resto (canário: um resumo com endereço IP derruba o build), não traz número que não esteja na entrada e não usa as frases fortes que o campo ainda não confirma.
+
+### Alterado
+- V09 (ADR 007 item 3): **o feed do `/pedro` passa a se chamar "Diário de obra"**, com o subtítulo "cada entrega, com data e prova". A URL `/pedro` e o `/pedro/feed.json` não mudam. Título da aba, preview de link, o ícone da home (agora "Diário"), links da `/apresentacao`, do Cloud e do Pulse, e as páginas de frente, de ferramenta e da stack deixam de dizer "portfólio" e "feed". A contagem e a ordem das 81 entradas publicadas não mudam (teste compara com a versão anterior).
+
 ## [1.10.0] - 2026-11-20
 
 ### Adicionado

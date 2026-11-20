@@ -54,7 +54,7 @@ export const apresentacao: {
     selo_ia: true,
   },
   caminho: [
-    { rotulo: "Portfólio", href: "/pedro" },
+    { rotulo: "Diário de obra", href: "/pedro" },
     { rotulo: "Entrevistas", href: "/na-tv" },
     { rotulo: "Ailow", href: "/sobre" },
     { rotulo: "Pulse", href: "/pulse" },

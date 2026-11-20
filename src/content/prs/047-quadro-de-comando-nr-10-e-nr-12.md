@@ -7,6 +7,7 @@ ferramentas: []
 soft_skills: [diagnostico-campo, gestao-de-mudanca]
 prova: { publica: "https://www.instagram.com/pedro_fernand/reel/DYyGS0ztbdI/" }
 verificacao: confirmado
+resumo_dono: "Antes de medir, proteger: o quadro elétrico de uma máquina antiga foi reorganizado, com a fiação identificada e a parada de emergência ao alcance. Não é laudo nem certificação."
 ---
 
 Antes do sensor que monitora, o sensor que protege: em 25 de maio de 2026, no chão de fábrica, um quadro de comando de máquina antiga foi reorganizado. O ponto de partida era fiação sem padrão, botoeira falhando e manutenção baseada na memória do operador.

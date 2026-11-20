@@ -563,6 +563,11 @@
   white-space: nowrap;
 }
 
+/* V09: "Diário de obra" (o /pedro e as subpáginas dele) é mais longo que os outros títulos: em 360 px cabe inteiro. */
+.cabecalho[data-app="pedro"] .app-titulo {
+  font-size: clamp(1.25rem, 7vw, 2rem);
+}
+
 .construcao {
   display: grid;
   gap: var(--espaco-2);

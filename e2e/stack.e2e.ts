@@ -34,7 +34,8 @@ for (const tema of TEMAS) {
     test("com entrada tem link para a label; sem entrada, marcador e sem link", async ({ page }) => {
       const comLink = page.locator("li[data-ferramenta] a");
       expect(await comLink.count()).toBeGreaterThan(0);
-      const sem = page.locator("li[data-ferramenta]", { hasText: "sem entrada no feed" });
+      // V09 · 2026-11-20 · ADR 007 item 3: o feed se chama "Diário de obra" (o marcador era "sem entrada no feed").
+      const sem = page.locator("li[data-ferramenta]", { hasText: "sem entrada no Diário de obra" });
       expect(await sem.count()).toBeGreaterThan(0);
       await expect(sem.locator("a")).toHaveCount(0);
       expect(await comLink.count() + (await sem.count())).toBe(TOTAL);

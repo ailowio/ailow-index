@@ -3,6 +3,7 @@ import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 import type { EntradaComNovidades } from "../changelog/regras";
 import { lerTitulo } from "../changelog/regras";
 import { rotuloNumero } from "../changelog/labels";
+import { LENTE } from "../data/diario";
 
 interface Props {
   pr: EntradaComNovidades;
@@ -33,21 +34,26 @@ const host = publica?.startsWith("https://") ? new URL(publica).hostname.replace
     {
       titulo ? (
         <>
-          <span class="pr-tipo">
-            {titulo.tipo}(<a href={`/pedro/label/escopo-${titulo.escopo}`}>{titulo.escopo}</a>)
-            {titulo.quebra ? "!" : ""}
-          </span>
-          : {titulo.descricao}
+          {/* V09: o prefixo técnico fica num span próprio; a lente "Para empresários" o esconde e deixa só a descrição. */}
+          <span class="pr-tipo" data-leitura="tecnico">{titulo.tipo}(<a href={`/pedro/label/escopo-${titulo.escopo}`}>{titulo.escopo}</a>){titulo.quebra ? "!" : ""}:</span>{" "}
+          <span class="pr-descricao">{titulo.descricao}</span>
         </>
       ) : (
         pr.titulo
       )
     }
   </h3>
-  <div class="pr-corpo">{Conteudo ? <Conteudo /> : null}</div>
+  {
+    pr.resumo_dono && (
+      <p class="pr-dono" data-leitura="dono" data-resumo-dono>
+        <span class="pr-dono-rotulo">{LENTE.rotuloResumo}</span> {pr.resumo_dono}
+      </p>
+    )
+  }
+  <div class="pr-corpo" data-leitura="tecnico">{Conteudo ? <Conteudo /> : null}</div>
   {
     pr.ferramentas.length > 0 && (
-      <ul class="chips" aria-label="Ferramentas">
+      <ul class="chips" aria-label="Ferramentas" data-leitura="tecnico">
         {pr.ferramentas.map((f) => (
           <li>
             <a class={novas.has(f) ? "chip chip-nova" : "chip"} href={`/pedro/label/${f}`}>
@@ -61,7 +67,7 @@ const host = publica?.startsWith("https://") ? new URL(publica).hostname.replace
   }
   {
     pr.soft_skills.length > 0 && (
-      <ul class="skills" aria-label="Soft skills">
+      <ul class="skills" aria-label="Soft skills" data-leitura="tecnico">
         {pr.soft_skills.map((s) => (
           <li>{nomesSkills[s] ?? s}</li>
         ))}
@@ -82,5 +88,5 @@ const host = publica?.startsWith("https://") ? new URL(publica).hostname.replace
       )
     }
   </p>
-  {explorar && <p class="pr-explorar"><a href={`/explorar/${explorar}/`}>Explorar o fluxo, passo a passo</a></p>}
+  {explorar && <p class="pr-explorar" data-leitura="tecnico"><a href={`/explorar/${explorar}/`}>Explorar o fluxo, passo a passo</a></p>}
 </article>

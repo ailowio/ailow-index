@@ -1,5 +1,5 @@
 import { z } from "astro/zod";
-import { CATEGORIAS, ESTADOS, VERIFICACOES } from "./tipos";
+import { CATEGORIAS, ESTADOS, RESUMO_MAX, VERIFICACOES } from "./tipos";
 
 /** Frontmatter de `src/content/prs/NNN-slug.md` (ADR 002). Regras do feed inteiro: `regras.ts`. */
 export const esquemaPR = z.object({
@@ -18,6 +18,11 @@ export const esquemaPR = z.object({
     z.object({ privada: z.string().min(10, "descreva a prova sem número nem segredo") }),
   ]),
   verificacao: z.enum(VERIFICACOES),
+  /**
+   * V09 (ADR 007 item 4): a leitura "Para empresários" da entrada, numa frase simples. Só nas entradas de vitrine e
+   * só com o que a própria entrada diz (test/v09-diario.test.ts). Passa pelo linter de conteúdo como o resto.
+   */
+  resumo_dono: z.string().trim().min(10, "resumo_dono vago demais").max(RESUMO_MAX).optional(),
 });
 
 const semRepetir = <T extends { id: string }>(itens: T[]) =>

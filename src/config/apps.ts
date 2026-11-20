@@ -14,9 +14,12 @@ export interface AppDoSite {
 export const APPS: readonly AppDoSite[] = [
   {
     id: "pedro",
-    rotulo: "Portfólio",
+    // V09 · 2026-11-20 · ADR 007 item 3: o feed se chama "Diário de obra"; a URL /pedro não muda. No ícone, "Diário"
+    // (uma palavra, como os outros rótulos da grade: não quebra em 2 linhas em 360 px e o link "Diário de obra"
+    // abaixo das portas segue único, E2E v02-home).
+    rotulo: "Diário",
     rota: "/pedro",
-    titulo: "Portfólio",
+    titulo: "Diário de obra",
     glifo:
       '<circle cx="6" cy="5" r="2.5"/><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M6 7.5v9M6 12h9.5"/>',
   },

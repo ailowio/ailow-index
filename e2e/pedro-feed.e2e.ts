@@ -178,7 +178,8 @@ test.describe("/pedro: conteúdo do feed", () => {
     await page.locator(".painel details").evaluate((d) => ((d as HTMLDetailsElement).open = true));
     await page.locator('.painel a[href="/pedro/label/react"]').click();
     await expect(page).toHaveURL(/\/pedro\/label\/react\/?$/);
-    await page.getByRole("link", { name: "Todo o feed" }).click();
+    // V09 · 2026-11-20 · ADR 007 item 3: o feed se chama "Diário de obra" (o link era "Todo o feed").
+    await page.getByRole("link", { name: "Todo o Diário de obra" }).click();
     await expect(page).toHaveURL(/\/pedro\/?$/);
   });
 });

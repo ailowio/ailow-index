@@ -54,7 +54,8 @@ test.describe("Voltar: matriz de regressão", () => {
     await expect(page).toHaveURL(/\/pedro\/?$/);
     await page.locator("a.chip").first().click();
     await expect(page).toHaveURL(/\/pedro\/label\//);
-    await page.getByRole("link", { name: "Todo o feed" }).click();
+    // V09 · 2026-11-20 · ADR 007 item 3: o feed se chama "Diário de obra" (o link era "Todo o feed").
+    await page.getByRole("link", { name: "Todo o Diário de obra" }).click();
     await expect(page).toHaveURL(/\/pedro\/?$/);
     await assentar(page);
     await seta(page).click();

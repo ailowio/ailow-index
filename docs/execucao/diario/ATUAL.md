@@ -7,17 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### V06 — Pacotes de vídeo — 2026-11-20 — Claude Sonnet 5.5 (subagente)
-Leu: Contrato, linha V06, retomada, V05; ADR 005/008; STATUS e PUBLICAR da bancada.
-Feito: 5 pacotes importados (6 prontos na bancada; P3 retirado, ver abaixo) em `final/site/<slug>/` da bancada (só essa pasta), importados com `npm run importar-midia`: `teaser-p1-improvisar-sob-pressao`, `teaser-p2-teoria-na-pratica`, `fixado-00-o-que-eu-faco`, `chao-1-dois-quadros`, `chao-2-sinal-chegou`. 720x1280, 5,2–6,9 MB; pôster 15–67 KB; `.vtt` pela AssemblyAI (chave lida dentro do script, nunca impressa). `/apresentacao` e `/bio` ganham o Fixado 00 no slot (`preload="none"`, aviso "parte da imagem e da voz é gerada por IA"). Versão 1.8.0.
-Decisões (delegação): E6 (v5, 76 s, sem teaser) NÃO importado: pendência "subir no YouTube"; Fixado 00 como pitch (aprovado v8; é clone e voz de IA, `selo_ia` true; o pitch "gravado por ele" do ADR 003 segue possível depois); `aprovado_em` = 2026-11-19 (data do STATUS, que não traz data por peça); `fatos` vazio (V08 liga #080/#081); `selo_ia` true também nos 2 Chão (tarja "VOZ IA"); teasers sem selo (entrevista real).
-Revisão de tela (1 frame a cada 3 s, 6 derivados olhados): sem CNPJ, NF, IP, placa nem nome de cliente. Ressalva: no P3 (t≈27–36 s) aparece, desfocada, uma tela do ERP com colunas "R$" ilegíveis e a marca de emissora no rodapé borrado; o orquestrador viu o frame de 31 s (datas legíveis, "R$" parcial) e RETIROU o P3 do PR (pacote segue em `final/site/` da bancada; pendência do Pedro: vetar ou liberar, e reimportar se liberar).
-Testes antigos alterados (comentário V06): `e2e/apresentacao.e2e.ts`, "zero requisição…": `video` count 0 → 1 com `preload="none"` (mesma prova de 0 mídia antes do toque).
-Canários (L-0006): `preload="auto"` deixou 4 E2E vermelhos (revertido); `violacoes()` reprova arquivo > 8 MB, vídeo sem `.vtt` e sem pôster (teste com pasta temporária).
-Falhas no caminho: Biome proíbe `export` em teste; no Chromium headless o 1º toque no pôster só mostra controles (o E2E clica e chama `play()`); o `.vtt` (1 KB) baixa no carregamento por causa do `<track default>`, não é vídeo.
-Números: Vitest 498 → 504; E2E 684 → 686 passed; `/apresentacao` JS 1,01/10 KiB, peso 28,65/150; `public/midia` 30,1 MB somados (5 pacotes; eram 36,3 com o P3) (5 pacotes; só o Fixado 00 é servido por página até a V07/V08), a imagem do nginx cresce o mesmo.
-Screenshots: `D:/apps/.playwright-mcp/auditoria/v06/`.
-
 ### V07 — Na TV (entrevistas) — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
 Leu: Contrato, V07, retomada, V06; ADR 005, 007 item 5; brainstorm §5.2; `.vtt` dos teasers; roteiro da série (bancada).
 Feito: `/na-tv` com a escada UFC → Record → afiliada Globo em tarjas de TV (GC) no Pulso, só com o nome em texto; P1 e P2 no degrau da UFC com 4 chips cada (tempo = início de um cue do `.vtt`) e legenda grande fora do quadro (a nativa fica `hidden`: os teasers já têm legenda queimada). Fachada do YouTube (`FachadaYoutube.astro` + `fachada-youtube.ts`, cliente 1 KB) só com `youtubeId`: hoje nenhum, nada renderiza, CSP intacta; I-12 no inventário como inativa. `/pedro/entrevistas` → 301 `/na-tv/` no nginx (+ meta refresh noindex do build); ícone "Na TV" na home; sitemap. `peso.mjs` passa a contar `poster=`. Versão 1.9.0.
@@ -37,3 +26,13 @@ Canários (L-0006): "todas as máquinas, rodando" e "30 máquinas" (Vitest verme
 Falhas no caminho: o teste de números passou com "30" (os tempos do `.vtt` contavam): passou a ler só a fala e o número inteiro; título do cabeçalho com reticências em 360 px (visto no screenshot): fonte reduzida só nesta página + E2E.
 Números: Vitest 529 → 544; E2E 734 → 776 passed; `/chao-de-fabrica` JS 1,16/10 KiB, peso 111,4/150.
 Screenshots: `D:/apps/.playwright-mcp/auditoria/v08/`.
+
+### V09 — Diário de obra — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
+Leu: Contrato, V09, retomada, V08; ADR 002, 007 itens 3–4; brainstorm §4; `src/changelog/`; as 26 de vitrine.
+Feito: `/pedro` vira "Diário de obra" (cabeçalho, aba, OG, subtítulo; "Todas as entregas"); /apresentacao, /cloud, /pulse, labels, stack e /explorar sem "portfólio"/"feed". Lente "Para empresários / Para técnicos" (2 botões `aria-pressed`, `src/scripts/lente.ts`, sessionStorage com try/catch). `resumo_dono` opcional no Zod (10–220 car., linter) e preenchido nas 26 de vitrine. "Os 3 que eu mostraria numa visita": #047, #069, #078. Versão 1.11.0.
+Decisões (delegação): sem JS = leitura técnica, seletor escondido e o resumo rotulado "Para empresários:" no cartão; sem resumo, no modo empresário = título sem o prefixo `tipo(escopo):` + prova (corpo, ferramentas e skills somem); técnica é a padrão também com JS; visita = uma por frente (iot, sgi, cloud), `merged`, fora da fila V10/V11; ícone da home "Diário" (1 palavra; o link "Diário de obra" segue único); #081 resumida sem "todas as máquinas" nem "concluída" (lista da V08), #069 com o glossário "o sistema da fábrica".
+Testes antigos alterados (comentário "V09 · 2026-11-20 · ADR 007 item 3"): `pedro-feed.e2e.ts` e `voltar-regressao.e2e.ts` (H2) ("Todo o feed" → "Todo o Diário de obra"), `stack.e2e.ts` ("sem entrada no feed").
+Canários (L-0006): resumo com IPv4 fora do linter (build verde → vermelho); "30" e "todas as máquinas" no resumo da #081 (2 Vitest vermelhos); CSS da lente sem esconder o técnico (E2E vermelho). Revertidos.
+Falhas no caminho: título cortado em 360 px (E2E pegou; fonte por `data-app`); erro nos builds de fixture sem #047/#069/#078 (agora filtra; o teste garante as 3); busca de "Todo o feed" cortada por `head`: 8 E2E vermelhos na 1ª rodada.
+Números: Vitest 544 → 574; E2E 776 → 814 passed; `/pedro` JS 1,03/10 KiB, peso 29,4/150.
+Screenshots: `D:/apps/.playwright-mcp/auditoria/v09/`.

@@ -21,7 +21,7 @@ async function montar() {
   // Todas as entradas são lintadas, inclusive `pendente` e `fora`: o repositório é público.
   const termos = carregarTermosLocais();
   for (const e of entradas) {
-    const texto = [e.titulo, e.corpo, JSON.stringify(e.prova)].join("\n");
+    const texto = [e.titulo, e.corpo, JSON.stringify(e.prova), e.resumo_dono ?? ""].join("\n");
     for (const m of lintConteudo(texto, termos)) {
       erros.push(`#${String(e.numero).padStart(3, "0")}: ${m}`);
     }

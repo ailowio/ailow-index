@@ -24,9 +24,9 @@ const tipoRotulo = label.tipo === "ferramenta" ? "Ferramenta" : "Frente";
 <App
   id="pedro"
   pai="/pedro"
-  paiNome="o portfólio"
-  descricao={`${tipoRotulo} ${label.nome} no changelog de Pedro Fernandes.`}
-  tituloPagina={`${label.nome} no portfólio`}
+  paiNome="o Diário de obra"
+  descricao={`${tipoRotulo} ${label.nome} no Diário de obra de Pedro Fernandes.`}
+  tituloPagina={`${label.nome} no Diário de obra`}
   indexar={false}
 >
   <div class="pagina">
@@ -38,7 +38,7 @@ const tipoRotulo = label.tipo === "ferramenta" ? "Ferramenta" : "Frente";
         {label.total === 1 ? " PR" : " PRs"} · desde {rotuloNumero(label.desde)}
       </p>
       <ul class="links">
-        <li><a href="/pedro">Todo o feed</a></li>
+        <li><a href="/pedro">Todo o Diário de obra</a></li>
       </ul>
     </section>
     <section class="feed" aria-label={`PRs de ${label.nome}`}>

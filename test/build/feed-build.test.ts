@@ -82,3 +82,12 @@ describe("o build reprova feed inválido (canários)", () => {
     60_000,
   );
 });
+
+// V09 (2026-11-20, ADR 007 item 4): o campo novo `resumo_dono` é texto público e passa pelo mesmo linter.
+describe("o build reprova resumo_dono com termo bloqueado (canário)", () => {
+  it("cenário bloqueio-resumo-dono", () => {
+    const r = construir("bloqueio-resumo-dono");
+    expect(r.status).not.toBe(0);
+    expect(r.saida).toContain("padrão bloqueado: endereço IPv4");
+  }, 60_000);
+});

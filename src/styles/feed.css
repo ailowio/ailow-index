@@ -264,3 +264,153 @@
   font-size: var(--texto-pequeno);
   color: var(--texto-2);
 }
+
+/*
+ * V09 (ADR 007 itens 3 e 4): Diário de obra. Subtítulo, lente "Para empresários / Para técnicos" e
+ * "os 3 que eu mostraria numa visita". A lente é um atributo no .pagina (data-lente), posto pelo script;
+ * sem ele (sem JS, e nas labels) as duas leituras aparecem e o resumo leva o rótulo "Para empresários:".
+ * Nada anima.
+ */
+.diario-topo {
+  display: grid;
+  gap: var(--espaco-2);
+  min-inline-size: 0;
+}
+
+.diario-subtitulo {
+  padding-inline-start: var(--espaco-1);
+  border-inline-start: var(--traco-borda) solid var(--acento);
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+
+/* Duas metades iguais: cada rótulo pode quebrar em 2 linhas e nunca passa da caixa (360 px). */
+.lente {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--traco-fino);
+  max-inline-size: 28rem;
+  padding: var(--traco-fino);
+  background: var(--borda-ui);
+  border-radius: var(--raio-selo);
+}
+
+.lente[hidden] {
+  display: none;
+}
+
+.lente-botao {
+  min-block-size: var(--alvo);
+  min-inline-size: 0;
+  padding: 0.25rem var(--espaco-1);
+  background: var(--superficie);
+  color: var(--texto);
+  border: 0;
+  border-radius: calc(var(--raio-selo) - 0.0625rem);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.lente-botao[aria-pressed="true"] {
+  background: var(--acento);
+  color: var(--sobre-acento);
+}
+
+.pr-dono {
+  color: var(--texto);
+  max-inline-size: 60ch;
+}
+
+.pr-dono-rotulo {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}
+
+[data-lente="dono"] [data-leitura="tecnico"],
+[data-lente="tecnico"] [data-leitura="dono"],
+[data-lente="dono"] .pr-dono-rotulo {
+  display: none;
+}
+
+/* Os 3 da visita: etiqueta com a frente no topo, como a identificação de um quadro. */
+.visita {
+  display: grid;
+  gap: var(--espaco-2);
+  min-inline-size: 0;
+}
+
+.visita-criterio {
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}
+
+.visita-lista {
+  display: grid;
+  gap: var(--espaco-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.visita-item {
+  display: grid;
+  align-content: start;
+  gap: var(--espaco-1);
+  min-inline-size: 0;
+  padding: var(--espaco-2);
+  background: var(--superficie);
+  border: var(--traco-fino) solid var(--borda);
+  border-block-start: var(--traco-borda) solid var(--acento);
+  border-radius: var(--raio-card);
+}
+
+.visita-topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-1);
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+}
+
+.visita-frente {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--texto-2);
+}
+
+.visita-nome {
+  font-family: var(--fonte-corpo);
+  font-size: var(--texto-base);
+  font-weight: 600;
+  line-height: 1.3;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.visita-tecnico {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}
+
+.visita-link {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  min-block-size: var(--alvo);
+}
+
+@media (min-width: 60rem) {
+  .visita-lista {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
