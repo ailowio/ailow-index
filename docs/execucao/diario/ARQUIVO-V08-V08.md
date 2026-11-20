@@ -1,0 +1,9 @@
+### V08 — Chão de Fábrica — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
+Leu: Contrato, V08, retomada, V07; ADR 006, 007 item 5; brainstorm §5.6; colheita de IoT §5 e §7; #080, #081 e vizinhas; READMEs dos episódios na bancada (só leitura).
+Feito: `/chao-de-fabrica` com a série presa a um "cabo" (borne amarelo por episódio); #1 (10/11) e #2 (11/11) com os pacotes da V06 (`preload="none"`, pôster, `.vtt`, "Narração com voz gerada por IA"), reaproveitando CSS e script da `/na-tv`; #3 "Firmware v1.9" como relatório de campo (sintoma → hipótese → o que era → decisão → estado) só com o texto da #080. Provas: #081, #062, #076, #080. Fita "em validação" no sensor em cada máquina (#081) e na v1.9 (#080). Links no `/pedro` e na `/na-tv`; sitemap; selo em `SECOES` (home intacta). Caixa de legenda: antes do play só a dica (68 → ~36 px), 2 linhas no primeiro play. Versão 1.10.0.
+Decisões (delegação): datas = pastas da bancada (10/11 está na prova da #081; #2 = "ontem" no vídeo); `fatos` dos `site.json` seguem `[]` (ligação no `src/data`, sem mexer no pacote); sem link na home (grade de 6 e 360×640 da V02); "#3" sem vídeo e sem "em breve" (brief da bancada: "estou validando").
+Testes antigos alterados (comentário "V08 · 2026-11-20 · ADR 007 item 5"): `indexacao.test.ts` (ganha `/chao-de-fabrica/`).
+Canários (L-0006): "todas as máquinas, rodando" e "30 máquinas" (Vitest vermelho); `preload="auto"` (2 E2E vermelhos); caixa de legenda com 68 px (4 E2E vermelhos antes do CSS). Revertidos.
+Falhas no caminho: o teste de números passou com "30" (os tempos do `.vtt` contavam): passou a ler só a fala e o número inteiro; título do cabeçalho com reticências em 360 px (visto no screenshot): fonte reduzida só nesta página + E2E.
+Números: Vitest 529 → 544; E2E 734 → 776 passed; `/chao-de-fabrica` JS 1,16/10 KiB, peso 111,4/150.
+Screenshots: `D:/apps/.playwright-mcp/auditoria/v08/`.

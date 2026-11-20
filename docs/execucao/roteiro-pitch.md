@@ -12,7 +12,7 @@ Contexto do uso:
 
 Quem é o Pedro (só fatos confirmados; confira cada um nas fontes deste harness antes de usar):
 - Cargo: Produtos Digitais e Operações. Founder da Ailow, fundada em out/2025 (data única em todo material). Sócio da Copel desde 2015 (indústria de embalagens e têxtil, Fortaleza).
-- O que construiu: o SGI da Copel (sistema de gestão próprio, multiusuário, com NF-e emitida dentro dele); sensores de produção em todas as máquinas da fábrica (implantação concluída em 18/11/2026); o Ailow Cloud (ERP no celular para varejo, v1.x em produção, Projeto Final do Full Cycle entregue em 16/11/2026); fluxos e agentes de IA (n8n, Telegram).
+- O que construiu: o SGI da Copel (sistema de gestão próprio, multiusuário, com NF-e emitida dentro dele); sensores de produção na fábrica (implantação em andamento em parte das máquinas, em 18/11/2026); o Ailow Cloud (ERP no celular para varejo, v1.x em produção, Projeto Final do Full Cycle entregue em 16/11/2026); fluxos e agentes de IA (n8n, Telegram).
 - Prova pública: entrevistas UFC (2025-09), TV Record (2025-10) e TV Verdes Mares/Globo (2026-02); palestra no Sindigráfica/FIEC (2026-04).
 - Formação: Administração (UFC), MBA (FGV), IA Aplicada a Negócios (FGV). Use as datas do material deste harness (fonte única).
 
