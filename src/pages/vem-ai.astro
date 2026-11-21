@@ -1,0 +1,101 @@
+---
+import App from "../layouts/App.astro";
+import { carregarFeed } from "../changelog/carregar";
+import { ancoraPR, rotuloPR } from "../data/consultoria";
+import { CARDS, montarQuadro, TOPO } from "../data/vem-ai";
+import "../styles/vem-ai.css";
+
+// V12 (2026-11-20, ADR 007 item 5; ADR 006 item 2): o quadro Em uso · Em teste · Construindo · Próximo passo.
+// O status de cada card vem do `status_fato` da entrada publicada (carregarFeed), não do card; o build cai se um
+// card perder a fonte ou o verbo da coluna (regras e lista de bloqueios em src/data/vem-ai.ts). A luz de estado
+// segue o Pulso: cor, padrão e palavra juntos, sem vermelho nem verde. Sem JS próprio.
+const { prs } = await carregarFeed();
+const { colunas, erros } = montarQuadro(
+  CARDS,
+  prs.map((p) => ({ numero: p.numero, status_fato: p.status_fato, corpo: p.corpo })),
+  new Date(),
+);
+// Os builds de teste (test/build/) trocam o feed por fixtures sem estas entradas (AILOW_PRS_DIR): lá os cards sem
+// entrada só ficam de fora. Com o feed real, qualquer erro derruba o build; test/v12-vem-ai.test.ts cobre o mesmo.
+if (erros.length > 0 && !process.env.AILOW_PRS_DIR) {
+  throw new Error(`Quadro do Vem aí inválido:\n- ${erros.join("\n- ")}`);
+}
+---
+
+<App
+  id="vem-ai"
+  tituloPagina="Vem aí: o que uso, o que estou testando e o que estou construindo"
+  descricao="O quadro do que o Pedro usa, testa e constrói, e do próximo passo: cada cartão com o verbo certo e a prova no Diário de obra, sem data prometida."
+>
+  <div class="vem-ai">
+    <section class="vem-topo" aria-labelledby="vem-titulo">
+      <p class="sobretitulo">{TOPO.sobretitulo}</p>
+      <h2 id="vem-titulo">{TOPO.titulo}</h2>
+      <p class="tese">{TOPO.tese}</p>
+    </section>
+
+    <nav class="painel" aria-label="Colunas do quadro">
+      <ol>
+        {
+          colunas.map(({ coluna, cards }) => (
+            <li>
+              <a href={`#coluna-${coluna.status}`}>
+                <span class="luz" data-luz={coluna.luz} aria-hidden="true" />
+                <span class="painel-titulo">{coluna.titulo}</span>
+                <span class="painel-conta">{cards.length}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <div class="quadro">
+      {
+        colunas.map(({ coluna, cards }) => (
+          <section
+            class="coluna"
+            id={`coluna-${coluna.status}`}
+            data-status={coluna.status}
+            aria-labelledby={`coluna-${coluna.status}-titulo`}
+          >
+            <header class="coluna-cabeca">
+              <span class="luz" data-luz={coluna.luz} aria-hidden="true" />
+              <h2 id={`coluna-${coluna.status}-titulo`}>
+                {coluna.titulo} <span class="coluna-conta">({cards.length})</span>
+              </h2>
+              <p class="luz-palavra">{coluna.sinal}</p>
+            </header>
+            <ol class="cards">
+              {cards.map((k) => (
+                <li class="card" id={`card-${k.id}`} data-status={k.status}>
+                  <article aria-labelledby={`card-${k.id}-titulo`}>
+                    <h3 id={`card-${k.id}-titulo`}>{k.titulo}</h3>
+                    <p class="card-frase">
+                      <strong class="verbo">{coluna.verbo}</strong>
+                      {k.frase.slice(coluna.verbo.length)}
+                    </p>
+                    <p class="card-provas">
+                      <span class="provas-rotulo">Prova</span>
+                      {k.provas.map((p) =>
+                        "pr" in p ? (
+                          <a class="prova-pr" href={`/pedro/#${ancoraPR(p.pr)}`}>
+                            {rotuloPR(p.pr)}
+                          </a>
+                        ) : (
+                          <a class="prova-rota" href={p.rota}>
+                            {p.rotulo}
+                          </a>
+                        ),
+                      )}
+                    </p>
+                  </article>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</App>

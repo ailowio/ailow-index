@@ -7,16 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### V09 — Diário de obra — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
-Leu: Contrato, V09, retomada, V08; ADR 002, 007 itens 3–4; brainstorm §4; `src/changelog/`; as 26 de vitrine.
-Feito: `/pedro` vira "Diário de obra" (cabeçalho, aba, OG, subtítulo; "Todas as entregas"); /apresentacao, /cloud, /pulse, labels, stack e /explorar sem "portfólio"/"feed". Lente "Para empresários / Para técnicos" (2 botões `aria-pressed`, `src/scripts/lente.ts`, sessionStorage com try/catch). `resumo_dono` opcional no Zod (10–220 car., linter) e preenchido nas 26 de vitrine. "Os 3 que eu mostraria numa visita": #047, #069, #078. Versão 1.11.0.
-Decisões (delegação): sem JS = leitura técnica, seletor escondido e o resumo rotulado "Para empresários:" no cartão; sem resumo, no modo empresário = título sem o prefixo `tipo(escopo):` + prova (corpo, ferramentas e skills somem); técnica é a padrão também com JS; visita = uma por frente (iot, sgi, cloud), `merged`, fora da fila V10/V11; ícone da home "Diário" (1 palavra; o link "Diário de obra" segue único); #081 resumida sem "todas as máquinas" nem "concluída" (lista da V08), #069 com o glossário "o sistema da fábrica".
-Testes antigos alterados (comentário "V09 · 2026-11-20 · ADR 007 item 3"): `pedro-feed.e2e.ts` e `voltar-regressao.e2e.ts` (H2) ("Todo o feed" → "Todo o Diário de obra"), `stack.e2e.ts` ("sem entrada no feed").
-Canários (L-0006): resumo com IPv4 fora do linter (build verde → vermelho); "30" e "todas as máquinas" no resumo da #081 (2 Vitest vermelhos); CSS da lente sem esconder o técnico (E2E vermelho). Revertidos.
-Falhas no caminho: título cortado em 360 px (E2E pegou; fonte por `data-app`); erro nos builds de fixture sem #047/#069/#078 (agora filtra; o teste garante as 3); busca de "Todo o feed" cortada por `head`: 8 E2E vermelhos na 1ª rodada.
-Números: Vitest 544 → 574; E2E 776 → 814 passed; `/pedro` JS 1,03/10 KiB, peso 29,4/150.
-Screenshots: `D:/apps/.playwright-mcp/auditoria/v09/`.
-
 ### V10 — Fonte única de fatos — 2026-11-20 — Claude Sonnet 5.5 (subagente)
 Leu: Contrato, V10, retomada, V09; ADR 006 inteiro; `esquemas.ts`, `tipos.ts`; claims.csv e PLANO §4 da bancada (só leitura, salvo a coluna autorizada).
 Feito: `status_fato` opcional (uso · validado · testando · construindo · proximo) no Zod; preenchido só em 7 entradas de vitrine que o sustentam: #033, #054, #078 = uso; #032, #076, #080, #081 = testando. `npm run conferir-fatos -- <claims.csv> [--prs <pasta>]` (`scripts/conferir-fatos.ts` + `src/changelog/fatos.ts`, sem dependência): divergências, ids inexistentes, não comparáveis, consistentes e "sem fato_site" com sugestão; exit 0 com relatório, 2 em erro de leitura. Coluna `fato_site` no claims.csv (backup `claims.csv.bak-2026-11-20`, diff confirma só a coluna nova): C02 #005, C04 #020, C08 #061, C11 #059, C13 #039, C14 #062, C16 #081, C17 #047, C23 #044.
@@ -35,3 +25,13 @@ Canários (L-0006): `v11-correcoes-feed.test.ts` nasceu 17/17 vermelho antes das
 conferir-fatos: C16 divergente (construindo x testando) -> consistente; 0 divergências (1 consistente, 8 não comparáveis).
 Falhas no caminho: resumo da #081 com 221 caracteres (teste da V09 pegou); "rodando"/"aceite" no texto novo batem nas frases proibidas (reescrito); E2E do /pulse antigo exigia "todas as máquinas".
 Números: Vitest 603 → 622; E2E 814 passed (812 + 2 do /pulse relidos após a correção); versão 1.11.1.
+
+### V12 — Vem aí — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
+Leu: regras, Contrato, V12, retomada, V11; ADR 006, 007 item 5; brainstorm §5.7; COLHEITA K14; entradas com status; /pulse, /cloud; STATUS e ESTRATEGIA da bancada.
+Feito: `/vem-ai` com 4 colunas (Em uso · Em teste · Construindo · Próximo passo) e luz de estado do Pulso (acesa, meia, fita de obra, apagada: cor + padrão + palavra); painel do topo leva a cada coluna; 360 px = listas empilhadas, ≥ 72 rem = 4 lado a lado; sem JS próprio. 7 cards: #078, #033, #054 (uso); #080, #076 (testando); #081 (construindo); plataforma de monitoramento do Pulse (próximo passo, citação literal da #081). Status derivado do `status_fato` (`montarQuadro`; o build cai com o feed real). Links no `/pedro` e no `/pulse`; sitemap; selo em `SECOES`. Versão 1.12.0.
+Decisões (delegação): fora por falta de fonte pública: "A fábrica no celular" (só estratégia da bancada), Engenharia de Produtos v2 (só áudio/colheita), Ensinando IA (nenhum episódio publicado), novos módulos do Cloud; #032 (testando, bancada de jan/2026) fora do quadro. Em uso preenchido com as 3 entradas `uso` (nenhum candidato estava em uso).
+Testes antigos alterados (comentário "V12 · 2026-11-20 · ADR 007 item 5"): `indexacao.test.ts` (ganha `/vem-ai/`), `v08-chao-de-fabrica.test.ts` (SECOES = chão + vem-ai).
+Canários (L-0006): verbo errado, sem fonte, entrada sem status/inexistente/pendente, status duplicado, citação inventada, rota inexistente, 9 promessas (Vitest); card com #069 derruba o build; CSS em carrossel e sem foco (6 E2E vermelhos); rótulo do painel quebrando (E2E vermelho). Revertidos.
+Falhas no caminho: teste de Tab dava a volta na página (parar no último link); fixture builds sem as entradas (erro só com o feed real); "Construind/o" no painel em 360 px (visto no screenshot; agora E2E).
+Números: Vitest 622 → 645; E2E 814 → 852 passed; `/vem-ai` JS 0,70/2 KiB, peso 14,2/60.
+Screenshots: `D:/apps/.playwright-mcp/auditoria/v12/`.

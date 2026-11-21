@@ -23,6 +23,8 @@ const ROTAS_FIXAS = [
   "/na-tv/",
   // V08 (ADR 007 item 5): a série Chão de Fábrica, episódio por episódio.
   "/chao-de-fabrica/",
+  // V12 (ADR 007 item 5): o quadro Vem aí.
+  "/vem-ai/",
 ] as const;
 
 /** F5: o Explorador (índice + uma página por fluxo) também é público e indexável. */
