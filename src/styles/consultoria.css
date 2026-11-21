@@ -195,7 +195,8 @@
   margin-inline-start: var(--espaco-4);
 }
 
-.degrau-link {
+.degrau-link,
+.escada-setor {
   display: inline-flex;
   align-items: center;
   justify-self: start;

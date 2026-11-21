@@ -1,0 +1,77 @@
+---
+import App from "../../layouts/App.astro";
+import { INDICE, LEGENDA, NIVEIS, SETORES } from "../../data/ia-no-seu-negocio";
+import "../../styles/ia-no-seu-negocio.css";
+
+// V14 (2026-11-20, ADR 007 itens 2 e 5; brainstorm v2 §5.5 S3): IA no seu negócio, a escolha de setor.
+// Simulador estático: a escolha são links para uma página indexável por setor; sem API de IA e sem script.
+// Textos em src/data/ia-no-seu-negocio.ts, travados por test/v14-ia-no-seu-negocio.test.ts.
+---
+
+<App
+  id="ia-no-seu-negocio"
+  tituloPagina={INDICE.tituloPagina}
+  descricao={INDICE.descricao}
+>
+  <div class="ia-negocio">
+    <section class="ia-topo" aria-labelledby="ia-topo-titulo">
+      <p class="ia-sobretitulo">IA no seu negócio</p>
+      <h2 id="ia-topo-titulo">{INDICE.titulo}</h2>
+      <p class="ia-tese">{INDICE.tese}</p>
+    </section>
+
+    <nav class="ia-setores" aria-label="Setores">
+      <ol>
+        {
+          SETORES.map((s) => (
+            <li>
+              <a class="ia-setor" href={`/ia-no-seu-negocio/${s.slug}`}>
+                <span class="ia-setor-nome">{s.nome}</span>
+                <span class="ia-setor-chamada">{s.chamada}</span>
+                <span class:list={["ia-setor-fonte", `ia-fonte-${s.fonte}`]}>
+                  {s.fonte === "copel" ? "Da prática na Copel" : "Mesmo mecanismo, adaptado"}
+                </span>
+                <svg class="ia-seta" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M4 12h15M13 6l6 6-6 6"></path>
+                </svg>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <section aria-labelledby="ia-niveis-titulo">
+      <h2 id="ia-niveis-titulo">Os três níveis</h2>
+      <p class="ia-apoio">São os degraus da escada: dá para começar no primeiro e subir quando fizer sentido.</p>
+      <ol class="ia-niveis">
+        {
+          NIVEIS.map((n, i) => (
+            <li class={`ia-nivel-resumo ia-nivel-${n.id}`}>
+              <span class="ia-marca" aria-hidden="true">
+                {NIVEIS.map((_, j) => <span class:list={{ aceso: j <= i }} />)}
+              </span>
+              <p class="ia-degrau">{n.degrau}</p>
+              <h3>{n.nome}</h3>
+              <p>{n.oQue}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section aria-labelledby="ia-legenda-titulo">
+      <h2 id="ia-legenda-titulo">Como ler cada uso</h2>
+      <dl class="ia-legenda">
+        <div class="ia-legenda-fato">
+          <dt>Na prática</dt>
+          <dd>{LEGENDA.fato}</dd>
+        </div>
+        <div class="ia-legenda-sugestao">
+          <dt>Sugestão</dt>
+          <dd>{LEGENDA.sugestao}</dd>
+        </div>
+      </dl>
+    </section>
+  </div>
+</App>

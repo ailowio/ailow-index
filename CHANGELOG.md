@@ -4,6 +4,12 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.14.0] - 2026-11-20
+
+### Adicionado
+- V14 (ADR 007 itens 2 e 5): **IA no seu negócio**, um simulador estático por setor. Em `/ia-no-seu-negocio` a pessoa escolhe gráfica, têxtil, comércio ou serviço, e cada setor tem a própria página (`/ia-no-seu-negocio/grafica`, `/textil`, `/comercio`, `/servico`) com 3 usos em cada um dos 3 degraus da escada: no celular (Aprender), automação (Automatizar) e sistema (Sistema sob medida). Cada uso mostra o que o Pedro usa, na Copel ou no Cloud, com a entrada do Diário de obra ou o fluxo do Explorador que prova, e, ao lado, como o mesmo mecanismo ficaria no setor, marcado como sugestão. Gráfica e têxtil vêm direto das frentes da Copel; comércio e serviço só trazem usos cujo mecanismo já roda. Cada página termina com os dois caminhos, os cursos (`/educacao`) e a consultoria (`/consultoria`), e o WhatsApp com a origem do setor (`[ia-no-seu-negocio · gráfica]` e as demais). A escolha de setor são links: sem API de IA e sem script.
+- V14: um teste reprova uso sem entrada ou fluxo que o prove, entrada inexistente ou não confirmada, número que não está na fonte, sugestão com número, "garantido", percentual e resultado sem prova (economia, aumento, redução), com canários. As 5 rotas entram no sitemap e ganham orçamento de peso; a escada da `/consultoria` e da `/educacao` ganha o link "Ver usos de IA para o seu setor".
+
 ## [1.13.0] - 2026-11-20
 
 ### Adicionado

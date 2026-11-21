@@ -26,6 +26,12 @@ describe("indexação (F0)", () => {
       "/chao-de-fabrica/",
       // V12 · 2026-11-20 · ADR 007 item 5: /vem-ai entra (rota nova do quadro).
       "/vem-ai/",
+      // V14 · 2026-11-20 · ADR 007 item 5: IA no seu negócio entra (o índice e uma página por setor).
+      "/ia-no-seu-negocio/",
+      "/ia-no-seu-negocio/grafica/",
+      "/ia-no-seu-negocio/textil/",
+      "/ia-no-seu-negocio/comercio/",
+      "/ia-no-seu-negocio/servico/",
       "/explorar/",
       "/explorar/transcritor-de-audio/",
       "/explorar/agente-producao-teares/",
