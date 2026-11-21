@@ -24,6 +24,8 @@ describe("indexação (F0)", () => {
       "/na-tv/",
       // V08 · 2026-11-20 · ADR 007 item 5: /chao-de-fabrica entra (rota nova da série).
       "/chao-de-fabrica/",
+      // V12 · 2026-11-20 · ADR 007 item 5: /vem-ai entra (rota nova do quadro).
+      "/vem-ai/",
       "/explorar/",
       "/explorar/transcritor-de-audio/",
       "/explorar/agente-producao-teares/",

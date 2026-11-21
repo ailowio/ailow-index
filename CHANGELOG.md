@@ -4,6 +4,13 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.12.0] - 2026-11-20
+
+### Adicionado
+- V12 (ADR 007 item 5): **`/vem-ai`, o quadro Em uso · Em teste · Construindo · Próximo passo**, com a luz de estado do Pulso em cada coluna (luz acesa, meia luz, fita de obra e luz apagada: cor, padrão e palavra juntos). Sete cartões, cada um com uma frase que começa pelo verbo do estado ("Uso", "Estou testando", "Estou construindo", "O próximo passo é") e a prova no Diário de obra: o Cloud (#078), o Agente de Produção dos teares (#033) e o resumo diário de gestão (#054) em uso; a v1.9 do firmware (#080) e o coletor do Pulse (#076) em teste; a implantação dos sensores (#081) em construção; e a plataforma de monitoramento do Pulse como próximo passo. Em 360 px as colunas viram listas empilhadas, com um painel no topo que leva a cada uma; em tela larga, as 4 ficam lado a lado. Sem JavaScript próprio.
+- V12 (ADR 006): o estado de cada cartão vem da própria entrada do Diário de obra; se a entrada mudar, o cartão muda de coluna e o build reprova o verbo antigo. Um teste reprova cartão sem fonte, data futura, prazo, promessa ("em breve", "até dezembro", "lançamento") e preço (com canários).
+- V12: links para o Vem aí no Diário de obra e no `/pulse`; a rota entra no sitemap.
+
 ## [1.11.1] - 2026-11-20
 
 ### Corrigido

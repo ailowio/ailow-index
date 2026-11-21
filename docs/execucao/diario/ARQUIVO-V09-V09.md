@@ -1,0 +1,9 @@
+### V09 — Diário de obra — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
+Leu: Contrato, V09, retomada, V08; ADR 002, 007 itens 3–4; brainstorm §4; `src/changelog/`; as 26 de vitrine.
+Feito: `/pedro` vira "Diário de obra" (cabeçalho, aba, OG, subtítulo; "Todas as entregas"); /apresentacao, /cloud, /pulse, labels, stack e /explorar sem "portfólio"/"feed". Lente "Para empresários / Para técnicos" (2 botões `aria-pressed`, `src/scripts/lente.ts`, sessionStorage com try/catch). `resumo_dono` opcional no Zod (10–220 car., linter) e preenchido nas 26 de vitrine. "Os 3 que eu mostraria numa visita": #047, #069, #078. Versão 1.11.0.
+Decisões (delegação): sem JS = leitura técnica, seletor escondido e o resumo rotulado "Para empresários:" no cartão; sem resumo, no modo empresário = título sem o prefixo `tipo(escopo):` + prova (corpo, ferramentas e skills somem); técnica é a padrão também com JS; visita = uma por frente (iot, sgi, cloud), `merged`, fora da fila V10/V11; ícone da home "Diário" (1 palavra; o link "Diário de obra" segue único); #081 resumida sem "todas as máquinas" nem "concluída" (lista da V08), #069 com o glossário "o sistema da fábrica".
+Testes antigos alterados (comentário "V09 · 2026-11-20 · ADR 007 item 3"): `pedro-feed.e2e.ts` e `voltar-regressao.e2e.ts` (H2) ("Todo o feed" → "Todo o Diário de obra"), `stack.e2e.ts` ("sem entrada no feed").
+Canários (L-0006): resumo com IPv4 fora do linter (build verde → vermelho); "30" e "todas as máquinas" no resumo da #081 (2 Vitest vermelhos); CSS da lente sem esconder o técnico (E2E vermelho). Revertidos.
+Falhas no caminho: título cortado em 360 px (E2E pegou; fonte por `data-app`); erro nos builds de fixture sem #047/#069/#078 (agora filtra; o teste garante as 3); busca de "Todo o feed" cortada por `head`: 8 E2E vermelhos na 1ª rodada.
+Números: Vitest 544 → 574; E2E 776 → 814 passed; `/pedro` JS 1,03/10 KiB, peso 29,4/150.
+Screenshots: `D:/apps/.playwright-mcp/auditoria/v09/`.

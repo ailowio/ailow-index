@@ -94,6 +94,15 @@ export const SECOES: readonly AppDoSite[] = [
     titulo: "Chão de Fábrica",
     glifo: '<rect x="4" y="2.5" width="16" height="19"/><path d="M4 12h4l2-4 3 8 2-4h5"/>',
   },
+  {
+    // V12 (ADR 007 item 5): o quadro Vem aí. Chega pelo Diário de obra e pelo /pulse; a home não muda.
+    // O glifo é a torre de luz (andon): três lâmpadas empilhadas sobre a base.
+    id: "vem-ai",
+    rotulo: "Vem aí",
+    rota: "/vem-ai",
+    titulo: "Vem aí",
+    glifo: '<rect x="8" y="2.5" width="8" height="5"/><rect x="8" y="7.5" width="8" height="5"/><rect x="8" y="12.5" width="8" height="5"/><path d="M12 17.5v3M6 21h12"/>',
+  },
 ];
 
 export const appPorId = (id: string): AppDoSite => {
