@@ -32,6 +32,9 @@ describe("indexação (F0)", () => {
       "/explorar/gateway-producao-teares/",
       "/explorar/pcp-no-asana/",
       "/explorar/lina-atendimento-whatsapp/",
+      // V13 · 2026-11-20 · ADR 007 item 5 e ADR 008 (revisão das fotos estáticas): as 2 fotos do Explorador entram.
+      "/explorar/quadro-de-comando/",
+      "/explorar/caixa-do-gateway/",
     ]);
     for (const r of ROTAS_INDEXAVEIS) {
       expect(r).not.toMatch(/versoes|label|bio|cart/);

@@ -13,7 +13,9 @@
     "/educacao": { "jsGzKB": 10, "pesoGzKB": 150 },
     "/na-tv": { "jsGzKB": 10, "pesoGzKB": 150 },
     "/chao-de-fabrica": { "jsGzKB": 10, "pesoGzKB": 150 },
-    "/vem-ai": { "jsGzKB": 2, "pesoGzKB": 60 }
+    "/vem-ai": { "jsGzKB": 2, "pesoGzKB": 60 },
+    "/explorar/quadro-de-comando": { "jsGzKB": 2, "pesoGzKB": 100 },
+    "/explorar/caixa-do-gateway": { "jsGzKB": 2, "pesoGzKB": 100 }
   },
   "notas": [
     "Numeros de / , /apresentacao, /cartao e /pedro/entrevistas vem do ADR 003 (aprovados pelo Pedro em 2026-11-18); JS 10 KB por pagina e 20 KB no cartao tambem.",
@@ -23,6 +25,7 @@
     "V02: /consultoria e /educacao (paginas de oferta, ADR 007) entram com JS 10 e peso 150, como as demais paginas de conteudo; a home segue em JS 10 / peso 60 com o fundo de pulso.",
     "V07: /pedro/entrevistas virou 301 para /na-tv e saiu da tabela (os 400 KiB do ADR 003 eram para as fotos, que nao entram na /na-tv por terem marca de emissora). /na-tv entra com JS 10 e peso 150; o poster do <video> passa a contar no peso (o mp4 e o .vtt continuam fora).",
     "V08: /chao-de-fabrica entra com JS 10 e peso 150, como as demais paginas de conteudo (2 posteres de video contam).",
-    "V12: /vem-ai entra com JS 2 e peso 60 (a pagina nao tem script proprio nem imagem; so os scripts inline do layout, tema e seta, contam no JS)."
+    "V12: /vem-ai entra com JS 2 e peso 60 (a pagina nao tem script proprio nem imagem; so os scripts inline do layout, tema e seta, contam no JS).",
+    "V13: as 2 fotos do Explorador entram com JS 2 e peso 100 (medido: JS 1,18 KiB; peso 76,8 e 78,7 KiB, quase tudo a foto WebP de ate 80 KB, teto do ADR 008). Foto nova acima disso precisa de orcamento proprio."
   ]
 }

@@ -52,3 +52,11 @@ Contraponto registrado: sem git na bancada, não há histórico do pacote do lad
 - **Riscos e mitigação:** pacote com dado em tela (CNPJ, valor, IP) → linter no texto + revisão humana do vídeo na bancada (o linter não vê a imagem: **limite declarado**).
 - **Como saberemos que deu certo:** V05: canário (pacote com vídeo > 8 MB ou sem `.vtt`) é recusado; teste de deriva reprova token mudado.
 - **Revisão em:** depois da V06.
+
+## Revisão em 2026-11-20 (V13): fotos estáticas do Explorador
+
+- **Decisão (orquestrador, por delegação do Pedro de 2026-11-18 e 2026-11-20):** o pacote do item 1 é de vídeo. As fotos estáticas do Explorador (`/explorar/<slug>`, modo foto) **não** passam pelo `importar-midia`: entram por **PR com revisão quadro a quadro**. Cada foto é um quadro de vídeo do acervo da bancada (só leitura), extraído com ffmpeg numa pasta temporária, recortado para tirar qualquer dado, com marcas de fabricante borradas quando legíveis, e revisada uma a uma pelo agente (sem rosto de terceiros, cliente, placa, tela com dado, número de série, IP). O PR registra, por foto, a origem (id do catálogo e instante), o texto alternativo e o que foi recortado ou borrado.
+- **Tetos e lista de permissões (verificados por teste, `test/v13-fotos.test.ts`, com canário):** só `public/explorar/fotos/<slug>.webp`; cada arquivo ≤ 80 KB (o teto do pôster, `TETOS.posterBytes`), WebP de verdade (cabeçalho lido), referenciado por um `src/data/fotos/<slug>.json` (schema Zod estrito, `src/fotos/esquema.ts`) com largura e altura iguais às do arquivo; arquivo órfão, extensão fora da lista ou referência ausente reprovam o build.
+- **Primeiras fotos:** V156 (quadro de comando, #047) e V385 (caixa de sensores do piloto, #081).
+- **Limite declarado:** como no vídeo, o teste não vê a imagem; a revisão visual é do PR. Se as fotos passarem de poucas, revisitar: um pacote `final/site/<slug>/` com `foto.webp` e `site.json` aprovado na bancada, como o de vídeo.
+- **Contraponto:** a foto não tem `aprovado_por` da bancada; a evidência de aprovação é o PR (AUD-20). Se o Pedro quiser vetar uma foto, basta remover o JSON e o WebP no mesmo PR (o teste de órfão garante que não sobra arquivo).

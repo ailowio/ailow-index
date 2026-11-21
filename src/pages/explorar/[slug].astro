@@ -1,39 +1,83 @@
 ---
 import Fluxo from "../../components/Fluxo.astro";
+import Foto from "../../components/Foto.astro";
 import App from "../../layouts/App.astro";
 import { carregarFluxos } from "../../fluxos/carregar";
 import type { Fluxo as TipoFluxo } from "../../fluxos/esquema";
+import { carregarFotos } from "../../fotos/carregar";
+import type { Foto as TipoFoto } from "../../fotos/esquema";
 import "../../styles/explorar.css";
 
+// F5: uma página por fluxo do n8n. V13: o Explorador ganha o modo foto, no mesmo /explorar/<slug>
+// (test/v13-fotos.test.ts garante que os slugs não colidem).
 export function getStaticPaths() {
-  return carregarFluxos().map((fluxo) => ({ params: { slug: fluxo.slug }, props: { fluxo } }));
+  return [
+    ...carregarFluxos().map((fluxo) => ({ params: { slug: fluxo.slug }, props: { fluxo } })),
+    ...carregarFotos().map((foto) => ({ params: { slug: foto.slug }, props: { foto } })),
+  ];
 }
 
-const { fluxo } = Astro.props as { fluxo: TipoFluxo };
-const numero = String(fluxo.pr).padStart(3, "0");
-const ligacoesIa = fluxo.ligacoes.filter((l) => l.tipo === "ia").length;
+const { fluxo, foto } = Astro.props as { fluxo?: TipoFluxo; foto?: TipoFoto };
+const n3 = (n: number) => String(n).padStart(3, "0");
+const ligacoesIa = fluxo ? fluxo.ligacoes.filter((l) => l.tipo === "ia").length : 0;
+const dataFoto = foto
+  ? new Date(`${foto.data}T12:00:00Z`).toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })
+  : "";
 ---
 
-<App id="pedro" pai="/explorar" paiNome="os fluxos" tituloPagina={fluxo.titulo} descricao={fluxo.resumo}>
-  <div class="explorar">
-    <section class="cabeca" aria-labelledby="fluxo-titulo">
-      <h2 id="fluxo-titulo">{fluxo.titulo}</h2>
-      <p class="meta">
-        <span class="estado-fluxo">{fluxo.estado === "ativo" ? "em uso" : "desligado"}</span>
-        <span>desde {fluxo.criado}</span>
-        <span>{fluxo.nos.length} passos</span>
-        {ligacoesIa > 0 && <span>{ligacoesIa} ligações de IA</span>}
-      </p>
-      <p class="resumo">{fluxo.resumo}</p>
-      <p class="historia">{fluxo.historia}</p>
-      <p><a href={`/pedro#pr-${numero}`}>Entrada #{numero} no diário de obra</a></p>
-    </section>
+{
+  fluxo && (
+    <App id="pedro" pai="/explorar" paiNome="os fluxos" tituloPagina={fluxo.titulo} descricao={fluxo.resumo}>
+      <div class="explorar">
+        <section class="cabeca" aria-labelledby="fluxo-titulo">
+          <h2 id="fluxo-titulo">{fluxo.titulo}</h2>
+          <p class="meta">
+            <span class="estado-fluxo">{fluxo.estado === "ativo" ? "em uso" : "desligado"}</span>
+            <span>desde {fluxo.criado}</span>
+            <span>{fluxo.nos.length} passos</span>
+            {ligacoesIa > 0 && <span>{ligacoesIa} ligações de IA</span>}
+          </p>
+          <p class="resumo">{fluxo.resumo}</p>
+          <p class="historia">{fluxo.historia}</p>
+          <p>
+            <a href={`/pedro#pr-${n3(fluxo.pr)}`}>Entrada #{n3(fluxo.pr)} no diário de obra</a>
+          </p>
+        </section>
 
-    <Fluxo fluxo={fluxo} />
+        <Fluxo fluxo={fluxo} />
 
-    <p class="credito">
-      Reproduzido do fluxo original no n8n: a posição e as ligações de cada passo são as do editor. Rótulos revisados;
-      nenhum dado, credencial ou endereço do fluxo aparece aqui.
-    </p>
-  </div>
-</App>
+        <p class="credito">
+          Reproduzido do fluxo original no n8n: a posição e as ligações de cada passo são as do editor. Rótulos
+          revisados; nenhum dado, credencial ou endereço do fluxo aparece aqui.
+        </p>
+      </div>
+    </App>
+  )
+}
+{
+  foto && (
+    <App id="pedro" pai="/explorar" paiNome="o Explorador" tituloPagina={foto.titulo} descricao={foto.resumo}>
+      <div class="explorar explorar-foto">
+        <section class="cabeca" aria-labelledby="foto-titulo">
+          <h2 id="foto-titulo">{foto.titulo}</h2>
+          <p class="meta">
+            <span class="estado-fluxo">foto do chão de fábrica</span>
+            <span>{dataFoto}</span>
+            <span>{foto.pontos.length} pontos</span>
+          </p>
+          <p class="resumo">{foto.resumo}</p>
+          <p class="historia">{foto.historia}</p>
+          <p class="entradas">
+            {[foto.pr, ...foto.fatos.filter((n) => n !== foto.pr)].map((n) => (
+              <a href={`/pedro#pr-${n3(n)}`}>Entrada #{n3(n)} no diário de obra</a>
+            ))}
+          </p>
+        </section>
+
+        <Foto foto={foto} />
+
+        <p class="credito">{foto.credito} Revisada uma a uma antes de entrar: sem pessoas, telas ou números de série.</p>
+      </div>
+    </App>
+  )
+}

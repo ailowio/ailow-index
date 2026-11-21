@@ -4,6 +4,15 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.13.0] - 2026-11-20
+
+### Adicionado
+- V13: **o Explorador ganha o modo foto.** Duas fotos do chão de fábrica com pontos para tocar: o quadro de comando de um tear antigo, com a parada de emergência e a botoeira (#047), e uma caixa de sensores do piloto, com fonte, proteção, gateway e as entradas dos sensores (#081). Tocar num ponto (ou Enter no teclado) abre o painel com o que é, em linguagem simples, e o detalhe técnico por baixo; Esc fecha e devolve o foco. "Ver como lista" mostra todos os pontos, também sem JavaScript. Os pontos nunca saem da imagem, nem no celular, e o painel não cobre o ponto escolhido.
+- V13: as fotos são quadros de vídeos gravados na fábrica e na bancada, recortadas e revisadas uma a uma (sem pessoas, telas ou números de série; marcas de fabricantes borradas), em WebP de até 80 KB. As páginas `/explorar/quadro-de-comando` e `/explorar/caixa-do-gateway` entram no sitemap e no índice do `/explorar`, ao lado dos fluxos.
+
+### Alterado
+- V13 (ADR 008, revisão de 2026-11-20): foto estática entra por PR com revisão quadro a quadro; um teste reprova foto acima de 80 KB, arquivo fora de `public/explorar/fotos/`, foto sem referência e referência sem arquivo.
+
 ## [1.12.0] - 2026-11-20
 
 ### Adicionado

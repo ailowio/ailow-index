@@ -5,6 +5,7 @@
  * Um E2E confere que as páginas sem noindex do dist são exatamente esta lista.
  */
 import { carregarFluxos } from "../fluxos/carregar";
+import { carregarFotos } from "../fotos/carregar";
 import { SITE } from "./site";
 
 const ROTAS_FIXAS = [
@@ -27,11 +28,12 @@ const ROTAS_FIXAS = [
   "/vem-ai/",
 ] as const;
 
-/** F5: o Explorador (índice + uma página por fluxo) também é público e indexável. */
+/** F5: o Explorador (índice + uma página por fluxo) também é público e indexável. V13: + uma página por foto. */
 export const ROTAS_INDEXAVEIS: readonly string[] = [
   ...ROTAS_FIXAS,
   "/explorar/",
   ...carregarFluxos().map((f) => `/explorar/${f.slug}/`),
+  ...carregarFotos().map((f) => `/explorar/${f.slug}/`),
 ];
 
 /** URL absoluta no domínio do site, sempre com barra final (o build gera diretórios). */
