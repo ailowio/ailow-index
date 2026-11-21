@@ -1,0 +1,72 @@
+---
+/**
+ * Explorador no modo foto (V13, 2026-11-20). A foto é um quadro de vídeo do acervo, recortado e revisado (ADR 008,
+ * revisão das fotos estáticas). Cada ponto é um <button> posicionado em % sobre a imagem (clamp: nunca sai dela).
+ * JS pequeno só para: tocar/Enter num ponto abre o painel (o mesmo do fluxo); Esc ou Fechar devolvem o foco.
+ * Sem JS: "Ver como lista" tem todos os pontos, com o que é e o detalhe técnico (também para leitor de tela).
+ */
+import type { Foto } from "../fotos/esquema";
+import "../styles/explorar.css";
+
+interface Props {
+  foto: Foto;
+}
+
+const { foto } = Astro.props;
+const proporcao = (foto.imagem.largura / foto.imagem.altura).toFixed(4);
+
+const script = `(function(){var r=document.querySelector("[data-foto]");if(!r)return;var p=r.querySelector(".painel-no"),c=r.closest(".conteudo"),a=null;function L(b){if(b){b.setAttribute("aria-expanded","false");b.classList.remove("ativo")}}function F(){var b=a;L(a);a=null;p.hidden=true;r.classList.remove("aberto");return b}function A(b){if(a!==b)L(a);a=b;b.setAttribute("aria-expanded","true");b.classList.add("ativo");p.querySelector("h3").textContent=b.dataset.rotulo;p.querySelector(".oqf").textContent=b.dataset.oqe;p.querySelector(".tec span").textContent=b.dataset.det;p.hidden=false;r.classList.add("aberto");var q=b.getBoundingClientRect(),t=p.getBoundingClientRect();if(c&&q.right>t.left&&q.bottom>t.top-8)c.scrollTop+=q.bottom-t.top+16}r.querySelectorAll(".ponto").forEach(function(b){b.addEventListener("click",function(){A(b)})});addEventListener("keydown",function(e){if(e.key==="Escape"&&!p.hidden){var b=F();if(b)b.focus()}});p.querySelector("[data-fechar]").addEventListener("click",function(){var b=F();if(b)b.focus()})})()`;
+---
+
+<div class="explorador-foto" data-foto>
+  <figure class="foto-quadro" style={`--proporcao:${proporcao}`}>
+    <img
+      src={foto.imagem.arquivo}
+      width={foto.imagem.largura}
+      height={foto.imagem.altura}
+      alt={foto.alt}
+      decoding="async"
+      fetchpriority="high"
+    />
+    {
+      foto.pontos.map((p, i) => (
+        <button
+          type="button"
+          class="ponto"
+          style={`--x:${p.x}%;--y:${p.y}%`}
+          aria-label={`${i + 1}. ${p.rotulo}`}
+          aria-expanded="false"
+          aria-controls={`painel-${foto.slug}`}
+          data-rotulo={p.rotulo}
+          data-oqe={p.oQueE}
+          data-det={p.detalhe}
+        >
+          <span class="num">{i + 1}</span>
+        </button>
+      ))
+    }
+  </figure>
+
+  <aside class="painel-no" id={`painel-${foto.slug}`} hidden aria-live="polite">
+    <h3></h3>
+    <p class="oqf"></p>
+    <p class="tec"><strong>Detalhe técnico:</strong> <span></span></p>
+    <button type="button" class="fechar" data-fechar aria-label="Fechar">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </button>
+  </aside>
+
+  <details class="lista-nos">
+    <summary>Ver como lista ({foto.pontos.length} pontos)</summary>
+    <ol>
+      {
+        foto.pontos.map((p) => (
+          <li>
+            <strong>{p.rotulo}</strong>: {p.oQueE} <span class="cat">Detalhe técnico: {p.detalhe}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </details>
+</div>
+<script is:inline set:html={script} />

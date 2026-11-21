@@ -1,17 +1,20 @@
 ---
 import App from "../../layouts/App.astro";
 import { carregarFluxos } from "../../fluxos/carregar";
+import { carregarFotos } from "../../fotos/carregar";
 import "../../styles/explorar.css";
 
 const fluxos = carregarFluxos();
+// V13: o modo foto do Explorador, listado ao lado dos fluxos.
+const fotos = carregarFotos();
 ---
 
 <App
   id="pedro"
   pai="/pedro"
   paiNome="o Diário de obra"
-  tituloPagina="Fluxos do n8n"
-  descricao="Cinco fluxos reais do n8n de Pedro Fernandes, para explorar nó por nó: do transcritor de áudio à agente de atendimento no WhatsApp."
+  tituloPagina="Explorador: fluxos do n8n e fotos da fábrica"
+  descricao="Cinco fluxos reais do n8n de Pedro Fernandes, para explorar nó por nó, e duas fotos do chão de fábrica com pontos para tocar: o quadro de comando de um tear e uma caixa de sensores."
 >
   <div class="explorar">
     <section class="cabeca" aria-labelledby="explorar-titulo">
@@ -39,5 +42,28 @@ const fluxos = carregarFluxos();
     <p class="credito">
       Feito no n8n. Rótulos revisados; nenhum dado, credencial ou endereço dos fluxos originais aparece aqui.
     </p>
+
+    <section class="cabeca" aria-labelledby="fotos-titulo">
+      <h2 id="fotos-titulo">Fotos do chão de fábrica</h2>
+      <p class="resumo">
+        O que fica dentro da caixa e do quadro, peça por peça: toque em cada ponto da foto para ver o que é, em
+        linguagem simples, com o detalhe técnico por baixo.
+      </p>
+    </section>
+    <ul class="lista-fotos">
+      {
+        fotos.map((f) => (
+          <li>
+            <a class="cartao-foto" href={`/explorar/${f.slug}/`}>
+              <strong>{f.titulo}</strong>
+              <span class="meta">
+                {f.pontos.length} pontos · {f.data.slice(0, 7)} · entrada #{String(f.pr).padStart(3, "0")}
+              </span>
+              <span>{f.resumo}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </App>

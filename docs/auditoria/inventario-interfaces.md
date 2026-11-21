@@ -32,7 +32,7 @@
 | I-13 | tetos de peso, cabeçalho do arquivo, `.vtt` obrigatório com vídeo, pôster obrigatório | sim com `--substituir` (sem ele, slug existente é recusado) | schema Zod estrito, lista de extensões, linter de conteúdo (`site.json` e legendas) | pacote recusado inteiro, nada copiado, exit 1 com a lista de erros | o PR de importação mostra os arquivos que entraram | **PR de importação** (evidência, AUD-20) + saída do comando |
 
 ## Transformações e mapeamento de campos (AUD-61)
-I-13 não transforma o conteúdo: copia byte a byte os arquivos aprovados (o teste compara os bytes). Os tokens do Pulso têm mapeamento próprio (`src/styles/pulso-deriva.ts`, `MAPA`). Nenhuma outra interface transforma dados de negócio. O build gera `dist/` e `/pedro/feed.json` a partir dos `.md` de `src/content/prs/`.
+V13 (2026-11-20, ADR 008, revisão "fotos estáticas"): as fotos do Explorador são um caminho manual da mesma I-13, sem o importador: quadro extraído do acervo, recortado e revisado, entra por PR em `public/explorar/fotos/` (≤ 80 KB, lista de permissões em `test/v13-fotos.test.ts`); a evidência é o PR. I-13 não transforma o conteúdo: copia byte a byte os arquivos aprovados (o teste compara os bytes). Os tokens do Pulso têm mapeamento próprio (`src/styles/pulso-deriva.ts`, `MAPA`). Nenhuma outra interface transforma dados de negócio. O build gera `dist/` e `/pedro/feed.json` a partir dos `.md` de `src/content/prs/`.
 
 ## Fornecedor / terceiro (AUD-68)
 | Terceiro | Contrato/SLA | Onde ficam os dados | Atestado de segurança · validade | Plano de saída | Última reavaliação |

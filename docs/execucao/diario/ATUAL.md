@@ -7,15 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### V10 — Fonte única de fatos — 2026-11-20 — Claude Sonnet 5.5 (subagente)
-Leu: Contrato, V10, retomada, V09; ADR 006 inteiro; `esquemas.ts`, `tipos.ts`; claims.csv e PLANO §4 da bancada (só leitura, salvo a coluna autorizada).
-Feito: `status_fato` opcional (uso · validado · testando · construindo · proximo) no Zod; preenchido só em 7 entradas de vitrine que o sustentam: #033, #054, #078 = uso; #032, #076, #080, #081 = testando. `npm run conferir-fatos -- <claims.csv> [--prs <pasta>]` (`scripts/conferir-fatos.ts` + `src/changelog/fatos.ts`, sem dependência): divergências, ids inexistentes, não comparáveis, consistentes e "sem fato_site" com sugestão; exit 0 com relatório, 2 em erro de leitura. Coluna `fato_site` no claims.csv (backup `claims.csv.bak-2026-11-20`, diff confirma só a coluna nova): C02 #005, C04 #020, C08 #061, C11 #059, C13 #039, C14 #062, C16 #081, C17 #047, C23 #044.
-Resultado: divergente por script = C16 -> #081 (construindo x testando). C04 e C11 não são comparáveis pelo script (#020 e #059 fora da vitrine, sem `status_fato`); leitura manual: C11 diverge (claim "testando", #059 "em uso" segundo o Pedro); C04 bate na data, diverge na origem (template Lovable x planilha). Relatório local em `docs/execucao/v2/`.
-Decisões (delegação): "Em implantação" = alias de construindo (não está no PLANO §4); #081 = testando (o site já a mostra "em validação"; o corpo ainda diz "concluída", V11); #069 e #079 sem status (a entrada não diz se está em uso); #059 e #020 não preenchidas (fora do escopo de vitrine); sem bump de versão (ferramenta interna, nada visível).
-Canários (L-0006): trocar `=== esperado` por "qualquer status" deixou 4 Vitest vermelhos (revertido); fixture sintético tem divergência (K02) e id inexistente (K03).
-Números: Vitest 574 → 603; E2E ver PR.
-Para a V11: C16/#081, C11/#059 (preencher `status_fato: uso` ou corrigir o claim), C04/#020, C05 (#053 x #072 desfeita); C09, C12, C20 sem entrada óbvia.
-
 ### V11 — Correções do feed (IoT) — 2026-11-20 — Claude Sonnet 5.5 (subagente)
 Leu: regras do subagente, Contrato, V11, retomada, V10; colheita de IoT §3, §6, §7 e COLHEITA X7-X10; #056, #063, #080, #081.
 Decisão (ok do orquestrador por delegação do Pedro, 2026-11-20): corrigir só para mais preciso ou mais fraco, com a prova (arquivo:linha de IOT-COLHEITA.md) no campo `prova`.
@@ -35,3 +26,13 @@ Canários (L-0006): verbo errado, sem fonte, entrada sem status/inexistente/pend
 Falhas no caminho: teste de Tab dava a volta na página (parar no último link); fixture builds sem as entradas (erro só com o feed real); "Construind/o" no painel em 360 px (visto no screenshot; agora E2E).
 Números: Vitest 622 → 645; E2E 814 → 852 passed; `/vem-ai` JS 0,70/2 KiB, peso 14,2/60.
 Screenshots: `D:/apps/.playwright-mcp/auditoria/v12/`.
+
+### V13 — Explorador de fotos — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
+Leu: regras, Contrato, V13, retomada, V12; ADR 008; brainstorm §5.3; Explorador (Fluxo.astro, explorar.css, e2e); catálogo da bancada (quadro, gateway, sensoriza), PLANO da série §3 e §9 e claims C14, C16, C17 (só leitura).
+Feito: modo foto em `/explorar/<slug>` (`Foto.astro`, `src/fotos/`, `src/data/fotos/*.json`): pontos `<button>` por % com clamp, painel do fluxo (o que é + detalhe técnico), Esc devolve o foco, "Ver como lista", pulso com movimento reduzido. Fotos: V156 t=0,5 s (botoeira e quadro do tear, #047; recorte tira caixa de papelão) e V385 t=3 s (caixa de sensores do piloto, #081; marcas DR, disjuntor, gateway e cabo borradas), WebP 720 px, 62,8 e 64,5 KB, sem metadados. Índice do /explorar ganha "Fotos do chão de fábrica"; sitemap. ADR 008 ganha a revisão "fotos estáticas" (PR + teto 80 KB + lista de permissões de pasta). Versão 1.13.0.
+Decisões (delegação): V149–V153 fora (gate 7 do PLANO da série: só depois de D6); quadro = V156 (C17 cita V146–V156 como prova da #047); caixa = V385 (C16 cita V384–V435, caixas do piloto); V442 fora (etiqueta com código de barras); antena sem ponto (função não confirmada); nada de "conforme NR".
+Testes antigos alterados: `indexacao.test.ts` (+2 rotas, comentário V13 · ADR 007 item 5 e ADR 008).
+Canários (L-0006): foto de 156 KB (2 Vitest vermelhos); clamp tirado + ponto em x=99 (E2E "sai da imagem" vermelho; com clamp, verde); sem a rolagem do ponto (2 vermelhos "painel cobre"); sem a regra de movimento reduzido (2 vermelhos); revertidos. Canários permanentes de pasta, WebP, esquema e conformidade.
+Números: Vitest 645 → 662; E2E 852 → 902 passed; fotos JS 1,18/2 KiB, peso 76,8 e 78,7/100 KiB.
+Pendência: a #047 diz 25/05; o vídeo do acervo (V156) é de 14/05 (a página diz só a data do vídeo).
+Screenshots: `D:/apps/.playwright-mcp/auditoria/v13/`.

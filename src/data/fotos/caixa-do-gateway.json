@@ -1,0 +1,63 @@
+{
+  "slug": "caixa-do-gateway",
+  "titulo": "Caixa de sensores do piloto",
+  "pr": 81,
+  "fatos": [47, 62, 76, 81],
+  "data": "2026-08-31",
+  "origem": { "catalogo": "V385", "segundo": 3 },
+  "imagem": { "arquivo": "/explorar/fotos/caixa-do-gateway.webp", "largura": 720, "altura": 960 },
+  "alt": "Caixa plástica cinza aberta, vista de cima. No alto, uma fonte de metal perfurado; à esquerda, dois dispositivos de proteção com alavancas vermelha e laranja; no meio, um gateway branco com antena preta; fios vermelhos, pretos, laranja, amarelos e roxos amarrados com abraçadeiras.",
+  "resumo": "Por dentro de uma caixa de sensores do piloto que recomeçou do zero depois do primeiro teste. Toque em cada ponto para ver o que faz cada parte.",
+  "historia": "Quadro de vídeo gravado na bancada em 31 de agosto de 2026, três dias depois de o primeiro teste de sensores ser desmontado (#062): o piloto seguinte foi montado do zero. A implantação das caixas na fábrica está em andamento, em parte das máquinas (#081). As marcas dos fabricantes foram borradas na imagem.",
+  "credito": "Quadro de um vídeo gravado por Pedro Fernandes em 31 de agosto de 2026, recortado para o site; marcas de fabricantes borradas.",
+  "pontos": [
+    {
+      "id": "p1",
+      "rotulo": "Fonte",
+      "oQueE": "Pega a energia da tomada e entrega a tensão baixa e contínua que os aparelhos da caixa usam.",
+      "detalhe": "Fonte chaveada, numa caixa de metal perfurado para ventilar; alimenta os aparelhos de corrente contínua da caixa.",
+      "x": 61.1,
+      "y": 13.5
+    },
+    {
+      "id": "p2",
+      "rotulo": "Proteção",
+      "oQueE": "Os dois dispositivos da esquerda desligam a caixa sozinhos se algo der errado: curto, sobrecarga ou fuga de corrente.",
+      "detalhe": "Um interruptor diferencial (DR, a alavanca vermelha, com botão de teste) e um minidisjuntor (a alavanca laranja), montados no trilho.",
+      "x": 33.3,
+      "y": 31.3
+    },
+    {
+      "id": "p3",
+      "rotulo": "Barra de distribuição",
+      "oQueE": "Uma barra de metal com vários parafusos: dela saem, de um ponto só, os fios que precisam da mesma ligação.",
+      "detalhe": "Barramento com cada fio preso por terminal prensado (as pontas vermelhas), sem fio desencapado solto.",
+      "x": 66.4,
+      "y": 34.4
+    },
+    {
+      "id": "p4",
+      "rotulo": "Fiação amarrada",
+      "oQueE": "Os fios correm em feixes, amarrados com abraçadeiras e separados por cor, para dar manutenção sem adivinhar.",
+      "detalhe": "Fiação organizada e identificada: a mesma lição do quadro de comando (#047), aplicada à caixa de sensores.",
+      "x": 91,
+      "y": 39.6
+    },
+    {
+      "id": "p5",
+      "rotulo": "Gateway",
+      "oQueE": "O cérebro da caixa: lê os sinais que chegam das máquinas e manda os dados pela rede para o servidor.",
+      "detalhe": "Gateway com entradas e saídas digitais. No servidor, um coletor grava as mensagens dos gateways num banco de dados; o coletor está em teste (#076).",
+      "x": 58.3,
+      "y": 62.5
+    },
+    {
+      "id": "p6",
+      "rotulo": "Entradas dos sensores",
+      "oQueE": "Os fios amarelos e laranja chegam às entradas do gateway: cada entrada é um canal, e cada canal corresponde a uma máquina.",
+      "detalhe": "O mapa de cada canal para a sua máquina está em conferência; a implantação está em andamento, em parte das máquinas (#081).",
+      "x": 68.8,
+      "y": 76
+    }
+  ]
+}

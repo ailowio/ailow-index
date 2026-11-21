@@ -1,0 +1,55 @@
+{
+  "slug": "quadro-de-comando",
+  "titulo": "Quadro de comando de um tear antigo",
+  "pr": 47,
+  "fatos": [47],
+  "data": "2026-05-14",
+  "origem": { "catalogo": "V156", "segundo": 0.5 },
+  "imagem": { "arquivo": "/explorar/fotos/quadro-de-comando.webp", "largura": 720, "altura": 900 },
+  "alt": "Tear de fitas antigo, com fitas cor-de-rosa passando pelos rolos. À frente, uma botoeira preta com o botão vermelho de parada de emergência sobre fundo amarelo e quatro botões coloridos; à direita, a lateral cinza do quadro de comando, com uma manopla vermelha e amarela.",
+  "resumo": "Antes de medir, proteger: a botoeira e o quadro de comando de uma máquina antiga da fábrica, depois da reorganização. Toque em cada ponto para ver o que é.",
+  "historia": "Quadro de vídeo gravado na fábrica em 14 de maio de 2026. A entrada #047 do Diário de obra conta a intervenção: o ponto de partida era fiação sem padrão, botoeira falhando e manutenção baseada na memória do operador; o painel foi reorganizado, a fiação identificada, os componentes revisados e a parada de emergência ficou ao alcance, seguindo os princípios das NR-10 e NR-12. Não é laudo nem certificação.",
+  "credito": "Quadro de um vídeo gravado por Pedro Fernandes em 14 de maio de 2026, recortado para o site.",
+  "pontos": [
+    {
+      "id": "p1",
+      "rotulo": "O tear",
+      "oQueE": "A máquina: um tear de fitas antigo, em produção. As fitas cor-de-rosa são o tecido saindo.",
+      "detalhe": "Máquina antiga e produtiva é o caso típico de modernização: primeiro a segurança elétrica e mecânica, depois a confiabilidade do quadro, só então sensores e automação (#047).",
+      "x": 41.7,
+      "y": 17.8
+    },
+    {
+      "id": "p2",
+      "rotulo": "Parada de emergência",
+      "oQueE": "O botão vermelho grande: um toque e a máquina para. Fica na frente de quem opera, ao alcance da mão.",
+      "detalhe": "Botão do tipo cogumelo, vermelho sobre fundo amarelo, o padrão de cor da parada de emergência. Na intervenção ele foi reposicionado para ficar acessível (#047).",
+      "x": 59.4,
+      "y": 63.9
+    },
+    {
+      "id": "p3",
+      "rotulo": "Botoeira",
+      "oQueE": "Os botões de comando da máquina, reunidos num painel só, na frente do tear.",
+      "detalhe": "No ponto de partida a botoeira falhava; na intervenção os componentes foram revisados e substituídos (#047).",
+      "x": 54.9,
+      "y": 83.3
+    },
+    {
+      "id": "p4",
+      "rotulo": "Quadro de comando",
+      "oQueE": "A caixa cinza ao lado da máquina guarda a parte elétrica do comando, fechada e longe da mão.",
+      "detalhe": "Por dentro, o painel foi reorganizado e toda a fiação foi identificada, para a manutenção não depender da memória de ninguém (#047).",
+      "x": 90.3,
+      "y": 71.1
+    },
+    {
+      "id": "p5",
+      "rotulo": "Chave rotativa",
+      "oQueE": "A manopla vermelha e amarela na lateral do quadro: é a chave para desligar a energia do quadro.",
+      "detalhe": "Chave rotativa com manopla vermelha sobre base amarela, as cores usadas no seccionamento de emergência, na lateral do quadro e fora da área de trabalho do tear.",
+      "x": 77.8,
+      "y": 90
+    }
+  ]
+}
