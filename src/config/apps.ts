@@ -103,6 +103,17 @@ export const SECOES: readonly AppDoSite[] = [
     titulo: "Vem aí",
     glifo: '<rect x="8" y="2.5" width="8" height="5"/><rect x="8" y="7.5" width="8" height="5"/><rect x="8" y="12.5" width="8" height="5"/><path d="M12 17.5v3M6 21h12"/>',
   },
+  {
+    // V14 (ADR 007 item 5): IA no seu negócio, por setor. Chega pela escada da /consultoria e da /educacao; a home
+    // não muda. O glifo é a escada de três degraus com a seta subindo.
+    id: "ia-no-seu-negocio",
+    rotulo: "IA no seu negócio",
+    rota: "/ia-no-seu-negocio",
+    // No cabeçalho, "IA no seu negócio" (226 px) e "IA no negócio" (173 px) cortam em 360 px (164 px livres; E2E
+    // v14); o nome inteiro fica no topo da página.
+    titulo: "IA por setor",
+    glifo: '<path d="M2.5 21.5h6v-6h6v-6h7"/><path d="M16 2.5h5.5V8M21.5 2.5l-6 6"/>',
+  },
 ];
 
 export const appPorId = (id: string): AppDoSite => {

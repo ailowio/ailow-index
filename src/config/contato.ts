@@ -7,7 +7,17 @@
 export const WHATSAPP = "5585996188080";
 
 /** De onde a pessoa vem: vira uma marca no fim da mensagem, para o Pedro saber a origem sem analytics. */
-export const ORIGENS = ["site", "apresentacao", "instagram", "consultoria", "educacao"] as const;
+export const ORIGENS = [
+  "site",
+  "apresentacao",
+  "instagram",
+  "consultoria",
+  "educacao",
+  "ia-grafica",
+  "ia-textil",
+  "ia-comercio",
+  "ia-servico",
+] as const;
 export type Origem = (typeof ORIGENS)[number];
 
 const MENSAGENS: Record<Origem, string> = {
@@ -17,6 +27,11 @@ const MENSAGENS: Record<Origem, string> = {
   // V02 (ADR 007): as portas da home levam a páginas próprias; cada uma marca a sua origem.
   consultoria: "Oi, Pedro! Vi a consultoria no site e queria conversar sobre a minha empresa. [consultoria]",
   educacao: "Oi, Pedro! Vi os cursos no site e queria conversar sobre a minha instituição. [educação]",
+  // V14 (ADR 007 item 7): cada página da "IA no seu negócio" marca o setor de onde a pessoa veio.
+  "ia-grafica": "Oi, Pedro! Vi os usos de IA para gráfica no site e queria conversar. [ia-no-seu-negocio · gráfica]",
+  "ia-textil": "Oi, Pedro! Vi os usos de IA para a indústria têxtil e queria conversar. [ia-no-seu-negocio · têxtil]",
+  "ia-comercio": "Oi, Pedro! Vi os usos de IA para comércio no site e queria conversar. [ia-no-seu-negocio · comércio]",
+  "ia-servico": "Oi, Pedro! Vi os usos de IA para serviço no site e queria conversar. [ia-no-seu-negocio · serviço]",
 };
 
 export const mensagemContato = (origem: Origem): string => MENSAGENS[origem];

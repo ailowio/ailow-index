@@ -7,16 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### V11 — Correções do feed (IoT) — 2026-11-20 — Claude Sonnet 5.5 (subagente)
-Leu: regras do subagente, Contrato, V11, retomada, V10; colheita de IoT §3, §6, §7 e COLHEITA X7-X10; #056, #063, #080, #081.
-Decisão (ok do orquestrador por delegação do Pedro, 2026-11-20): corrigir só para mais preciso ou mais fraco, com a prova (arquivo:linha de IOT-COLHEITA.md) no campo `prova`.
-Feito: #063 (25 entradas em 2/9, 17 em 31/8; v1.8 só no gw1, gw2 com a v1.7; sem "Modbus", ferramenta e título); #056 (v1.6 escrita, nunca gravada); #081 (em andamento, parte das máquinas, mapa em conferência; `status_fato: construindo`, estado open, resumo_dono ajustado; /pulse e roteiro-pitch alinhados); #080 (conferência formal pendente, leituras "com apoio parcial"). Novas candidatas #083 e #084 pendentes (data 2026-11 pela regra de ordem). C11/#059 e C04/#020 intocadas (decisão do Pedro).
-Testes antigos alterados: `e2e/f0-trilha-rapida.e2e.ts` (/pulse não diz mais "todas as máquinas", comentário V11); `v08-chao-de-fabrica.test.ts` (canário com a string antiga da #081 congelada, decisão do orquestrador).
-Canários (L-0006): `v11-correcoes-feed.test.ts` nasceu 17/17 vermelho antes das correções; frases proibidas seguem valendo.
-conferir-fatos: C16 divergente (construindo x testando) -> consistente; 0 divergências (1 consistente, 8 não comparáveis).
-Falhas no caminho: resumo da #081 com 221 caracteres (teste da V09 pegou); "rodando"/"aceite" no texto novo batem nas frases proibidas (reescrito); E2E do /pulse antigo exigia "todas as máquinas".
-Números: Vitest 603 → 622; E2E 814 passed (812 + 2 do /pulse relidos após a correção); versão 1.11.1.
-
 ### V12 — Vem aí — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
 Leu: regras, Contrato, V12, retomada, V11; ADR 006, 007 item 5; brainstorm §5.7; COLHEITA K14; entradas com status; /pulse, /cloud; STATUS e ESTRATEGIA da bancada.
 Feito: `/vem-ai` com 4 colunas (Em uso · Em teste · Construindo · Próximo passo) e luz de estado do Pulso (acesa, meia, fita de obra, apagada: cor + padrão + palavra); painel do topo leva a cada coluna; 360 px = listas empilhadas, ≥ 72 rem = 4 lado a lado; sem JS próprio. 7 cards: #078, #033, #054 (uso); #080, #076 (testando); #081 (construindo); plataforma de monitoramento do Pulse (próximo passo, citação literal da #081). Status derivado do `status_fato` (`montarQuadro`; o build cai com o feed real). Links no `/pedro` e no `/pulse`; sitemap; selo em `SECOES`. Versão 1.12.0.
@@ -36,3 +26,13 @@ Canários (L-0006): foto de 156 KB (2 Vitest vermelhos); clamp tirado + ponto em
 Números: Vitest 645 → 662; E2E 852 → 902 passed; fotos JS 1,18/2 KiB, peso 76,8 e 78,7/100 KiB.
 Pendência: a #047 diz 25/05; o vídeo do acervo (V156) é de 14/05 (a página diz só a data do vídeo).
 Screenshots: `D:/apps/.playwright-mcp/auditoria/v13/`.
+
+### V14 — IA no seu negócio — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
+Leu: regras, Contrato, V14, retomada, V13; ADR 007; brainstorm §5.5 S3; entradas de n8n, SGI e Cloud; os 5 fluxos; /consultoria e /educacao.
+Feito: `/ia-no-seu-negocio` (escolha de setor por link) + `/ia-no-seu-negocio/{grafica,textil,comercio,servico}`: 3 níveis (celular · automação · sistema) × 3 usos; cada uso = fato "Na Copel"/"No Cloud" com #NNN ou "Ver o fluxo" + sugestão tracejada com selo "Sugestão numa …". Fim: /educacao e /consultoria + WhatsApp `[ia-no-seu-negocio · <setor>]`. Link "Ver usos de IA para o seu setor" na escada das duas ofertas. Sitemap, orçamento, seção nova em `apps.ts`. Sem script. Versão 1.14.0.
+Decisões (delegação): 15 usos-base (`src/data/ia-no-seu-negocio.ts`); LINA (#007) fora (desligada, não deu conta); NF-e só no têxtil (nota de balcão e de serviço são outro mecanismo); portal do cliente (#050) entra em serviço com "ainda não afirmo uso"; o "GPT próprio" se prova pelo fluxo pcp-no-asana (a #029 não cita GPT); título do cabeçalho "IA por setor" (o nome inteiro corta em 360 px).
+Testes antigos alterados: `indexacao.test.ts` (+5 rotas) e `v08-chao-de-fabrica.test.ts` (SECOES + `ia-no-seu-negocio`), comentário V14 · ADR 007 item 5.
+Canários (L-0006): permanentes (sem prova, #999, #083 pendente, fluxo inexistente, número fora da fonte, garantia, %, resultado, número em sugestão); mutação no dado (13→14 de nov., "garantido… economiza", prs vazio: 4 vermelhos); E2E (link de fluxo quebrado, link de 26rem, alvo < 48 px: 9 vermelhos); título "IA no negócio" (173 > 164 px) pego pelo E2E novo. Revertidos.
+Números: Vitest 662 → 742; E2E 902 → 1052 passed; JS 0,70/2 KiB; peso 13,7 (índice) e 15,2–15,3/60 KiB.
+Pendências: revisar os 15 fatos e as 36 sugestões (`src/data/ia-no-seu-negocio.ts`); a caixinha "Tu trabalha com quê?" (brainstorm S3) não foi usada: sem respostas no repo.
+Screenshots: `D:/apps/.playwright-mcp/auditoria/v14/`.

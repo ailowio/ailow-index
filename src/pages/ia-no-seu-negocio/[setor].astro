@@ -1,0 +1,127 @@
+---
+import App from "../../layouts/App.astro";
+import BotaoWhatsapp from "../../components/BotaoWhatsapp.astro";
+import { ancoraPR, rotuloPR } from "../../data/consultoria";
+import { CAMINHOS, LEGENDA, NIVEIS, SETORES, type Setor, usosDoSetor } from "../../data/ia-no-seu-negocio";
+import { carregarFluxos } from "../../fluxos/carregar";
+import "../../styles/ia-no-seu-negocio.css";
+
+// V14 (2026-11-20, ADR 007 itens 2, 5 e 7; brainstorm v2 §5.5 S3): uma página indexável por setor, com 3 usos em
+// cada um dos 3 níveis da escada. Cada uso: o fato (com a entrada do Diário de obra ou o fluxo do /explorar) e o
+// equivalente no setor, marcado como sugestão. Termina com os dois caminhos e o WhatsApp com a origem do setor.
+// Sem script; regras em test/v14-ia-no-seu-negocio.test.ts.
+export function getStaticPaths() {
+  return SETORES.map((s) => ({ params: { setor: s.slug }, props: { setor: s } }));
+}
+
+const { setor } = Astro.props as { setor: Setor };
+const grupos = usosDoSetor(setor);
+const fluxos = new Map(carregarFluxos().map((f) => [f.slug, f]));
+const outros = SETORES;
+---
+
+<App
+  id="ia-no-seu-negocio"
+  pai="/ia-no-seu-negocio"
+  paiNome="a escolha de setor"
+  tituloPagina={setor.tituloPagina}
+  descricao={setor.descricao}
+>
+  <div class="ia-negocio" data-setor={setor.slug}>
+    <section class="ia-topo" aria-labelledby="ia-topo-titulo">
+      <p class="ia-sobretitulo">IA no seu negócio · {setor.nome}</p>
+      <h2 id="ia-topo-titulo">IA {setor.noSetor}.</h2>
+      <p class="ia-tese">{setor.abertura}</p>
+      <dl class="ia-legenda">
+        <div class="ia-legenda-fato">
+          <dt>Na prática</dt>
+          <dd>{LEGENDA.fato}</dd>
+        </div>
+        <div class="ia-legenda-sugestao">
+          <dt>Sugestão</dt>
+          <dd>{LEGENDA.sugestao}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <nav class="ia-trocar" aria-label="Escolher outro setor">
+      <ul>
+        {
+          outros.map((s) => (
+            <li>
+              <a href={`/ia-no-seu-negocio/${s.slug}`} aria-current={s.slug === setor.slug ? "page" : undefined}>
+                {s.nome}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    {
+      grupos.map(({ nivel, usos }, i) => (
+        <section class={`ia-nivel ia-nivel-${nivel.id}`} aria-labelledby={`nivel-${nivel.id}`}>
+          <header class="ia-nivel-cabeca">
+            <span class="ia-marca" aria-hidden="true">
+              {NIVEIS.map((_, j) => (
+                <span class:list={{ aceso: j <= i }} />
+              ))}
+            </span>
+            <p class="ia-degrau">{nivel.degrau}</p>
+            <h2 id={`nivel-${nivel.id}`}>{nivel.nome}</h2>
+            <p class="ia-apoio">{nivel.oQue}</p>
+          </header>
+          <ol class="ia-usos">
+            {usos.map((u) => (
+              <li class="ia-uso" data-uso={u.id}>
+                <h3>{u.titulo}</h3>
+                <div class="ia-fato">
+                  <p class="ia-onde">{u.onde}</p>
+                  <p>{u.fato}</p>
+                  <p class="ia-provas">
+                    {u.prs.map((n) => (
+                      <a href={`/pedro/#${ancoraPR(n)}`} aria-label={`Entrada ${rotuloPR(n)} do Diário de obra`}>
+                        {rotuloPR(n)}
+                      </a>
+                    ))}
+                    {u.fluxo && (
+                      <a
+                        class="ia-prova-fluxo"
+                        href={`/explorar/${u.fluxo}`}
+                        aria-label={`Ver o fluxo ${fluxos.get(u.fluxo)?.titulo ?? ""} no Explorador`}
+                      >
+                        Ver o fluxo
+                      </a>
+                    )}
+                  </p>
+                </div>
+                <div class="ia-sugestao">
+                  <p class="ia-selo">Sugestão {setor.noSetor}</p>
+                  <p>{u.sugestao}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
+    }
+
+    <section class="ia-caminhos" aria-labelledby="ia-caminhos-titulo">
+      <h2 id="ia-caminhos-titulo">Dois caminhos daqui</h2>
+      <ol>
+        {
+          CAMINHOS.map((c) => (
+            <li class={`ia-caminho ia-caminho-${c.id}`}>
+              <h3>{c.titulo}</h3>
+              <p>{c.texto}</p>
+              <a class="ia-caminho-link" href={c.href}>
+                {c.rotulo}
+              </a>
+              {c.id === "fazer" && <BotaoWhatsapp origem={setor.origem} />}
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+  </div>
+</App>

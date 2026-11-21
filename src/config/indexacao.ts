@@ -6,6 +6,7 @@
  */
 import { carregarFluxos } from "../fluxos/carregar";
 import { carregarFotos } from "../fotos/carregar";
+import { SETORES } from "../data/ia-no-seu-negocio";
 import { SITE } from "./site";
 
 const ROTAS_FIXAS = [
@@ -28,9 +29,14 @@ const ROTAS_FIXAS = [
   "/vem-ai/",
 ] as const;
 
-/** F5: o Explorador (índice + uma página por fluxo) também é público e indexável. V13: + uma página por foto. */
+/**
+ * F5: o Explorador (índice + uma página por fluxo) também é público e indexável. V13: + uma página por foto.
+ * V14 (ADR 007 item 5): + IA no seu negócio, o índice e uma página por setor.
+ */
 export const ROTAS_INDEXAVEIS: readonly string[] = [
   ...ROTAS_FIXAS,
+  "/ia-no-seu-negocio/",
+  ...SETORES.map((s) => `/ia-no-seu-negocio/${s.slug}/`),
   "/explorar/",
   ...carregarFluxos().map((f) => `/explorar/${f.slug}/`),
   ...carregarFotos().map((f) => `/explorar/${f.slug}/`),
