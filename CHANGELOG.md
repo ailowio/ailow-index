@@ -4,6 +4,12 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.17.0] - 2026-11-24
+
+### Adicionado
+- V16: **Lighthouse CI com orçamento de celular** (ADR 009). O CI ganha o job `lighthouse`, que roda o Lighthouse no perfil de celular sobre o build estático, nas rotas `/`, `/consultoria`, `/educacao`, `/trajetoria`, `/pedro` e `/explorar` (3 execuções por rota). Metas: desempenho ≥ 0,90, acessibilidade = 1, boas práticas ≥ 0,95 e SEO ≥ 0,95, mais JS e peso total por rota coerentes com `scripts/orcamentos-peso.json` e 0 recurso de terceiros. Roda no próprio runner, sem servidor e sem upload; é informativo até o Pedro decidir torná-lo obrigatório. Dependência nova: `@lhci/cli` 0.16.1 (versão exata).
+- V16: **`/como-e-feito`, "Como este site é feito".** Os 9 portões que cada mudança atravessa (verify, E2E, acessibilidade, peso, zero terceiros, segurança, imagem, deploy com aprovação e Lighthouse), cada um com o job do CI e o link para o código ou o ADR no GitHub, e os números lidos do repositório no build (arquivos de teste, tetos de peso). Link no `/sobre`; entra no sitemap e ganha orçamento de peso (JS 2 KiB, peso 60 KiB). Um teste reprova portão com arquivo, job ou link que não existe e número digitado à mão.
+
 ## [1.16.0] - 2026-11-24
 
 ### Alterado

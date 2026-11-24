@@ -58,6 +58,26 @@ jobs:
       # playwright.config.ts faz `astro build` + `astro preview` (porta 4329).
       - run: npm run e2e
 
+  # V16 (ADR 009): Lighthouse CI com orçamento mobile sobre o build estático (dist/), nas 6 rotas principais.
+  # Roda local no runner (staticDistDir + upload.target filesystem): sem servidor LHCI, sem upload público, sem segredo.
+  # INFORMATIVO até o Pedro decidir torná-lo check obrigatório da branch protection: não faz parte dos checks exigidos.
+  lighthouse:
+    name: lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      # O Chrome já vem no ubuntu-latest (o lhci o encontra). Metas e orçamentos: lighthouserc.cjs + docs/adr/009.
+      - run: npm run lighthouse
+
   seguranca-sca:
     name: seguranca-sca
     runs-on: ubuntu-latest

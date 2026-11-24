@@ -9,3 +9,7 @@
 !public
 !scripts/csp.mjs
 !ops/web
+!scripts/orcamentos-peso.json
+!test
+!e2e
+test/.tmp-build*

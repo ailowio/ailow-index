@@ -1,0 +1,149 @@
+/*
+ * /como-e-feito (V16): só papéis de tokens.css. Mobile primeiro; nada anima. Lista de portões em coluna única,
+ * os números em grade que quebra linha, links com alvo de toque mínimo.
+ */
+
+.como-feito {
+  display: grid;
+  gap: var(--espaco-6);
+  inline-size: 100%;
+  max-inline-size: 60rem;
+  margin-inline: auto;
+  padding: var(--espaco-3) var(--espaco-2) var(--espaco-8);
+  min-inline-size: 0;
+}
+
+.como-feito ol,
+.como-feito ul,
+.como-feito dl {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.como-feito p,
+.como-feito h3,
+.como-feito dt,
+.como-feito dd,
+.como-feito a,
+.como-feito code {
+  overflow-wrap: anywhere;
+}
+
+.como-feito section {
+  display: grid;
+  gap: var(--espaco-2);
+  min-inline-size: 0;
+}
+
+.cf-topo {
+  max-inline-size: 48rem;
+}
+
+.cf-topo .sobretitulo,
+.cf-rotulo {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--texto-2);
+}
+
+.cf-topo h2 {
+  font-size: clamp(2rem, 8.5vw, 3rem);
+  line-height: 1.02;
+  padding-block-end: var(--espaco-1);
+  border-block-end: 0.375rem solid var(--acento);
+}
+
+.cf-topo .tese {
+  font-size: var(--texto-subtitulo);
+  line-height: 1.35;
+}
+
+.como-feito section > h2 {
+  font-size: var(--texto-subtitulo);
+}
+
+.como-feito a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 3rem;
+  color: var(--texto);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.cf-numeros dl {
+  display: grid;
+  gap: var(--espaco-2);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+}
+
+.cf-numeros dl > div {
+  display: grid;
+  gap: var(--espaco-1);
+  padding: var(--espaco-2);
+  border: var(--traco-fino) solid var(--borda-ui);
+  min-inline-size: 0;
+}
+
+.cf-numeros dt {
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}
+
+.cf-numeros dd {
+  margin: 0;
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-subtitulo);
+}
+
+.cf-nota {
+  font-size: var(--texto-pequeno);
+  color: var(--texto-2);
+}
+
+.cf-gates {
+  display: grid;
+  gap: var(--espaco-3);
+}
+
+.cf-gate {
+  padding: var(--espaco-2);
+  border: var(--traco-fino) solid var(--borda-ui);
+  border-inline-start: 0.375rem solid var(--acento);
+  min-inline-size: 0;
+}
+
+.cf-gate article {
+  display: grid;
+  gap: var(--espaco-2);
+  min-inline-size: 0;
+}
+
+.cf-gate h3 {
+  font-size: var(--texto-subtitulo);
+  line-height: 1.2;
+}
+
+.cf-job,
+.cf-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-1) var(--espaco-2);
+}
+
+.cf-selo {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  text-transform: uppercase;
+  padding: 0 var(--espaco-1);
+  border: var(--traco-fino) solid var(--borda-ui);
+}
+
+.cf-adrs {
+  display: grid;
+  gap: var(--espaco-1);
+}

@@ -28,6 +28,8 @@ describe("indexação (F0)", () => {
       "/vem-ai/",
       // V18 · 2026-11-23 · pedido do Pedro: /trajetoria entra (rota nova da linha do tempo).
       "/trajetoria/",
+      // V16 · 2026-11-24 · plano V16: /como-e-feito entra (rota nova dos portões de qualidade).
+      "/como-e-feito/",
       // V14 · 2026-11-20 · ADR 007 item 5: IA no seu negócio entra (o índice e uma página por setor).
       "/ia-no-seu-negocio/",
       "/ia-no-seu-negocio/grafica/",

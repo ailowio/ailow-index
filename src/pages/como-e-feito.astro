@@ -1,0 +1,100 @@
+---
+import App from "../layouts/App.astro";
+import { ADRS, GATES, REPO, TOPO, url } from "../data/como-e-feito";
+import { lerContagens } from "../data/como-e-feito-contagens";
+import "../styles/como-e-feito.css";
+
+// V16 (2026-11-24): os portões reais do site, cada um com o arquivo que o prova (test/v16-como-e-feito.test.ts confere
+// que o arquivo e o job existem). Os números vêm do repositório no build (src/data/como-e-feito-contagens.ts):
+// contam arquivos, nunca casos de teste. Sem JS próprio.
+const n = lerContagens();
+---
+
+<App
+  id="como-e-feito"
+  tituloPagina="Como este site é feito: os portões de qualidade"
+  descricao="Os portões que cada mudança neste site atravessa antes de ir ao ar: testes, acessibilidade, peso, segurança, imagem, deploy com aprovação e Lighthouse, com link para o código."
+  pai="/sobre"
+  paiNome="Sobre"
+>
+  <div class="como-feito">
+    <section class="cf-topo" aria-labelledby="cf-titulo">
+      <p class="sobretitulo">{TOPO.sobretitulo}</p>
+      <h2 id="cf-titulo">{TOPO.titulo}</h2>
+      <p class="tese">{TOPO.tese}</p>
+      <p><a class="cf-repo" href={REPO} rel="noopener">Ver o repositório no GitHub</a></p>
+    </section>
+
+    <section class="cf-numeros" aria-labelledby="cf-numeros-titulo">
+      <h2 id="cf-numeros-titulo">Medido no build desta versão</h2>
+      <dl>
+        <div>
+          <dt>Arquivos de teste (Vitest)</dt>
+          <dd data-contagem="vitest">{n.arquivosVitest}</dd>
+        </div>
+        <div>
+          <dt>Arquivos de E2E (Playwright)</dt>
+          <dd data-contagem="e2e">{n.arquivosE2E}</dd>
+        </div>
+        <div>
+          <dt>Rotas com teto de peso próprio</dt>
+          <dd data-contagem="rotas">{n.rotasComTeto}</dd>
+        </div>
+        <div>
+          <dt>Teto padrão por rota (JS · total)</dt>
+          <dd data-contagem="teto">{n.tetoJsPadraoKiB} KiB · {n.tetoPesoPadraoKiB} KiB</dd>
+        </div>
+      </dl>
+      <p class="cf-nota">
+        Contam arquivos, não casos de teste. Os valores são lidos do repositório quando o site é construído; nada é
+        digitado à mão.
+      </p>
+    </section>
+
+    <section aria-labelledby="cf-gates-titulo">
+      <h2 id="cf-gates-titulo">Os portões</h2>
+      <ol class="cf-gates">
+        {
+          GATES.map((g) => (
+            <li class="cf-gate" id={`gate-${g.id}`} data-gate={g.id}>
+              <article aria-labelledby={`gate-${g.id}-titulo`}>
+                <h3 id={`gate-${g.id}-titulo`}>{g.titulo}</h3>
+                <p>{g.texto}</p>
+                {g.job && (
+                  <p class="cf-job">
+                    <span class="cf-rotulo">Job no CI</span> <code>{g.job}</code>
+                    {g.informativo && <span class="cf-selo">informativo</span>}
+                  </p>
+                )}
+                <p class="cf-links">
+                  <span class="cf-rotulo">Código</span>
+                  {g.links.map((l) => (
+                    <a href={l.href} rel="noopener">
+                      {l.rotulo}
+                    </a>
+                  ))}
+                </p>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section aria-labelledby="cf-adrs-titulo">
+      <h2 id="cf-adrs-titulo">Decisões registradas (ADRs)</h2>
+      <p>Cada decisão estrutural tem um registro com o contexto e as alternativas que foram descartadas.</p>
+      <ul class="cf-adrs">
+        {
+          ADRS.map((a) => (
+            <li>
+              <a href={url.adr(a.arquivo)} rel="noopener">
+                <span class="cf-rotulo">ADR {a.numero}</span> {a.titulo}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+</App>
