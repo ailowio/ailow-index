@@ -14,6 +14,11 @@ COPY public public
 # /versoes lê o CHANGELOG.md no build.
 COPY CHANGELOG.md CHANGELOG.md
 COPY scripts/csp.mjs scripts/csp.mjs
+# V16: /como-e-feito conta arquivos de teste e lê os tetos de peso no build (src/data/como-e-feito-contagens.ts).
+# Só entram no estágio de build; o runtime leva apenas o dist/.
+COPY scripts/orcamentos-peso.json scripts/orcamentos-peso.json
+COPY test test
+COPY e2e e2e
 ENV ASTRO_TELEMETRY_DISABLED=1
 RUN npm run build
 RUN node scripts/csp.mjs dist /site/csp-hashes.conf

@@ -111,6 +111,20 @@ describe("/como-e-feito: rota", () => {
     expect(ler("src/pages/sobre.astro")).toContain('href="/como-e-feito"');
   });
 
+  it("a imagem de produção constrói a página: o Dockerfile copia o que ela lê no build e o .dockerignore libera", () => {
+    // O job `imagem` do CI pegou isto no PR da V16: sem estas cópias o `npm run build` do Docker cai (ENOENT).
+    const docker = ler("Dockerfile");
+    const ignore = ler(".dockerignore").split(/\r?\n/);
+    for (const [copia, libera] of [
+      ["scripts/orcamentos-peso.json scripts/orcamentos-peso.json", "!scripts/orcamentos-peso.json"],
+      ["test test", "!test"],
+      ["e2e e2e", "!e2e"],
+    ] as const) {
+      expect(docker, copia).toMatch(new RegExp(`^COPY ${copia.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`, "m"));
+      expect(ignore, libera).toContain(libera);
+    }
+  });
+
   it("não tem script próprio", () => {
     expect(ler("src/pages/como-e-feito.astro")).not.toMatch(/<script/);
   });
