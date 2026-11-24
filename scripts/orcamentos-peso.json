@@ -21,7 +21,8 @@
     "/ia-no-seu-negocio/textil": { "jsGzKB": 2, "pesoGzKB": 60 },
     "/ia-no-seu-negocio/comercio": { "jsGzKB": 2, "pesoGzKB": 60 },
     "/ia-no-seu-negocio/servico": { "jsGzKB": 2, "pesoGzKB": 60 },
-    "/trajetoria": { "jsGzKB": 2, "pesoGzKB": 60 }
+    "/trajetoria": { "jsGzKB": 2, "pesoGzKB": 60 },
+    "/como-e-feito": { "jsGzKB": 2, "pesoGzKB": 60 }
   },
   "notas": [
     "Numeros de / , /apresentacao, /cartao e /pedro/entrevistas vem do ADR 003 (aprovados pelo Pedro em 2026-11-18); JS 10 KB por pagina e 20 KB no cartao tambem.",
@@ -34,6 +35,7 @@
     "V12: /vem-ai entra com JS 2 e peso 60 (a pagina nao tem script proprio nem imagem; so os scripts inline do layout, tema e seta, contam no JS).",
     "V13: as 2 fotos do Explorador entram com JS 2 e peso 100 (medido: JS 1,18 KiB; peso 76,8 e 78,7 KiB, quase tudo a foto WebP de ate 80 KB, teto do ADR 008). Foto nova acima disso precisa de orcamento proprio.",
     "V14: IA no seu negocio (indice + 4 setores) entra com JS 2 e peso 60, como o /vem-ai: sem script proprio nem imagem; so os scripts inline do layout contam no JS.",
+    "V16: /como-e-feito entra com JS 2 e peso 60: pagina de texto sem script proprio nem imagem; so os scripts inline do layout contam no JS. O Lighthouse CI (lighthouserc.cjs, ADR 009) le esta mesma tabela.",
     "V18: /trajetoria entra com JS 2 e peso 60, sem imagem; o JS conta o script do caminho (marca a pagina, liga o contador e, sem CSS scroll-driven, usa IntersectionObserver) mais os inline do layout."
   ]
 }

@@ -7,16 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### V14 — IA no seu negócio — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
-Leu: regras, Contrato, V14, retomada, V13; ADR 007; brainstorm §5.5 S3; entradas de n8n, SGI e Cloud; os 5 fluxos; /consultoria e /educacao.
-Feito: `/ia-no-seu-negocio` (escolha de setor por link) + `/ia-no-seu-negocio/{grafica,textil,comercio,servico}`: 3 níveis (celular · automação · sistema) × 3 usos; cada uso = fato "Na Copel"/"No Cloud" com #NNN ou "Ver o fluxo" + sugestão tracejada com selo "Sugestão numa …". Fim: /educacao e /consultoria + WhatsApp `[ia-no-seu-negocio · <setor>]`. Link "Ver usos de IA para o seu setor" na escada das duas ofertas. Sitemap, orçamento, seção nova em `apps.ts`. Sem script. Versão 1.14.0.
-Decisões (delegação): 15 usos-base (`src/data/ia-no-seu-negocio.ts`); LINA (#007) fora (desligada, não deu conta); NF-e só no têxtil (nota de balcão e de serviço são outro mecanismo); portal do cliente (#050) entra em serviço com "ainda não afirmo uso"; o "GPT próprio" se prova pelo fluxo pcp-no-asana (a #029 não cita GPT); título do cabeçalho "IA por setor" (o nome inteiro corta em 360 px).
-Testes antigos alterados: `indexacao.test.ts` (+5 rotas) e `v08-chao-de-fabrica.test.ts` (SECOES + `ia-no-seu-negocio`), comentário V14 · ADR 007 item 5.
-Canários (L-0006): permanentes (sem prova, #999, #083 pendente, fluxo inexistente, número fora da fonte, garantia, %, resultado, número em sugestão); mutação no dado (13→14 de nov., "garantido… economiza", prs vazio: 4 vermelhos); E2E (link de fluxo quebrado, link de 26rem, alvo < 48 px: 9 vermelhos); título "IA no negócio" (173 > 164 px) pego pelo E2E novo. Revertidos.
-Números: Vitest 662 → 742; E2E 902 → 1052 passed; JS 0,70/2 KiB; peso 13,7 (índice) e 15,2–15,3/60 KiB.
-Pendências: revisar os 15 fatos e as 36 sugestões (`src/data/ia-no-seu-negocio.ts`); a caixinha "Tu trabalha com quê?" (brainstorm S3) não foi usada: sem respostas no repo.
-Screenshots: `D:/apps/.playwright-mcp/auditoria/v14/`.
-
 ### V18 — Trajetória — 2026-11-23 — Claude Opus 5.5 (subagente de UI)
 Leu: CLAUDE.md, Contrato, retomada, V14; TRAJETORIA.md §1 e §4 da bancada; 9 trechos curtos da transcrição local de 19/11 (só para conferir marca e fato).
 Feito: `/trajetoria` (pedido do Pedro, antes da V15): traço SVG desenhado pela rolagem (CSS `view-timeline`; sem suporte, IntersectionObserver), paradas reveladas por recorte, contador fixo "ano · N ferramentas até aqui"; 10 marcos à mão com fonte + 12 destaques do feed + toda entrada com ferramenta nova (chips na 1ª aparição, 72 no total; HeyGen na #071, ElevenLabs na #082). Sem JS ou com movimento reduzido: estático e inteiro. 7º ícone na home; links na /apresentacao (e /bio), /sobre e Diário de obra; sitemap e orçamento. Versão 1.15.0.
@@ -37,3 +27,12 @@ Prova do celular: geometria de todo elemento em 360 e 375 (7 rotas + chão de f�
 Números: Vitest 777 → 790; E2E 1106 → 1150 passed; JS igual; peso +0,25–0,58 KiB.
 Screenshots: `D:/apps/.playwright-mcp/auditoria/v15/` (1280/1440 × 2 temas, `celular/`, `trechos/`, `antes/`).
 Fechamento pelo orquestrador (Claude Opus 5.5, 24/11): o subagente foi parado antes do relatório; `npm run verify` exit 0 e `npx playwright test` 1150 passed / 44 skipped, exit 0, rodados de novo; canário próprio (home a partir de 20 rem): 1 Vitest + 5 E2E de 360 vermelhos, revertido e verde.
+
+### V16 — Engenharia exemplar — 2026-11-24 — Claude Sonnet 5.5 (subagente)
+Leu: CLAUDE.md, Contrato, linha V16, retomada, V15; `ci.yml`, `deploy.yml`, `orcamentos-peso.json`, `playwright.config.ts`, padrão da V12 (`/vem-ai`).
+Feito: job `lighthouse` no CI (informativo; branch protection intocada) com `lighthouserc.cjs` (`@lhci/cli` 0.16.1 exata, `staticDistDir`, `upload.target: filesystem`, 3 execuções, mobile): 6 rotas; desempenho ≥ 0,90, acessibilidade = 1, boas práticas e SEO ≥ 0,95, JS e peso da rota lidos de `orcamentos-peso.json` (+ 96 KiB de folga de fontes), 0 terceiros. ADR 009 com alternativas. `/como-e-feito` com 9 portões (cada um com job e arquivo-prova), ADRs e números lidos do repo no build; link no `/sobre`. Versão 1.17.0.
+Decisões (delegação): agregação `optimistic` (o `/pedro` oscilou de 0,89 a 0,99 no mesmo build); a página conta arquivos, não casos de teste; título do cabeçalho "Como é feito" (selo em `SECOES`); JS inline não aparece no `resource-summary:script`, então o teto de JS do lhci só pega script externo (o `peso` cobre o inline).
+Testes antigos alterados (comentário V16 · 2026-11-24): `indexacao.test.ts` (+/como-e-feito/), `v08-chao-de-fabrica.test.ts` (SECOES + `como-e-feito`).
+Canários (L-0006): site com `aria-hidden` em link focável + script de 180 KiB na `/consultoria`: o lhci reprova (acessibilidade 0,96; script 178 > 10 KiB; total 280 > 246 KiB); o mesmo script na `/como-e-feito`: `npm run peso` reprova (JS 179 > 2, peso 193 > 60); guarda Vitest da página reprova prova, job e link inexistentes e número digitado (detectou o próprio "E2E" e um "1" no texto). Revertidos.
+Números: Vitest 790 → 805; E2E 1150 → 1178 passed (44 skipped); JS 0,70/2 KiB; peso 14,7/60 KiB (`/como-e-feito`).
+Pendência: o Pedro decide se o job `lighthouse` vira check obrigatório.

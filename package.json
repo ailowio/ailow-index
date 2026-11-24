@@ -1,6 +1,6 @@
 {
   "name": "ailow-index",
-  "version": "1.16.0",
+  "version": "1.17.0",
   "private": true,
   "type": "module",
   "description": "Site institucional da Ailow (ailow.com.br) com o portfólio do Pedro em formato de changelog.",
@@ -19,12 +19,14 @@
     "importar-midia": "node --experimental-strip-types scripts/importar-midia.ts",
     "conferir-fatos": "node --experimental-strip-types scripts/conferir-fatos.ts",
     "e2e": "playwright test",
+    "lighthouse": "lhci autorun",
     "verify": "npm run lint && npm run check && npm run test && npm run build && npm run peso"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
     "@axe-core/playwright": "4.14.0",
     "@biomejs/biome": "2.6.8",
+    "@lhci/cli": "0.16.1",
     "@playwright/test": "1.65.1",
     "@types/node": "22.20.5",
     "astro": "7.4.12",

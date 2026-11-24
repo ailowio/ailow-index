@@ -29,6 +29,8 @@ const ROTAS_FIXAS = [
   "/vem-ai/",
   // V18 (pedido do Pedro, 23/11): a Trajetória, a linha do tempo animada pela rolagem.
   "/trajetoria/",
+  // V16: "Como este site é feito", os portões de qualidade com link para o código.
+  "/como-e-feito/",
 ] as const;
 
 /**

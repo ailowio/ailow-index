@@ -124,6 +124,15 @@ export const SECOES: readonly AppDoSite[] = [
     titulo: "IA por setor",
     glifo: '<path d="M2.5 21.5h6v-6h6v-6h7"/><path d="M16 2.5h5.5V8M21.5 2.5l-6 6"/>',
   },
+  {
+    // V16 (2026-11-24): "Como este site é feito", os portões de qualidade com link para o código. Chega pelo /sobre;
+    // a home não muda. O glifo é o portão: duas colunas e a barra que sobe.
+    id: "como-e-feito",
+    rotulo: "Como é feito",
+    rota: "/como-e-feito",
+    titulo: "Como é feito",
+    glifo: '<path d="M4 21V4h3v17M17 21V4h3v17"/><path d="M7 8h10M7 14h10"/>',
+  },
 ];
 
 export const appPorId = (id: string): AppDoSite => {

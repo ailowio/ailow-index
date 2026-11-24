@@ -161,7 +161,8 @@ describe("/chao-de-fabrica: rota e navegação (ADR 007 item 5)", () => {
   it("o selo da página é uma seção (não entra na grade de 6 apps da home)", () => {
     // V12 · 2026-11-20 · ADR 007 item 5: o Vem aí entra como segunda seção (rota nova, fora da grade da home).
     // V14 · 2026-11-20 · ADR 007 item 5: IA no seu negócio entra como terceira seção (rota nova, fora da grade da home).
-    expect(SECOES.map((s) => s.id)).toEqual(["chao-de-fabrica", "vem-ai", "ia-no-seu-negocio"]);
+    // V16 · 2026-11-24 · plano V16: Como é feito entra como quarta seção (rota nova, fora da grade da home).
+    expect(SECOES.map((s) => s.id)).toEqual(["chao-de-fabrica", "vem-ai", "ia-no-seu-negocio", "como-e-feito"]);
     expect(appPorId("chao-de-fabrica").rota).toBe("/chao-de-fabrica");
     expect(APPS.map((a) => a.id)).not.toContain("chao-de-fabrica");
   });
