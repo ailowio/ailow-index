@@ -1,0 +1,514 @@
+/*
+ * /trajetoria (V18, pedido do Pedro em 23/11): só papéis de tokens.css e pares de pares-contraste.json.
+ * Mobile primeiro: o caminho é um traço vertical à esquerda, com um ponto por parada e o cartão à direita.
+ * Em >= 80 rem (1280 px) o traço vai para o centro e as paradas alternam os lados.
+ * Movimento só com JS e sem movimento reduzido (src/scripts/trajetoria.ts marca `.anima`, e `.nativo` quando o
+ * navegador tem CSS scroll-driven). Sem isso, tudo fica visível e o traço inteiro. Nada de scroll-snap.
+ * O recorte (clip-path) dos cartões tem folga de 0,75 rem para não cortar o contorno de foco dos links.
+ */
+
+.trajetoria {
+  display: grid;
+  gap: var(--espaco-4);
+  inline-size: 100%;
+  max-inline-size: 72rem;
+  margin-inline: auto;
+  padding: var(--espaco-3) var(--espaco-2) var(--espaco-8);
+  min-inline-size: 0;
+}
+
+.trajetoria ol,
+.trajetoria ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trajetoria p {
+  margin: 0;
+}
+
+.trajetoria p,
+.trajetoria h3 {
+  overflow-wrap: anywhere;
+}
+
+/* O contador fixo tem ~3 rem: o foco por teclado e o "ir para" param abaixo dele. */
+.tela-app .conteudo:has(.trajetoria) {
+  scroll-padding-block-start: 4.5rem;
+}
+
+/* ---------- Topo ---------- */
+
+.tj-topo {
+  display: grid;
+  gap: var(--espaco-2);
+  max-inline-size: 48rem;
+  min-inline-size: 0;
+}
+
+.tj-sobretitulo,
+.tj-contador,
+.parada-meta,
+.parada-fonte,
+.ferramentas-rotulo {
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  letter-spacing: 0.02em;
+}
+
+.tj-sobretitulo {
+  color: var(--texto-2);
+  text-transform: uppercase;
+}
+
+.tj-topo h2 {
+  font-size: clamp(2rem, 8.5vw, 3rem);
+  line-height: 1.02;
+  padding-block-end: var(--espaco-1);
+  border-block-end: 0.375rem solid var(--acento);
+}
+
+.tj-tese {
+  font-size: var(--texto-subtitulo);
+  line-height: 1.35;
+}
+
+/* ---------- Contador (só com JS) ---------- */
+
+/* `.trajetoria` no seletor: vence o `p { margin: 0 }` acima e a largura máxima de parágrafo do global. */
+.trajetoria .tj-contador {
+  max-inline-size: none;
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 var(--espaco-2);
+  margin-inline: calc(-1 * var(--espaco-2));
+  padding: var(--espaco-1) var(--espaco-2);
+  background: var(--fundo);
+  border-block-end: var(--traco-fino) solid var(--borda);
+  color: var(--texto-2);
+}
+
+.trajetoria .tj-contador[hidden] {
+  display: none;
+}
+
+.tj-contador-ano {
+  font-family: var(--fonte-titulo);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--texto);
+}
+
+.tj-contador strong {
+  color: var(--dado);
+}
+
+/* ---------- O caminho ---------- */
+
+.caminho {
+  /* --eixo = centro do traço, medido da borda esquerda do caminho; --recuo = onde começam os cartões. */
+  --eixo: 0.75rem;
+  --recuo: 2.5rem;
+  --ponto: 1rem;
+  position: relative;
+  display: grid;
+  gap: var(--espaco-4);
+  min-inline-size: 0;
+  padding-inline-start: var(--recuo);
+}
+
+.trilha {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(var(--eixo) - 0.125rem);
+  inline-size: 0.25rem;
+  block-size: 100%;
+  overflow: visible;
+}
+
+.trilha path {
+  fill: none;
+  stroke-width: 2;
+}
+
+.trilha-fundo {
+  stroke: var(--borda);
+}
+
+.trilha-traco {
+  stroke: var(--acento);
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+}
+
+.ano {
+  display: grid;
+  gap: var(--espaco-2);
+  min-inline-size: 0;
+}
+
+.ano-rotulo {
+  position: relative;
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+/* O marco do ano no traço: um quadrado amarelo (quina reta do Pulso). */
+.ano-rotulo::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0.6rem;
+  inset-inline-start: calc(var(--eixo) - var(--recuo) - 0.625rem);
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  background: var(--acento);
+}
+
+.paradas {
+  display: grid;
+  gap: var(--espaco-3);
+  min-inline-size: 0;
+}
+
+.parada {
+  position: relative;
+  min-inline-size: 0;
+  view-timeline: --tj-parada block;
+}
+
+.ponto {
+  position: absolute;
+  inset-block-start: 0.25rem;
+  inset-inline-start: calc(var(--eixo) - var(--recuo) - var(--ponto) / 2);
+  inline-size: var(--ponto);
+  block-size: var(--ponto);
+  border: var(--traco-fino) solid var(--borda-ui);
+  border-radius: 50%;
+  background: var(--fundo);
+}
+
+.destaque .ponto {
+  border-color: var(--acento);
+  background: var(--acento);
+}
+
+.marco .ponto {
+  border-color: var(--acento);
+  border-radius: 0;
+  background: var(--acento);
+  rotate: 45deg;
+}
+
+.marco .ponto,
+.destaque .ponto {
+  inset-block-start: 1.1rem;
+}
+
+.cartao {
+  display: grid;
+  gap: var(--espaco-1);
+  min-inline-size: 0;
+}
+
+.marco .cartao {
+  padding: var(--espaco-2);
+  background: var(--superficie);
+  border-inline-start: 0.375rem solid var(--acento);
+}
+
+.destaque .cartao {
+  padding: var(--espaco-2);
+  background: var(--superficie);
+  border: var(--traco-fino) solid var(--borda-ui);
+}
+
+.parada-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--espaco-1);
+  color: var(--texto-2);
+}
+
+.marco .parada-tipo {
+  padding-inline: 0.375rem;
+  background: var(--acento);
+  color: var(--sobre-acento);
+  text-transform: uppercase;
+}
+
+.parada-titulo {
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.marco .parada-titulo,
+.destaque .parada-titulo {
+  font-size: 1.625rem;
+}
+
+.parada-titulo a {
+  display: flex;
+  align-items: center;
+  min-block-size: var(--alvo);
+}
+
+.parada-texto {
+  line-height: 1.4;
+}
+
+.parada-fonte {
+  color: var(--texto-2);
+}
+
+.parada-fonte a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--alvo);
+  color: var(--texto);
+}
+
+.parada-ferramentas {
+  display: grid;
+  gap: var(--espaco-1);
+}
+
+.ferramentas-rotulo {
+  color: var(--texto-2);
+  text-transform: uppercase;
+}
+
+.tj-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1);
+  min-inline-size: 0;
+}
+
+.tj-chips li {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+.tj-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  max-inline-size: 100%;
+  min-block-size: var(--alvo);
+  padding-inline: var(--espaco-2);
+  background: var(--fundo);
+  color: var(--texto);
+  border: var(--traco-fino) solid var(--borda-ui);
+  border-radius: var(--raio-selo);
+  font-family: var(--fonte-mono);
+  font-size: var(--texto-pequeno);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+a.tj-chip:hover {
+  border-color: var(--acento);
+}
+
+.tj-chip .mais {
+  color: var(--dado);
+  font-weight: 700;
+}
+
+/* ---------- Fim ---------- */
+
+.tj-fim {
+  display: grid;
+  gap: var(--espaco-2);
+  max-inline-size: 48rem;
+  padding-block-start: var(--espaco-3);
+  border-block-start: 0.375rem solid var(--acento);
+}
+
+.tj-fim h2 {
+  font-size: 2rem;
+}
+
+.tj-fim strong {
+  color: var(--dado);
+}
+
+.tj-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1) var(--espaco-3);
+}
+
+.tj-links a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--alvo);
+}
+
+/* ---------- Desktop: traço no centro, paradas alternando os lados ---------- */
+
+@media (min-width: 80rem) {
+  .caminho {
+    --eixo: 50%;
+    --recuo: 0rem;
+    --vao: 2.5rem;
+    padding-inline-start: 0;
+  }
+
+  .ano-rotulo {
+    justify-self: center;
+    padding: var(--espaco-1) var(--espaco-2);
+    background: var(--fundo);
+    border: var(--traco-fino) solid var(--acento);
+  }
+
+  .ano-rotulo::before {
+    display: none;
+  }
+
+  .parada {
+    inline-size: calc(50% - var(--vao));
+  }
+
+  .parada[data-lado="dir"] {
+    margin-inline-start: calc(50% + var(--vao));
+  }
+
+  .parada[data-lado="esq"] .ponto {
+    inset-inline-start: auto;
+    inset-inline-end: calc(-1 * var(--vao) - var(--ponto) / 2);
+  }
+
+  .parada[data-lado="dir"] .ponto {
+    inset-inline-start: calc(-1 * var(--vao) - var(--ponto) / 2);
+  }
+
+  .parada[data-lado="esq"] .cartao {
+    text-align: end;
+  }
+
+  .parada[data-lado="esq"] .parada-meta,
+  .parada[data-lado="esq"] .tj-chips,
+  .parada[data-lado="esq"] .parada-titulo a {
+    justify-content: flex-end;
+  }
+
+  .marco[data-lado="esq"] .cartao {
+    border-inline-start: 0;
+    border-inline-end: 0.375rem solid var(--acento);
+  }
+}
+
+/* ---------- Movimento (só com JS e sem movimento reduzido) ---------- */
+
+/*
+ * Especificidade: todas as regras de movimento têm (0,4,0) (o `:where` zera a da parada) e a do foco por teclado,
+ * no fim, (0,5,0): o foco sempre vence, nos dois modos.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  /*
+   * Com CSS scroll-driven: a própria rolagem desenha o traço e revela cada parada (sem JS no caminho).
+   * Só longhands, de propósito: com o shorthand `animation`, o minificador do build junta o `animation-timeline`
+   * dentro dele ("animation: linear both x --tl"), o Chrome descarta a declaração e nada anima (visto na V18).
+   */
+  .trajetoria.anima.nativo .caminho {
+    view-timeline: --tj-caminho block;
+  }
+
+  .trajetoria.anima.nativo .trilha-traco,
+  .trajetoria.anima.nativo .cartao,
+  .trajetoria.anima.nativo .ponto {
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+  }
+
+  .trajetoria.anima.nativo .trilha-traco {
+    animation-name: tj-desenha;
+    animation-timeline: --tj-caminho;
+    animation-range: entry 50% contain 100%;
+  }
+
+  .trajetoria.anima.nativo .cartao {
+    animation-name: tj-revela;
+    animation-timeline: --tj-parada;
+    animation-range: entry 0% entry 80%;
+  }
+
+  .trajetoria.anima.nativo .ponto {
+    animation-name: tj-acende;
+    animation-timeline: --tj-parada;
+    animation-range: entry 20% entry 100%;
+  }
+
+  /* Sem CSS scroll-driven: o IntersectionObserver marca `.vista` e leva o traço até a última parada alcançada. */
+  .trajetoria.anima:not(.nativo) .cartao {
+    transition:
+      clip-path var(--dur-media) var(--ease-entra),
+      translate var(--dur-media) var(--ease-entra);
+  }
+
+  .trajetoria.anima:not(.nativo) .ponto {
+    transition: scale var(--dur-curta) var(--ease-entra);
+  }
+
+  .trajetoria.anima:not(.nativo) .trilha-traco {
+    transition: stroke-dashoffset var(--dur-media) var(--ease-move);
+  }
+
+  .trajetoria.anima:not(.nativo) :where(.parada:not(.vista)) .cartao {
+    clip-path: inset(-0.75rem -0.75rem 100% -0.75rem);
+    translate: 0 1rem;
+  }
+
+  .trajetoria.anima:not(.nativo) :where(.parada:not(.vista)) .ponto {
+    scale: 0.3;
+  }
+}
+
+/* Teclado: o cartão com foco aparece inteiro na hora (o foco não pode cair num link ainda recortado). */
+.trajetoria.anima .parada:focus-within .cartao {
+  animation-name: none;
+  clip-path: none;
+  translate: none;
+}
+
+.trajetoria.anima .parada:focus-within .ponto {
+  animation-name: none;
+  scale: none;
+}
+
+@keyframes tj-desenha {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes tj-revela {
+  from {
+    clip-path: inset(-0.75rem -0.75rem 100% -0.75rem);
+    translate: 0 1rem;
+  }
+  to {
+    clip-path: inset(-0.75rem);
+    translate: 0 0;
+  }
+}
+
+@keyframes tj-acende {
+  from {
+    scale: 0.3;
+  }
+  to {
+    scale: 1;
+  }
+}

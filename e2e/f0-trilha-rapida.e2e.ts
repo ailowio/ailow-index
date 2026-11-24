@@ -143,7 +143,8 @@ test.describe("home", () => {
   // cobrindo a 2ª fileira. Aqui: todo ícone e rótulo inteiro dentro da área visível do conteúdo e acima do rodapé.
   // V02 · 2026-11-20 · ADR 007: a grade desceu para baixo das portas (o topo agora é medido em v02-home.e2e.ts).
   // O critério daqui continua igual, depois de rolar o conteúdo até a grade: ícones inteiros e acima do rodapé.
-  test("em 360x640, os 6 ícones e rótulos ficam inteiros, visíveis e acima do rodapé", async ({ page }) => {
+  // V18 · 2026-11-23 · pedido do Pedro: 7 ícones (o critério não muda).
+  test("em 360x640, os 7 ícones e rótulos ficam inteiros, visíveis e acima do rodapé", async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 640 });
     await page.goto("/");
     await page.waitForTimeout(700);
@@ -160,7 +161,7 @@ test.describe("home", () => {
 
   // No desktop a home é uma moldura de celular: o mesmo critério vale dentro dela.
   // V02 · 2026-11-20 · ADR 007: idem na moldura do desktop (rola o conteúdo até a grade antes de medir).
-  test("em 1280x800 (moldura), os 6 ícones e rótulos ficam inteiros e acima do rodapé", async ({ page }) => {
+  test("em 1280x800 (moldura), os 7 ícones e rótulos ficam inteiros e acima do rodapé", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/");
     await page.waitForTimeout(700);

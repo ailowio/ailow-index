@@ -93,7 +93,8 @@ test.describe("home v2: as portas", () => {
 
   test("a grade de apps continua, abaixo das portas e do contato", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("a.app")).toHaveCount(6);
+    // V18 · 2026-11-23 · pedido do Pedro: a grade passa a 7 ícones (Trajetória).
+    await expect(page.locator("a.app")).toHaveCount(7);
     const m = await page.evaluate(() => ({
       topoGrade: (document.querySelector(".grade-apps") as HTMLElement).getBoundingClientRect().top,
       baseContato: (document.querySelector(".home .botao-acao") as HTMLElement).getBoundingClientRect().bottom,

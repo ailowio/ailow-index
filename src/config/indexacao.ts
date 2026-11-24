@@ -27,6 +27,8 @@ const ROTAS_FIXAS = [
   "/chao-de-fabrica/",
   // V12 (ADR 007 item 5): o quadro Vem aí.
   "/vem-ai/",
+  // V18 (pedido do Pedro, 23/11): a Trajetória, a linha do tempo animada pela rolagem.
+  "/trajetoria/",
 ] as const;
 
 /**

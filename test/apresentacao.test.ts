@@ -48,9 +48,17 @@ describe("/apresentacao: dados", () => {
     expect(tudo).not.toMatch(/tel:|mailto:|wa\.me|\d{10,}/i);
   });
 
-  it("os 5 links do caminho são internos", () => {
+  it("os 6 links do caminho são internos", () => {
     // V07 · 2026-11-20 · ADR 007 item 5: o link de entrevistas aponta para /na-tv (a rota antiga responde 301).
-    expect(apresentacao.caminho.map((c) => c.href)).toEqual(["/pedro", "/na-tv", "/sobre", "/pulse", "/cloud"]);
+    // V18 · 2026-11-23 · pedido do Pedro: a /apresentacao ganha o link da Trajetória, depois do Diário de obra.
+    expect(apresentacao.caminho.map((c) => c.href)).toEqual([
+      "/pedro",
+      "/trajetoria",
+      "/na-tv",
+      "/sobre",
+      "/pulse",
+      "/cloud",
+    ]);
   });
 
   it("vídeo configurado aponta para arquivos que existem em public/ (null = seção ausente)", () => {

@@ -24,6 +24,16 @@ export const APPS: readonly AppDoSite[] = [
       '<circle cx="6" cy="5" r="2.5"/><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M6 7.5v9M6 12h9.5"/>',
   },
   {
+    // V18 · 2026-11-23 · pedido do Pedro ("mais um quadradinho"): a Trajetória entra na grade, ao lado do Diário de
+    // obra (a grade segue com 3 colunas, UXM-10; o 7º ícone abre a 3ª fileira). O glifo é o caminho em degraus, do
+    // ponto de partida ao ponto de hoje.
+    id: "trajetoria",
+    rotulo: "Trajetória",
+    rota: "/trajetoria",
+    titulo: "Trajetória",
+    glifo: '<circle cx="5" cy="19" r="2.5"/><path d="M7.5 19H15v-7H9V5h7.5"/><circle cx="19" cy="5" r="2.5"/>',
+  },
+  {
     id: "entrevistas",
     // V07 · 2026-11-20 · ADR 007 item 5: o ícone de entrevista abre /na-tv (a rota antiga responde 301).
     rotulo: "Na TV",
