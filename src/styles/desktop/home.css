@@ -1,0 +1,107 @@
+/*
+ * V15 · desktop da home (>= 80 rem = 1280 px). Arquivo só com um bloco @media (guarda em test/v15-desktop-css.test.ts):
+ * nada daqui alcança o celular aprovado.
+ * A moldura de aparelho (S05) sai no desktop: a tela vira uma composição larga, sem mudar a hierarquia do ADR 007
+ * item 1 (frase, as 2 portas de mesmo peso, contato e história, e a grade de apps abaixo). As portas ficam lado a
+ * lado; o contato fica sob a 1ª porta e os links secundários sob a 2ª; os 7 apps viram uma fileira só (uma doca).
+ */
+@media (min-width: 80rem) {
+  .tela-home {
+    display: flex;
+    place-items: stretch;
+  }
+
+  .tela-home .aparelho {
+    flex: 1;
+    inline-size: auto;
+    block-size: auto;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .tela-home .aparelho .cabecalho {
+    inline-size: 100%;
+    max-inline-size: 76rem;
+    margin-inline: auto;
+    padding-inline: var(--espaco-4);
+  }
+
+  .tela-home .aparelho .conteudo {
+    display: grid;
+    /* `safe`: se um dia o conteúdo passar da altura, o topo continua alcançável pela rolagem. */
+    align-content: safe center;
+  }
+
+  .tela-home .aparelho .home {
+    inline-size: 100%;
+    max-inline-size: 76rem;
+    margin-inline: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--espaco-4) var(--espaco-3);
+    padding: var(--espaco-2) var(--espaco-4) var(--espaco-4);
+  }
+
+  .tela-home .aparelho .widget,
+  .tela-home .aparelho .portas,
+  .tela-home .aparelho .apps {
+    grid-column: 1 / -1;
+  }
+
+  /* A frase sobre a 1ª porta, a proposta sobre a 2ª: as duas colunas da tela inteira se alinham. */
+  .tela-home .aparelho .widget {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: end;
+    gap: var(--espaco-1) var(--espaco-3);
+    padding: var(--espaco-3) var(--espaco-4);
+  }
+
+  .tela-home .aparelho .widget .dominio {
+    grid-column: 1 / -1;
+  }
+
+  .tela-home .aparelho .widget h1 {
+    font-size: 3.25rem;
+  }
+
+  .tela-home .aparelho .widget .proposta {
+    font-size: var(--texto-subtitulo);
+    line-height: 1.35;
+  }
+
+  .tela-home .aparelho .portas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--espaco-3);
+  }
+
+  .tela-home .aparelho .porta {
+    padding: var(--espaco-2);
+  }
+
+  .tela-home .aparelho .porta:hover {
+    border-color: var(--acento);
+  }
+
+  .tela-home .aparelho .contato-home {
+    align-self: center;
+  }
+
+  .tela-home .aparelho .secundarios {
+    justify-content: flex-end;
+    gap: 0 var(--espaco-4);
+  }
+
+  .tela-home .aparelho .grade-apps {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: var(--espaco-2);
+  }
+
+  .tela-home .aparelho .app:hover .app-tile {
+    border-color: var(--acento);
+  }
+
+  /* A barra de gesto é do aparelho; sem moldura, sai. */
+  .tela-home .gesto {
+    display: none;
+  }
+}

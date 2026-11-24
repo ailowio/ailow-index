@@ -7,16 +7,6 @@ Entradas antigas: `diario/ARQUIVO-*.md` (ler só sob demanda).
 Feito: · Números (antes -> depois): · Decisões: · Pendências para a próxima: · Verificação:
 -->
 
-### V13 — Explorador de fotos — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
-Leu: regras, Contrato, V13, retomada, V12; ADR 008; brainstorm §5.3; Explorador (Fluxo.astro, explorar.css, e2e); catálogo da bancada (quadro, gateway, sensoriza), PLANO da série §3 e §9 e claims C14, C16, C17 (só leitura).
-Feito: modo foto em `/explorar/<slug>` (`Foto.astro`, `src/fotos/`, `src/data/fotos/*.json`): pontos `<button>` por % com clamp, painel do fluxo (o que é + detalhe técnico), Esc devolve o foco, "Ver como lista", pulso com movimento reduzido. Fotos: V156 t=0,5 s (botoeira e quadro do tear, #047; recorte tira caixa de papelão) e V385 t=3 s (caixa de sensores do piloto, #081; marcas DR, disjuntor, gateway e cabo borradas), WebP 720 px, 62,8 e 64,5 KB, sem metadados. Índice do /explorar ganha "Fotos do chão de fábrica"; sitemap. ADR 008 ganha a revisão "fotos estáticas" (PR + teto 80 KB + lista de permissões de pasta). Versão 1.13.0.
-Decisões (delegação): V149–V153 fora (gate 7 do PLANO da série: só depois de D6); quadro = V156 (C17 cita V146–V156 como prova da #047); caixa = V385 (C16 cita V384–V435, caixas do piloto); V442 fora (etiqueta com código de barras); antena sem ponto (função não confirmada); nada de "conforme NR".
-Testes antigos alterados: `indexacao.test.ts` (+2 rotas, comentário V13 · ADR 007 item 5 e ADR 008).
-Canários (L-0006): foto de 156 KB (2 Vitest vermelhos); clamp tirado + ponto em x=99 (E2E "sai da imagem" vermelho; com clamp, verde); sem a rolagem do ponto (2 vermelhos "painel cobre"); sem a regra de movimento reduzido (2 vermelhos); revertidos. Canários permanentes de pasta, WebP, esquema e conformidade.
-Números: Vitest 645 → 662; E2E 852 → 902 passed; fotos JS 1,18/2 KiB, peso 76,8 e 78,7/100 KiB.
-Pendência: a #047 diz 25/05; o vídeo do acervo (V156) é de 14/05 (a página diz só a data do vídeo).
-Screenshots: `D:/apps/.playwright-mcp/auditoria/v13/`.
-
 ### V14 — IA no seu negócio — 2026-11-20 — Claude Opus 5.5 (subagente de UI)
 Leu: regras, Contrato, V14, retomada, V13; ADR 007; brainstorm §5.5 S3; entradas de n8n, SGI e Cloud; os 5 fluxos; /consultoria e /educacao.
 Feito: `/ia-no-seu-negocio` (escolha de setor por link) + `/ia-no-seu-negocio/{grafica,textil,comercio,servico}`: 3 níveis (celular · automação · sistema) × 3 usos; cada uso = fato "Na Copel"/"No Cloud" com #NNN ou "Ver o fluxo" + sugestão tracejada com selo "Sugestão numa …". Fim: /educacao e /consultoria + WhatsApp `[ia-no-seu-negocio · <setor>]`. Link "Ver usos de IA para o seu setor" na escada das duas ofertas. Sitemap, orçamento, seção nova em `apps.ts`. Sem script. Versão 1.14.0.
@@ -36,3 +26,14 @@ Canários (L-0006): sem a guarda de movimento reduzido (2 E2E vermelhos); chip c
 Falha no caminho: o minificador juntou `animation-timeline` no shorthand e o Chrome descartou (nada animava); agora só longhands.
 Números: Vitest 742 → 777; E2E 1052 → 1106 passed; JS 1,32/2 KiB; peso 18,6/60 KiB.
 Screenshots: `D:/apps/.playwright-mcp/auditoria/v18/`.
+
+### V15 — Desktop por rota — 2026-11-24 — Claude Opus 5.5 (subagente de UI)
+Leu: CLAUDE.md, Contrato, V15, retomada, V18; ADR 007; CSS e marcação das 7 rotas; E2E de home, Diário e Trajetória.
+Feito: ≥ 80 rem, em `src/styles/desktop/` (1 bloco @media por arquivo, só a página da rota importa). Home sem moldura: frase + proposta, portas lado a lado, WhatsApp sob a 1ª, história/Diário sob a 2ª, 7 apps numa fileira abaixo. Ofertas: topo 2 colunas, título de seção numa trilha à esquerda, "Na Copel" ao lado da etapa, raio-x com a mensagem ao lado. Na TV: tarja à esquerda, trechos à direita. Diário: perfil/frentes à esquerda, visita + feed à direita (ordem do DOM igual). Explorar: título ao lado dos cartões. Trajetória: esq e dir dividem a faixa (zigue-zague), topo 2 colunas. ADR 007 ganha a revisão V15. Versão 1.16.0.
+Decisões (delegação): regressão por geometria, não por imagem (o CI é Linux); moldura sai no desktop, a grade continua abaixo (item 1); cabeçalho interno segue de ponta a ponta (compartilhado com rotas fora do escopo).
+Teste antigo alterado (comentário V15 · 2026-11-23): `v09-diario.e2e.ts` (ordem do topo: ramo < 1280 intacto; ≥ 1280 confere as 2 colunas).
+Canários (L-0006): regra das ofertas fora do @media (guarda Vitest e E2E 360 "pares empilhados" vermelhos; a suíte v03 de 360 não pegou); sem o import da home (5 vermelhos + guarda); `.pr-corpo p` sem largura máxima (4 vermelhos, 78 ch); `.escada-tv` com 90rem (4 vermelhos, 144–224 px de sobra). Revertidos.
+Prova do celular: geometria de todo elemento em 360 e 375 (7 rotas + chão de fábrica + foto) igual à `main` (0 diferenças; a mesma comparação em 1440 acusa 3349).
+Números: Vitest 777 → 790; E2E 1106 → 1150 passed; JS igual; peso +0,25–0,58 KiB.
+Screenshots: `D:/apps/.playwright-mcp/auditoria/v15/` (1280/1440 × 2 temas, `celular/`, `trechos/`, `antes/`).
+Fechamento pelo orquestrador (Claude Opus 5.5, 24/11): o subagente foi parado antes do relatório; `npm run verify` exit 0 e `npx playwright test` 1150 passed / 44 skipped, exit 0, rodados de novo; canário próprio (home a partir de 20 rem): 1 Vitest + 5 E2E de 360 vermelhos, revertido e verde.

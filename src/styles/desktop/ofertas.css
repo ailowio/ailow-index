@@ -1,0 +1,153 @@
+/*
+ * V15 · desktop da /consultoria e da /educacao (>= 80 rem = 1280 px). Arquivo só com um bloco @media (guarda em
+ * test/v15-desktop-css.test.ts): nada daqui alcança o celular aprovado.
+ * As duas ofertas têm a mesma forma: topo em 2 colunas (a frase à esquerda; a tese, a ação e o atalho à direita) e,
+ * em cada seção, o título numa trilha à esquerda e o conteúdo à direita. Texto corrido segue com 60 ch (global).
+ * Na consultoria, cada etapa do método põe o "Na Copel" ao lado do que é feito, e o raio-x mostra a mensagem do
+ * WhatsApp ao lado das perguntas, enquanto a pessoa responde.
+ */
+@media (min-width: 80rem) {
+  .consultoria,
+  .educacao {
+    max-inline-size: 76rem;
+    gap: var(--espaco-8);
+    padding: var(--espaco-6) var(--espaco-4) var(--espaco-8);
+  }
+
+  /* ---------- Topo: a frase à esquerda, a tese e a ação à direita ---------- */
+
+  .consultoria .consultoria-topo,
+  .educacao .educacao-topo {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas:
+      "sobre sobre"
+      "titulo tese"
+      "titulo acao"
+      "titulo atalho";
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: var(--espaco-6);
+    align-items: start;
+  }
+
+  .consultoria-topo .sobretitulo,
+  .educacao-topo .sobretitulo {
+    grid-area: sobre;
+  }
+
+  .consultoria .consultoria-topo h2,
+  .educacao .educacao-topo h2 {
+    grid-area: titulo;
+    font-size: 3.5rem;
+  }
+
+  .consultoria-topo .tese,
+  .educacao-topo .tese {
+    grid-area: tese;
+  }
+
+  .consultoria-topo .botao-acao,
+  .educacao-topo .botao-acao {
+    grid-area: acao;
+  }
+
+  .consultoria-topo .ir-raio-x,
+  .educacao-topo .ir-kit {
+    grid-area: atalho;
+  }
+
+  /* ---------- Seções: o título numa trilha à esquerda, o conteúdo à direita ---------- */
+
+  .consultoria section:not(.consultoria-topo),
+  .educacao section:not(.educacao-topo) {
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+    column-gap: var(--espaco-6);
+    align-items: start;
+  }
+
+  .consultoria section:not(.consultoria-topo) > *,
+  .educacao section:not(.educacao-topo) > * {
+    grid-column: 2;
+  }
+
+  .consultoria section:not(.consultoria-topo) > h2,
+  .educacao section:not(.educacao-topo) > h2 {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 1.75rem;
+    line-height: 1.05;
+  }
+
+  /* ---------- Consultoria: o método com o "Na Copel" ao lado ---------- */
+
+  .consultoria .metodo > li {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    grid-template-rows: auto 1fr;
+    column-gap: var(--espaco-3);
+    align-items: start;
+  }
+
+  .consultoria .metodo > li > h3 {
+    grid-column: 1;
+  }
+
+  .consultoria .metodo > li > p {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .consultoria .metodo .na-copel {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin-block-start: 0;
+  }
+
+  /* ---------- Consultoria: o raio-x com a mensagem ao lado das perguntas ---------- */
+
+  .consultoria .raio-x {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: var(--espaco-4);
+    align-items: start;
+    padding: var(--espaco-3);
+  }
+
+  .consultoria .raio-x > .campo {
+    grid-column: 1;
+  }
+
+  .consultoria .raio-x > .os-cabecalho {
+    grid-column: 1 / -1;
+  }
+
+  .consultoria .raio-x > .previa {
+    grid-column: 2;
+    grid-row: 2 / span 4;
+  }
+
+  .consultoria .raio-x > .botao-acao {
+    grid-column: 2;
+    grid-row: 6;
+  }
+
+  .consultoria .raio-x > .aviso {
+    grid-column: 2;
+    grid-row: 7;
+  }
+
+  /* ---------- Educação: palcos em 2 colunas ---------- */
+
+  .educacao .palcos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--espaco-4);
+  }
+
+  .educacao .palcos > li:nth-child(2) {
+    padding-block-start: 0;
+    border-block-start: 0;
+  }
+
+  /* Ponteiro fino: o mesmo realce do foco aparece no passar do mouse. */
+  .consultoria .degrau-link:hover,
+  .educacao .degrau-link:hover {
+    text-decoration-thickness: var(--traco-borda);
+  }
+}
