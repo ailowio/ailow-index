@@ -1,0 +1,53 @@
+/*
+ * V15 · ajuste fino do desktop da /trajetoria (>= 80 rem = 1280 px; o traço no centro e os lados alternados são da
+ * V18, em trajetoria.css). Arquivo só com um bloco @media (guarda em test/v15-desktop-css.test.ts).
+ * Densidade: cada parada ocupava uma linha inteira e metade da tela ficava vazia; agora a parada da esquerda e a da
+ * direita seguinte dividem a mesma faixa (a da direita desce 3 rem, para o zigue-zague continuar legível). A ordem
+ * de leitura não muda (esquerda, depois direita). O topo segue a forma das outras rotas: frase à esquerda, tese à
+ * direita.
+ */
+@media (min-width: 80rem) {
+  .trajetoria .tj-topo {
+    max-inline-size: none;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "sobre sobre"
+      "titulo tese";
+    column-gap: var(--espaco-6);
+    align-items: end;
+  }
+
+  .trajetoria .tj-sobretitulo {
+    grid-area: sobre;
+  }
+
+  .trajetoria .tj-topo h2 {
+    grid-area: titulo;
+    font-size: 3.5rem;
+  }
+
+  .trajetoria .tj-tese {
+    grid-area: tese;
+  }
+
+  /* As 2 colunas medem exatamente 50% - vão: os pontos continuam sobre o traço do centro. */
+  .trajetoria .paradas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: calc(2 * var(--vao));
+    align-items: start;
+  }
+
+  .trajetoria .parada {
+    inline-size: auto;
+  }
+
+  .trajetoria .parada[data-lado="esq"] {
+    grid-column: 1;
+  }
+
+  .trajetoria .parada[data-lado="dir"] {
+    grid-column: 2;
+    margin-inline-start: 0;
+    margin-block-start: var(--espaco-6);
+  }
+}

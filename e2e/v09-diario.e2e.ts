@@ -96,11 +96,35 @@ test.describe("os 3 que eu mostraria numa visita", () => {
     // A visita fica antes do perfil e do feed (topo).
     const topo = await page.evaluate(() => {
       const y = (s: string) => (document.querySelector(s) as HTMLElement).getBoundingClientRect().top;
-      return { lente: y(".diario-topo"), visita: y(".visita"), perfil: y(".perfil"), feed: y(".feed") };
+      const x = (s: string) => (document.querySelector(s) as HTMLElement).getBoundingClientRect().left;
+      return {
+        largura: window.innerWidth,
+        lente: y(".diario-topo"),
+        visita: y(".visita"),
+        perfil: y(".perfil"),
+        feed: y(".feed"),
+        xLente: x(".diario-topo"),
+        xVisita: x(".visita"),
+        xPerfil: x(".perfil"),
+        xFeed: x(".feed"),
+      };
     });
-    expect(topo.lente).toBeLessThan(topo.visita);
-    expect(topo.visita).toBeLessThan(topo.perfil);
-    expect(topo.perfil).toBeLessThan(topo.feed);
+    if (topo.largura < 1280) {
+      expect(topo.lente).toBeLessThan(topo.visita);
+      expect(topo.visita).toBeLessThan(topo.perfil);
+      expect(topo.perfil).toBeLessThan(topo.feed);
+    } else {
+      // V15 · 2026-11-23 · desktop por rota (ADR 007, revisão V15): em >= 1280 px o Diário tem 2 colunas. A visita
+      // segue no topo, ao lado da lente (coluna da direita); o perfil fica abaixo da lente e o feed abaixo da visita.
+      // O celular continua com a ordem vertical de antes (ramo acima, sem mudança).
+      const msg = JSON.stringify(topo);
+      expect(Math.abs(topo.lente - topo.visita), msg).toBeLessThanOrEqual(1);
+      expect(topo.xLente, msg).toBeLessThan(topo.xVisita);
+      expect(topo.lente, msg).toBeLessThan(topo.perfil);
+      expect(topo.visita, msg).toBeLessThan(topo.feed);
+      expect(topo.xPerfil, msg).toBe(topo.xLente);
+      expect(topo.xFeed, msg).toBe(topo.xVisita);
+    }
   });
 
   test("toda entrada citada por /consultoria, /educacao, /chao-de-fabrica e /na-tv tem resumo para empresários", async ({

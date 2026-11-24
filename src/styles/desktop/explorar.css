@@ -1,0 +1,39 @@
+/*
+ * V15 · desktop do índice do Explorador (/explorar, >= 80 rem = 1280 px). Arquivo só com um bloco @media (guarda
+ * em test/v15-desktop-css.test.ts): nada daqui alcança o celular aprovado. Importado só pelo índice; o seletor
+ * `:has(> .lista-fluxos)` garante que as páginas de fluxo e de foto (mesma classe .explorar) não mudam.
+ * Cada grupo (fluxos, fotos) com o título e o resumo numa coluna à esquerda e os cartões à direita.
+ */
+@media (min-width: 80rem) {
+  .explorar:has(> .lista-fluxos) {
+    inline-size: 100%;
+    max-inline-size: 76rem;
+    margin-inline: auto;
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    gap: var(--espaco-4) var(--espaco-6);
+    align-items: start;
+    padding: var(--espaco-6) var(--espaco-4) var(--espaco-8);
+  }
+
+  .explorar:has(> .lista-fluxos) > * {
+    grid-column: 2;
+  }
+
+  .explorar:has(> .lista-fluxos) > .cabeca {
+    grid-column: 1;
+  }
+
+  .explorar:has(> .lista-fluxos) .cabeca h2 {
+    font-size: 1.75rem;
+    line-height: 1.05;
+  }
+
+  .explorar:has(> .lista-fluxos) .credito {
+    margin-block-start: calc(-1 * var(--espaco-2));
+  }
+
+  .cartao-fluxo:hover,
+  .cartao-foto:hover {
+    border-color: var(--acento);
+  }
+}

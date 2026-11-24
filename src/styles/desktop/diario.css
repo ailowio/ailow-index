@@ -1,0 +1,42 @@
+/*
+ * V15 · desktop do Diário de obra (/pedro, >= 80 rem = 1280 px). Arquivo só com um bloco @media (guarda em
+ * test/v15-desktop-css.test.ts): nada daqui alcança o celular aprovado. Importado só pelo /pedro (as labels e a
+ * stack ficam como estão).
+ * Duas colunas: à esquerda, quem é e por onde filtrar (subtítulo e lente, perfil, antes do primeiro commit, frentes,
+ * ferramentas); à direita, o que mostrar (os 3 da visita) e o feed inteiro, numa largura de leitura.
+ * A ordem do DOM (e do teclado e do leitor de tela) não muda.
+ */
+@media (min-width: 80rem) {
+  .pagina[data-diario] {
+    inline-size: 100%;
+    max-inline-size: 76rem;
+    margin-inline: auto;
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    /* 5 linhas da coluna da esquerda e uma última que absorve a altura do feed. */
+    grid-template-rows: repeat(5, auto) 1fr;
+    gap: var(--espaco-4) var(--espaco-6);
+    align-items: start;
+    padding: var(--espaco-4) var(--espaco-4) var(--espaco-8);
+  }
+
+  .pagina[data-diario] > * {
+    grid-column: 1;
+  }
+
+  .pagina[data-diario] > .visita {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .pagina[data-diario] > .feed {
+    grid-column: 2;
+    grid-row: 2 / -1;
+  }
+
+  .pagina[data-diario] .perfil h2 {
+    font-size: 2.5rem;
+  }
+
+  .pagina[data-diario] .links {
+    gap: 0 var(--espaco-2);
+  }}

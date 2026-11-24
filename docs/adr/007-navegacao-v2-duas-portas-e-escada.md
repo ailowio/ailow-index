@@ -48,3 +48,10 @@ objetivos: consultoria sob medida e educação corporativa (Sistema S). O feed d
 - **Riscos e mitigação:** duas ofertas confundirem → teste da pessoa não técnica (V17) com critério fixado antes do resultado (L-0017).
 - **Como saberemos que deu certo:** V17: 3 de 3 leigos dizem em 30 s o que o Pedro faz e acham o contato em ≤ 2 toques.
 - **Revisão em:** depois da V17.
+
+## Revisão em 2026-11-23 (V15): desktop por rota
+
+- **Decisão (orquestrador, por delegação do Pedro de 2026-11-20 e 2026-11-23):** em ≥ 80 rem (1280 px) a home **deixa a moldura de aparelho** da S05 e vira uma composição larga, **sem mudar a hierarquia do item 1**: frase (com a proposta ao lado), as duas portas de mesmo peso lado a lado (mesma largura e altura), o contato sob a 1ª porta e "Conhecer a história" + "Diário de obra" sob a 2ª, e a grade de apps **abaixo**, numa fileira de 7 (uma doca). As rotas internas do escopo ganham layout próprio no mesmo ponto de quebra; o celular não muda.
+- **Mecanismo:** todo o CSS de desktop da V15 fica em `src/styles/desktop/<rota>.css`, cada arquivo um único bloco `@media (min-width: 80rem)`, importado só pela página da rota (guarda `test/v15-desktop-css.test.ts`, com canários). A regressão visual é por geometria (`e2e/v15-desktop.e2e.ts`), não por imagem: o CI roda em Linux e imagens base do Windows não batem.
+- **Alternativas descartadas:** (a) manter a moldura e só centralizar: 4/5 da tela vazios e a grade de apps escondida sob a dobra; (b) apps numa coluna à direita das portas: a grade sobe ao lado das portas e contraria "a grade abaixo" do item 1 (o E2E `v02-home` cobra isso também em 1280); (c) regressão por screenshot com imagens base geradas no CI: exige um job para gerar e versionar as imagens Linux a cada mudança de layout e não diz *o que* quebrou.
+- **Contraponto:** a moldura era a forma mais literal de "o site é um app"; no desktop essa metáfora fica só na doca de ícones e na transição de abrir app (ADR 003, D1).

@@ -4,6 +4,12 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.16.0] - 2026-11-24
+
+### Alterado
+- V15: **desktop por rota.** Em telas a partir de 1280 px, sete páginas ganham layout próprio, sem mudar nada no celular. A home deixa a moldura de celular e vira uma tela larga: a frase ao lado da proposta, as duas portas lado a lado, o WhatsApp sob a primeira e os links "Conhecer a história" e "Diário de obra" sob a segunda, e os 7 apps numa fileira só. Na `/consultoria` e na `/educacao`, a frase fica à esquerda e a tese com o botão à direita; cada seção põe o título numa trilha à esquerda e o conteúdo ao lado; cada etapa do método mostra o "Na Copel" ao lado do que é feito, e o raio-x mostra a mensagem do WhatsApp ao lado das perguntas. Na `/na-tv`, cada entrevista põe a tarja (veículo, data, texto e prova) à esquerda e os trechos em vídeo à direita. O Diário de obra separa quem é e por onde filtrar (perfil, antes do primeiro commit, frentes e ferramentas) numa coluna à esquerda, com os 3 da visita e o feed à direita. O `/explorar` põe o título e o resumo de cada grupo ao lado dos cartões. A `/trajetoria` fica com metade da altura: a parada da esquerda e a da direita seguinte dividem a mesma faixa, em zigue-zague. O texto corrido segue com largura de leitura (até 72 caracteres).
+- V15: um teste de navegador confere, em 1280 e 1440 px e nos 2 temas, as colunas lado a lado, a largura de leitura, nada fora do contêiner nem sob o rodapé, 0 rolagem horizontal e o axe; em 360 px, os mesmos pares continuam empilhados; e o título do cabeçalho cabe em 360 px em todas as páginas do sitemap. Outro teste reprova CSS de desktop fora do bloco de 1280 px.
+
 ## [1.15.0] - 2026-11-23
 
 ### Adicionado

@@ -1,0 +1,64 @@
+/*
+ * V15 · desktop da /na-tv (>= 80 rem = 1280 px). Arquivo só com um bloco @media (guarda em
+ * test/v15-desktop-css.test.ts): nada daqui alcança o celular aprovado. Importado só pela /na-tv (o na-tv.css
+ * também serve a /chao-de-fabrica, que fica como está).
+ * Cada degrau vira uma tarja de telejornal: o GC (chapéu, veículo, data, texto e prova) numa coluna à esquerda e os
+ * trechos em vídeo ao lado, à direita. O topo segue a forma das ofertas: a frase à esquerda, a tese à direita.
+ */
+@media (min-width: 80rem) {
+  .na-tv {
+    max-inline-size: 76rem;
+    gap: var(--espaco-8);
+    padding: var(--espaco-6) var(--espaco-4) var(--espaco-8);
+  }
+
+  .na-tv .na-tv-topo {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas:
+      "sobre sobre"
+      "titulo tese";
+    column-gap: var(--espaco-6);
+    align-items: end;
+  }
+
+  .na-tv-topo .sobretitulo {
+    grid-area: sobre;
+  }
+
+  .na-tv .na-tv-topo h2 {
+    grid-area: titulo;
+    font-size: 3.5rem;
+  }
+
+  .na-tv-topo .tese {
+    grid-area: tese;
+  }
+
+  .na-tv .escada-tv {
+    gap: var(--espaco-8);
+  }
+
+  /* O GC à esquerda (4 linhas) e os trechos à direita, da 1ª à última linha; a última absorve a sobra de altura. */
+  .na-tv .gc {
+    grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
+    grid-template-rows: repeat(4, auto) 1fr;
+    column-gap: var(--espaco-6);
+    align-items: start;
+  }
+
+  .na-tv .gc > * {
+    grid-column: 1;
+  }
+
+  .na-tv .gc > .teasers {
+    grid-column: 2;
+    grid-row: 1 / -1;
+  }
+
+  .na-tv .gc-veiculo {
+    font-size: 2rem;
+  }
+  .na-tv .chip-tv:hover {
+    border-color: var(--acento);
+  }
+}
