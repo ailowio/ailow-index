@@ -16,8 +16,9 @@ describe("home v2: as duas portas (ADR 007)", () => {
     ]);
   });
 
-  it("as portas não entram na grade de apps, que continua com 6", () => {
-    expect(APPS).toHaveLength(6);
+  // V18 · 2026-11-23 · pedido do Pedro ("mais um quadradinho"): a Trajetória entra na grade, que passa a 7.
+  it("as portas não entram na grade de apps, que tem 7", () => {
+    expect(APPS).toHaveLength(7);
     for (const p of PORTAS) expect(APPS.map((a) => a.id)).not.toContain(p.id);
   });
 

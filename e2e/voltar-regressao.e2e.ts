@@ -110,7 +110,8 @@ test.describe("Voltar: matriz de regressão", () => {
       await expect(page).toHaveURL(new RegExp(`${rota}/?$`));
       await page.goBack();
       await expect(page).toHaveURL(/\/$/);
-      await expect(page.locator("a.app")).toHaveCount(6);
+      // V18 · 2026-11-23 · pedido do Pedro: a grade da home passa a 7 ícones (Trajetória).
+      await expect(page.locator("a.app")).toHaveCount(7);
     }
     // E ainda dá para abrir outro ícone e voltar pela seta.
     await page.locator('a.app[href="/cloud"]').click();

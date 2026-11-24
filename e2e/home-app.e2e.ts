@@ -58,10 +58,11 @@ for (const rota of ROTAS) {
 }
 
 test.describe("home como tela inicial", () => {
-  test("mostra a grade de 6 apps com alvos de 48 px e rótulo", async ({ page }) => {
+  // V18 · 2026-11-23 · pedido do Pedro ("mais um quadradinho"): a Trajetória entra, a grade passa a 7.
+  test("mostra a grade de 7 apps com alvos de 48 px e rótulo", async ({ page }) => {
     await page.goto("/");
     const apps = page.locator("a.app");
-    await expect(apps).toHaveCount(6);
+    await expect(apps).toHaveCount(7);
     for (const app of APPS) {
       const link = page.locator(`a.app[href="${app.rota}"]`);
       await expect(link).toContainText(app.rotulo);
@@ -74,7 +75,8 @@ test.describe("home como tela inicial", () => {
 
   // V02 · 2026-11-20 · ADR 007: a grade de apps desceu para baixo das portas. A página continua sem rolar
   // (UXM-01); os ícones ficam ao alcance rolando só o conteúdo, e o último chega inteiro à tela.
-  test("home em 360x640 não rola e os 6 ícones ficam inteiros na tela", async ({ page }) => {
+  // V18 · 2026-11-23 · pedido do Pedro: 7 ícones (o critério não muda).
+  test("home em 360x640 não rola e os 7 ícones ficam inteiros na tela", async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 640 });
     await page.goto("/");
     await page.waitForTimeout(700);
@@ -192,7 +194,8 @@ test.describe("Voltar (ADR 003 item 4, revisto na F0)", () => {
     await expect(page).toHaveURL(/\/pedro\/?$/);
     await page.goBack();
     await expect(page).toHaveURL(/\/$/);
-    await expect(page.locator("a.app")).toHaveCount(6);
+    // V18 · 2026-11-23 · pedido do Pedro: a grade da home passa a 7 ícones (Trajetória).
+    await expect(page.locator("a.app")).toHaveCount(7);
   });
 
   test("(b2) a seta da página volta à home quando veio dela", async ({ page }) => {

@@ -55,6 +55,8 @@ export const apresentacao: {
   },
   caminho: [
     { rotulo: "Diário de obra", href: "/pedro" },
+    // V18 (pedido do Pedro, 23/11): a linha do tempo, do primeiro emprego à integração com o banco.
+    { rotulo: "Trajetória", href: "/trajetoria" },
     { rotulo: "Entrevistas", href: "/na-tv" },
     { rotulo: "Ailow", href: "/sobre" },
     { rotulo: "Pulse", href: "/pulse" },

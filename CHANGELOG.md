@@ -4,6 +4,13 @@ Formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/); versionamen
 
 ## [Unreleased]
 
+## [1.15.0] - 2026-11-23
+
+### Adicionado
+- V18 (pedido do Pedro, 23/11): **`/trajetoria`, a linha do tempo que se desenha com a rolagem.** Um traço amarelo avança enquanto a pessoa rola (mouse ou dedo, rolagem nativa, sem travar nem pular), e cada parada aparece ao chegar no caminho: os marcos da vida e da fábrica, do primeiro emprego numa gráfica digital (2014) à integração direta com o banco (19/11/2026), e as entradas do Diário de obra que marcaram o caminho (o servidor próprio, os cursos de n8n, o primeiro commit do SGI, o Claude Code, a bancada de vídeo, o harness, o Projeto Final). Cada ferramenta entra como chip no ponto em que aparece pela primeira vez no Diário de obra ("entra aqui: n8n, Chatwoot…"), com link para a sua label, e um contador fixo mostra o ano e quantas ferramentas já estão no caminho. Entrada nova no feed com ferramenta nova vira ponto novo sem editar a página. No celular o traço fica à esquerda; em telas a partir de 1280 px, no centro, com as paradas alternando os lados. Sem JavaScript ou com movimento reduzido, tudo aparece de uma vez, com o traço inteiro.
+- V18: a Trajetória ganha o 7º ícone na grade da home e links na `/apresentacao` (e no `/bio`), no `/sobre` e no Diário de obra; entra no sitemap e ganha orçamento de peso (JS 2 KiB, peso 60 KiB).
+- V18: um teste reprova marco sem fonte (entrada confirmada do Diário de obra ou marca do áudio de 19/11), fora da ordem, com data diferente da entrada citada, e texto com valor, percentual, assunto de saúde ou vida pessoal, nome próprio fora da lista permitida, IP ou a grafia errada da marca (com canários); e confere que os chips batem com a primeira aparição de cada ferramenta no feed.
+
 ## [1.14.0] - 2026-11-20
 
 ### Adicionado

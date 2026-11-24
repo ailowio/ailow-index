@@ -1,0 +1,147 @@
+---
+import { carregarFeed } from "../changelog/carregar";
+import { carregarTermosLocais } from "../changelog/carregar-termos";
+import { rotuloNumero } from "../changelog/labels";
+import { MARCOS, montarTrajetoria, ROTULO_AUDIO, TOPO } from "../data/trajetoria";
+import App from "../layouts/App.astro";
+import "../styles/trajetoria.css";
+
+// V18 (2026-11-23, pedido do Pedro): a linha do tempo que se desenha com a rolagem. Marcos à mão com fonte
+// (src/data/trajetoria.ts) + ferramentas derivadas do feed publicado (cada uma na entrada em que aparece pela 1ª vez).
+// Sem JS ou com movimento reduzido: tudo visível e estático, traço inteiro. Com JS: o script marca a página para animar
+// (CSS scroll-driven quando o navegador tem; senão IntersectionObserver) e liga o contador. A rolagem é nativa.
+const { prs, catalogos, labels } = await carregarFeed();
+const nomes = new Map(catalogos.ferramentas.map((f) => [f.id, f.nome]));
+const slugs = new Set(labels.filter((l) => l.tipo === "ferramenta").map((l) => l.slug));
+const t = montarTrajetoria(
+  MARCOS,
+  prs.map((p) => ({ numero: p.numero, data: p.data, titulo: p.titulo, ferramentas: p.ferramentas })),
+  nomes,
+  slugs,
+  carregarTermosLocais(),
+);
+// Os builds de teste (test/build/) trocam o feed por fixtures sem estas entradas (AILOW_PRS_DIR): lá os marcos sem
+// entrada só ficam de fora. Com o feed real, qualquer erro derruba o build; test/v18-trajetoria.test.ts cobre o mesmo.
+if (t.erros.length > 0 && !process.env.AILOW_PRS_DIR) {
+  throw new Error(`Trajetória inválida:\n- ${t.erros.join("\n- ")}`);
+}
+const entradas = prs.length;
+let indice = 0;
+const primeiro = t.anos[0]?.ano ?? "";
+---
+
+<App
+  id="trajetoria"
+  tituloPagina="Trajetória: o caminho de Pedro Fernandes, da gráfica aos sensores"
+  descricao="A linha do tempo do Pedro, de 2014 até hoje: os marcos da fábrica e cada ferramenta no ponto em que entrou no caminho, com a fonte no Diário de obra."
+>
+  <div class="trajetoria" data-trajetoria>
+    <section class="tj-topo" aria-labelledby="tj-titulo">
+      <p class="tj-sobretitulo">{TOPO.sobretitulo}</p>
+      <h2 id="tj-titulo">{TOPO.titulo}</h2>
+      <p class="tj-tese">{TOPO.tese}</p>
+    </section>
+
+    <p class="tj-contador" data-contador aria-hidden="true" hidden>
+      <span class="tj-contador-ano" data-contador-ano>{primeiro}</span>
+      <span class="tj-contador-n"><strong data-contador-n>0</strong> ferramentas até aqui</span>
+    </p>
+
+    <div class="caminho" data-caminho>
+      <svg class="trilha" viewBox="0 0 2 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path class="trilha-fundo" d="M1 0V100"></path>
+        <path class="trilha-traco" d="M1 0V100" data-traco></path>
+      </svg>
+      {
+        t.anos.map((a) => (
+          <section class="ano" aria-labelledby={`ano-${a.ano}`}>
+            <h2 class="ano-rotulo" id={`ano-${a.ano}`}>
+              {a.ano}
+            </h2>
+            <ol class="paradas">
+              {a.paradas.map((p) => {
+                const lado = indice++ % 2 === 0 ? "esq" : "dir";
+                const classe =
+                  p.tipo === "marco" ? "parada marco" : p.destaque ? "parada entrada destaque" : "parada entrada";
+                return (
+                  <li class={classe} data-lado={lado} data-ano={a.ano} data-acumulado={p.acumulado}>
+                    <span class="ponto" aria-hidden="true" />
+                    <div class="cartao">
+                      <p class="parada-meta">
+                        {p.tipo === "marco" ? (
+                          <span class="parada-tipo">Marco</span>
+                        ) : (
+                          <span class="parada-tipo">{rotuloNumero(p.numero)}</span>
+                        )}
+                        <time datetime={p.data}>{p.rotulo}</time>
+                      </p>
+                      <h3 class="parada-titulo">
+                        {p.tipo === "entrada" ? <a href={p.href}>{p.titulo}</a> : p.titulo}
+                      </h3>
+                      {p.tipo === "marco" && <p class="parada-texto">{p.texto}</p>}
+                      {p.tipo === "marco" && p.fonte.tipo === "audio" && (
+                        <p class="parada-fonte">
+                          Fonte: {ROTULO_AUDIO}, {p.fonte.marca}
+                        </p>
+                      )}
+                      {p.tipo === "marco" && p.fonte.tipo === "pr" && (
+                        <p class="parada-fonte">
+                          Fonte: <a href={p.fonte.href}>entrada {rotuloNumero(p.fonte.numero)} do Diário de obra</a>
+                        </p>
+                      )}
+                      {p.chips.length > 0 && (
+                        <div class="parada-ferramentas">
+                          <p class="ferramentas-rotulo">
+                            Entra{p.chips.length > 1 ? "m" : ""} aqui · {p.acumulado} ferramentas até aqui
+                          </p>
+                          <ul class="tj-chips">
+                            {p.chips.map((c) => (
+                              <li>
+                                {c.href ? (
+                                  <a class="tj-chip" href={c.href} data-ferramenta={c.id}>
+                                    <span class="mais" aria-hidden="true">
+                                      +
+                                    </span>
+                                    {c.nome}
+                                  </a>
+                                ) : (
+                                  <span class="tj-chip" data-ferramenta={c.id}>
+                                    <span class="mais" aria-hidden="true">
+                                      +
+                                    </span>
+                                    {c.nome}
+                                  </span>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          </section>
+        ))
+      }
+    </div>
+
+    <section class="tj-fim" aria-labelledby="tj-fim-titulo">
+      <h2 id="tj-fim-titulo">{TOPO.fim}</h2>
+      <p>
+        <strong data-total>{t.total}</strong> ferramentas em {entradas} entradas do Diário de obra, e o caminho continua:
+        cada entrada nova entra aqui.
+      </p>
+      <p class="tj-links">
+        <a href="/pedro">Ver o Diário de obra</a>
+        <a href="/pedro/stack">Ver a stack completa</a>
+      </p>
+    </section>
+  </div>
+</App>
+
+<script>
+  // V18: aprimoramento progressivo da Trajetória (sem sequestrar rolagem nem toque).
+  import "../scripts/trajetoria";
+</script>
